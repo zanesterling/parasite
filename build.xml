@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="parasite" basedir="." default="build">
+	<property name="build" value="build"/>
+
+	<property name="src" value="src"/>
+	<property name="lib" value="lib"/>
+	<property name="res" value="res"/>
+
+	<property name="pkg" value="Parasite"/>
+	<property name="jar" value="parasite.jar"/>
+
+	<available file="${build}" property="outputExists"/>
+
+	<target name="clean" description="remove all generated artifacts" if="outputExists">
+		<delete dir="${build}" includeEmptyDirs="true"/>
+		<delete file="${jar}"/>
+	</target>
+
+	<target name="init" description="create the output directories" depends="clean">
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" description="compile the source" depends="init">
+		<javac srcdir="${src}" destdir="${build}"/>
+	</target>
+
+	<target name="build" description="jar the distro" depends="compile">
+		<jar jarfile="${jar}" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="${pkg}.Simulator"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" description="run the jarfile">
+		<java jar="${jar}" fork="true"/>
+	</target>
+</project>
