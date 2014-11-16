@@ -27,7 +27,7 @@
 	<target name="build" description="jar the distro" depends="compile">
 		<jar jarfile="${jar}" basedir="${build}">
 			<manifest>
-				<attribute name="Main-Class" value="${pkg}.Simulator"/>
+				<attribute name="Main-Class" value="${pkg}.Main"/>
 			</manifest>
 		</jar>
 	</target>
