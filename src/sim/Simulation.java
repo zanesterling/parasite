@@ -1,12 +1,30 @@
 package Parasite.sim;
 
+import java.util.ArrayList;
+
 public class Simulation {
 
+	ArrayList<Entity> entities;
+	ArrayList<Controller> controllers;
+	PlayerController playerController;
+
+	// TODO add world
+
 	public Simulation() {
-		// TODO Flesh out Simulation
+		entities = new ArrayList<Entity>();
+		controllers = new ArrayList<Controller>();
+	}
+
+	private void initWorld() {
+		Entity playerEntity = new Entity();
+		playerController = new PlayerController(playerEntity);
+
+		entities.add(playerEntity);
 	}
 
 	public void update() {
-		// TODO implement Simulation.update()
+		for (Controller controller : controllers) {
+			controller.update();
+		}
 	}
 }
