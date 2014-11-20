@@ -2,6 +2,7 @@ package Parasite;
 
 import Parasite.ui.UI;
 import Parasite.ui.UIEvent;
+import Parasite.sim.Simulation;
 
 public class Game {
 
