@@ -43,6 +43,7 @@ public class UI implements MouseListener,KeyListener {
 		screen.setMaximumSize(size);
 		screen.setPreferredSize(size);
 		screen.addMouseListener(this);
+		screen.addKeyListener(this);
 
 		// initialize the frame
 		frame = new JFrame("Parasite");
