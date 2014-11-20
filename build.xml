@@ -21,7 +21,7 @@
 	</target>
 
 	<target name="compile" description="compile the source" depends="init">
-		<javac srcdir="${src}" destdir="${build}"/>
+		<javac includeantruntime="false" srcdir="${src}" destdir="${build}"/>
 	</target>
 
 	<target name="build" description="jar the distro" depends="compile">
