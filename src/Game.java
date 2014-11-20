@@ -1,5 +1,8 @@
 package Parasite;
 
+import Parasite.ui.UI;
+import Parasite.ui.UIEvent;
+
 public class Game {
 
 	static final long TICK_LEN = 1000 / 60; // 60 FPS
@@ -11,11 +14,44 @@ public class Game {
 
 	public Game() {
 		sim = new Simulation();
+
 		ui = new UI();
+		ui.setSimulation(sim);
 	}
 
 	public void run() {
-		// TODO Implement Game.run()
+		running = true;
+
+		while (running) {
+			long startTime = System.currentTimeMillis();
+
+			// check UI for ui events
+			for (UIEvent e; (e = ui.getEvent()) != null;) {
+				processEvent(e);
+			}
+
+			// update simulation
+			sim.update();
+
+			// tell ui to render simulation
+			ui.render();
+
+			long endTime = System.currentTimeMillis();
+
+			if (endTime - startTime > TICK_LEN) continue;
+
+			// if the tick took less time than TICK_LEN to run, sleep
+			try {
+				Thread.sleep(TICK_LEN - (endTime - startTime));
+			} catch (Exception e) {
+				e.printStackTrace();
+				break;
+			}
+		}
+	}
+
+	public void processEvent(UIEvent e) {
+		// TODO implement Game.processEvent()
 	}
 
 	public static void main(String[] args) {
