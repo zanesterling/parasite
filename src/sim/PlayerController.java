@@ -15,7 +15,12 @@ public class PlayerController extends Controller {
 	}
 
 	public void update() {
-		// TODO implement PlayerController.update()
+		for (Entity entity : controlledEntities) {
+			if (moveUp)    entity.y += entity.speed;
+			if (moveLeft)  entity.x -= entity.speed;
+			if (moveDown)  entity.y -= entity.speed;
+			if (moveRight) entity.x += entity.speed;
+		}
 	}
 
 	public void processEvent(UIEvent e) {
