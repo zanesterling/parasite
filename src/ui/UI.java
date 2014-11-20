@@ -128,6 +128,7 @@ public class UI implements MouseListener,KeyListener {
 	public void mouseReleased(MouseEvent e) {}
 
 	public void keyTyped(KeyEvent e) {}
+
 	public void keyPressed(KeyEvent e) {
 		UIEvent uie;
 		switch (e.getKeyChar()) {
@@ -145,5 +146,22 @@ public class UI implements MouseListener,KeyListener {
 				addEvent(uie);
 		}
 	}
-	public void keyReleased(KeyEvent e) {}
+
+	public void keyReleased(KeyEvent e) {
+		UIEvent uie;
+		switch (e.getKeyChar()) {
+			case 'w':
+				uie = new UIEvent(UIEvent.STOP_UP);
+				addEvent(uie);
+			case 'a':
+				uie = new UIEvent(UIEvent.STOP_LEFT);
+				addEvent(uie);
+			case 's':
+				uie = new UIEvent(UIEvent.STOP_DOWN);
+				addEvent(uie);
+			case 'd':
+				uie = new UIEvent(UIEvent.STOP_RIGHT);
+				addEvent(uie);
+		}
+	}
 }
