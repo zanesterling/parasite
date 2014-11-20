@@ -33,7 +33,7 @@ public class UI implements MouseListener,KeyListener {
 
 	public UI() {
 		this.sim = sim;
-		events = new LinkedList<UIEvent>();
+		events  = new LinkedList<UIEvent>();
 		widgets = new ArrayList<UIWidget>();
 
 		// initialize the screen canvas
@@ -130,20 +130,19 @@ public class UI implements MouseListener,KeyListener {
 	public void keyTyped(KeyEvent e) {}
 
 	public void keyPressed(KeyEvent e) {
-		UIEvent uie;
 		switch (e.getKeyChar()) {
 			case 'w':
-				uie = new UIEvent(UIEvent.MOVE_UP);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.MOVE_UP));
+				break;
 			case 'a':
-				uie = new UIEvent(UIEvent.MOVE_LEFT);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.MOVE_LEFT));
+				break;
 			case 's':
-				uie = new UIEvent(UIEvent.MOVE_DOWN);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.MOVE_DOWN));
+				break;
 			case 'd':
-				uie = new UIEvent(UIEvent.MOVE_RIGHT);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.MOVE_RIGHT));
+				break;
 		}
 	}
 
@@ -151,17 +150,17 @@ public class UI implements MouseListener,KeyListener {
 		UIEvent uie;
 		switch (e.getKeyChar()) {
 			case 'w':
-				uie = new UIEvent(UIEvent.STOP_UP);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.STOP_UP));
+				break;
 			case 'a':
-				uie = new UIEvent(UIEvent.STOP_LEFT);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.STOP_LEFT));
+				break;
 			case 's':
-				uie = new UIEvent(UIEvent.STOP_DOWN);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.STOP_DOWN));
+				break;
 			case 'd':
-				uie = new UIEvent(UIEvent.STOP_RIGHT);
-				addEvent(uie);
+				addEvent(new UIEvent(UIEvent.STOP_RIGHT));
+				break;
 		}
 	}
 }
