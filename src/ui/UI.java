@@ -88,8 +88,8 @@ public class UI implements MouseListener,KeyListener {
 		return events.poll();
 	}
 
-	public void addEvent(UIEvent e) {
-		events.offer(e);
+	public void addEvent(UIEvent uie) {
+		events.add(uie);
 	}
 
 	public void render() {
