@@ -1,5 +1,7 @@
 package Parasite.sim;
 
+import Parasite.ui.UIEvent;
+
 import java.util.ArrayList;
 
 public class Simulation {
@@ -26,5 +28,9 @@ public class Simulation {
 		for (Controller controller : controllers) {
 			controller.update();
 		}
+	}
+
+	public void processEvent(UIEvent e) {
+		// TODO implement Simulation.processEvent()
 	}
 }

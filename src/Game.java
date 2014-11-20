@@ -28,7 +28,7 @@ public class Game {
 
 			// check UI for ui events
 			for (UIEvent e; (e = ui.getEvent()) != null;) {
-				processEvent(e);
+				sim.processEvent(e);
 			}
 
 			// update simulation
@@ -49,10 +49,6 @@ public class Game {
 				break;
 			}
 		}
-	}
-
-	public void processEvent(UIEvent e) {
-		// TODO implement Game.processEvent()
 	}
 
 	public static void main(String[] args) {
