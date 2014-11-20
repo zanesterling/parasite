@@ -31,6 +31,6 @@ public class Simulation {
 	}
 
 	public void processEvent(UIEvent e) {
-		// TODO implement Simulation.processEvent()
+		playerController.processEvent(e);
 	}
 }

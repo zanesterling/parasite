@@ -10,12 +10,14 @@ import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.awt.image.BufferStrategy;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
-public class UI implements MouseListener {
+public class UI implements MouseListener,KeyListener {
 
 	private static final int CANVAS_WIDTH = 640;
 	private static final int CANVAS_HEIGHT = 480;
@@ -124,4 +126,24 @@ public class UI implements MouseListener {
 	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
+
+	public void keyTyped(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {
+		UIEvent uie;
+		switch (e.getKeyChar()) {
+			case 'w':
+				uie = new UIEvent(UIEvent.MOVE_UP);
+				addEvent(uie);
+			case 'a':
+				uie = new UIEvent(UIEvent.MOVE_LEFT);
+				addEvent(uie);
+			case 's':
+				uie = new UIEvent(UIEvent.MOVE_DOWN);
+				addEvent(uie);
+			case 'd':
+				uie = new UIEvent(UIEvent.MOVE_RIGHT);
+				addEvent(uie);
+		}
+	}
+	public void keyReleased(KeyEvent e) {}
 }
