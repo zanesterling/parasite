@@ -1,4 +1,4 @@
-package Parasite;
+package Parasite.sim;
 
 public class Simulation {
 

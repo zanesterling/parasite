@@ -1,6 +1,6 @@
 package Parasite.ui;
 
-import Parasite.Simulation;
+import Parasite.sim.Simulation;
 import Parasite.ui.widget.UIWidget;
 
 import java.util.ArrayList;

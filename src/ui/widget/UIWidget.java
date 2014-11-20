@@ -1,7 +1,7 @@
 package Parasite.ui.widget;
 
-import Parasite.Simulation;
 import Parasite.ui.UI;
+import Parasite.sim.Simulation;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
