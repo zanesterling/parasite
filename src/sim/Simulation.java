@@ -15,6 +15,8 @@ public class Simulation {
 	public Simulation() {
 		entities = new ArrayList<Entity>();
 		controllers = new ArrayList<Controller>();
+
+		initWorld();
 	}
 
 	private void initWorld() {
