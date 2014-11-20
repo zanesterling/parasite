@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class Simulation {
 
-	ArrayList<Entity> entities;
-	ArrayList<Controller> controllers;
-	PlayerController playerController;
+	private ArrayList<Entity> entities;
+	private ArrayList<Controller> controllers;
+	private PlayerController playerController;
 
 	// TODO add world
 
