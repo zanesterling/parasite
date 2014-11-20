@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class Controller {
 
-	private ArrayList<Entity> controlledEntities;
+	protected ArrayList<Entity> controlledEntities;
 
 	public Controller() {
 		controlledEntities = new ArrayList<Entity>();
