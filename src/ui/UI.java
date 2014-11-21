@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
-public class UI implements MouseListener,KeyListener {
+public class UI implements MouseListener, KeyListener {
 
 	private static final int CANVAS_WIDTH = 640;
 	private static final int CANVAS_HEIGHT = 480;
