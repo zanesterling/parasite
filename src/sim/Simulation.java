@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Simulation {
 
-	private ArrayList<Entity> entities;
+	public ArrayList<Entity> entities;
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
 
@@ -24,6 +24,7 @@ public class Simulation {
 		playerController = new PlayerController(playerEntity);
 
 		entities.add(playerEntity);
+		controllers.add(playerController);
 	}
 
 	public void update() {
@@ -33,6 +34,7 @@ public class Simulation {
 	}
 
 	public void processEvent(UIEvent e) {
+		System.out.println(e.eventCode);
 		playerController.processEvent(e);
 	}
 }

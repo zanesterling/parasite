@@ -27,20 +27,28 @@ public class PlayerController extends Controller {
 		switch (e.eventCode) {
 			case UIEvent.MOVE_UP:
 				moveUp = true;
+				break;
 			case UIEvent.MOVE_LEFT:
 				moveLeft = true;
+				break;
 			case UIEvent.MOVE_DOWN:
 				moveDown = true;
+				break;
 			case UIEvent.MOVE_RIGHT:
 				moveRight = true;
+				break;
 			case UIEvent.STOP_UP:
 				moveUp = false;
+				break;
 			case UIEvent.STOP_LEFT:
 				moveLeft = false;
+				break;
 			case UIEvent.STOP_DOWN:
 				moveDown = false;
+				break;
 			case UIEvent.STOP_RIGHT:
 				moveRight = false;
+				break;
 		}
 	}
 }

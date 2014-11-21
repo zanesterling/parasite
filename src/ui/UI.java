@@ -2,6 +2,7 @@ package Parasite.ui;
 
 import Parasite.sim.Simulation;
 import Parasite.ui.widget.UIWidget;
+import Parasite.ui.widget.GameWidget;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -60,12 +61,15 @@ public class UI implements MouseListener,KeyListener {
 
 	public void setSimulation(Simulation sim) {
 		this.sim = sim;
+		for (UIWidget widget : widgets) {
+			widget.setSimulation(sim);
+		}
 	}
 
 	private void initWidgets() {
 		widgetIDs = new byte[CANVAS_HEIGHT][CANVAS_WIDTH];
 
-		// TODO add widgets
+		addWidget(new GameWidget(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, this));
 	}
 
 	private void addWidget(UIWidget widget) {
@@ -131,17 +135,17 @@ public class UI implements MouseListener,KeyListener {
 	public void keyTyped(KeyEvent e) {}
 
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyChar()) {
-			case 'w':
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_W:
 				addEvent(new UIEvent(UIEvent.MOVE_UP));
 				break;
-			case 'a':
+			case KeyEvent.VK_A:
 				addEvent(new UIEvent(UIEvent.MOVE_LEFT));
 				break;
-			case 's':
+			case KeyEvent.VK_S:
 				addEvent(new UIEvent(UIEvent.MOVE_DOWN));
 				break;
-			case 'd':
+			case KeyEvent.VK_D:
 				addEvent(new UIEvent(UIEvent.MOVE_RIGHT));
 				break;
 		}

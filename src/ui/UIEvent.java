@@ -4,13 +4,13 @@ public class UIEvent {
 
 	// eventCode codes
 	public static final int MOVE_UP = 0;
-	public static final int MOVE_DOWN = 1;
-	public static final int MOVE_LEFT = 2;
+	public static final int MOVE_LEFT = 1;
+	public static final int MOVE_DOWN = 2;
 	public static final int MOVE_RIGHT = 3;
 
 	public static final int STOP_UP = 4;
-	public static final int STOP_DOWN = 5;
-	public static final int STOP_LEFT = 6;
+	public static final int STOP_LEFT = 5;
+	public static final int STOP_DOWN = 6;
 	public static final int STOP_RIGHT = 7;
 
 	public int  eventCode;

@@ -19,14 +19,15 @@ public abstract class UIWidget {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.sim = parent.sim;
 		this.parent = parent;
+		this.sim = parent.sim;
 	}
 
 	public int getX() { return x; }
 	public int getY() { return y; }
 	public int getWidth()  { return width;  }
 	public int getHeight() { return height; }
+	public void setSimulation(Simulation sim) { this.sim = sim; }
 
 	public abstract void render(Graphics2D g);
 	public abstract void mouseClicked(MouseEvent e);
