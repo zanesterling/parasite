@@ -1,4 +1,6 @@
-package Parasite.sim;
+package Parasite.sim.controller;
+
+import Parasite.sim.Entity;
 
 import java.util.ArrayList;
 
