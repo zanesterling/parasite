@@ -35,7 +35,6 @@ public class Simulation {
 	}
 
 	public void processEvent(UIEvent e) {
-		System.out.println(e.eventCode);
 		playerController.processEvent(e);
 	}
 }

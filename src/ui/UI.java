@@ -52,6 +52,9 @@ public class UI implements MouseListener, KeyListener {
 		frame.pack();
 		frame.setVisible(true);
 
+		screen.setFocusable(true);
+		screen.requestFocusInWindow();
+
 		// create buffer strategy (after showing frame)
 		screen.createBufferStrategy(2);
 
