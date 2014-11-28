@@ -11,8 +11,7 @@ public class PlayerController extends Controller {
 	private boolean moveRight = false;
 
 	public PlayerController(Entity entity) {
-		super();
-		addEntity(entity);
+		super(entity);
 	}
 
 	public void update() {
