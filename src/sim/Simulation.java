@@ -10,6 +10,7 @@ public class Simulation {
 	public ArrayList<Entity> entities;
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
+	private Entity focusedEntity;
 
 	// TODO add world
 
@@ -26,6 +27,8 @@ public class Simulation {
 
 		entities.add(playerEntity);
 		controllers.add(playerController);
+
+		setFocusedEntity(playerEntity);
 	}
 
 	public void update() {
@@ -36,5 +39,13 @@ public class Simulation {
 
 	public void processEvent(UIEvent e) {
 		playerController.processEvent(e);
+	}
+
+	public Entity getFocusedEntity() {
+		return focusedEntity;
+	}
+
+	public void setFocusedEntity(Entity entity) {
+		focusedEntity = entity;
 	}
 }

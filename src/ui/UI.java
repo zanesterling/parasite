@@ -1,5 +1,6 @@
 package Parasite.ui;
 
+import Parasite.sim.Entity;
 import Parasite.sim.Simulation;
 import Parasite.ui.widget.UIWidget;
 import Parasite.ui.widget.GameWidget;
@@ -131,7 +132,12 @@ public class UI extends MouseAdapter implements KeyListener {
 		clickedWidget.mouseClicked(e);
 	}
 
-	public void mouseMoved(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {
+		Entity player = sim.getFocusedEntity();
+		double dx = e.getX() - player.x;
+		double dy = e.getY() - (-player.y);
+		player.heading = Math.atan2(dy, dx);
+	}
 
 	public void mouseDragged(MouseEvent e) {
 		mouseMoved(e);
