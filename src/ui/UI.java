@@ -13,12 +13,12 @@ import java.awt.Dimension;
 import java.awt.image.BufferStrategy;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
-public class UI implements MouseListener, KeyListener {
+public class UI extends MouseAdapter implements KeyListener {
 
 	private static final int CANVAS_WIDTH = 640;
 	private static final int CANVAS_HEIGHT = 480;
@@ -44,6 +44,7 @@ public class UI implements MouseListener, KeyListener {
 		screen.setMaximumSize(size);
 		screen.setPreferredSize(size);
 		screen.addMouseListener(this);
+		screen.addMouseMotionListener(this);
 		screen.addKeyListener(this);
 
 		// initialize the frame
@@ -130,10 +131,11 @@ public class UI implements MouseListener, KeyListener {
 		clickedWidget.mouseClicked(e);
 	}
 
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {}
+
+	public void mouseDragged(MouseEvent e) {
+		mouseMoved(e);
+	}
 
 	public void keyTyped(KeyEvent e) {}
 
