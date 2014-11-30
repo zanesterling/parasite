@@ -120,29 +120,25 @@ public class UI extends MouseAdapter implements KeyListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		// get id of clicked widget
-		byte id = widgetIDs[e.getY()][e.getX()];
-		if (id == 0) return; // if no widget, return
-
-		// translate event into clickedWidget's context
-		UIWidget clickedWidget = widgets.get(id - 1);
-		e.translatePoint(-clickedWidget.getX(), -clickedWidget.getY());
-
-		// pass event to clickedWidget
-		clickedWidget.mouseClicked(e);
+		UIWidget w = getWidget(e);
+		if (w != null) w.mouseClicked(e);
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		UIWidget w = getWidget(e);
+		if (w != null) w.mouseMoved(e);
+	}
+
+	public UIWidget getWidget(MouseEvent e) {
 		// get id of clicked widget
 		byte id = widgetIDs[e.getY()][e.getX()];
-		if (id == 0) return; // if no widget, return
+		if (id == 0) return null; // if no widget, return
 
 		// translate event into clickedWidget's context
 		UIWidget clickedWidget = widgets.get(id - 1);
 		e.translatePoint(-clickedWidget.getX(), -clickedWidget.getY());
 
-		// pass event to clickedWidget
-		clickedWidget.mouseMoved(e);
+		return clickedWidget;
 	}
 
 	public void mouseDragged(MouseEvent e) {
