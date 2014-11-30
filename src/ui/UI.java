@@ -1,6 +1,6 @@
 package Parasite.ui;
 
-import Parasite.sim.Entity;
+import Parasite.sim.entity.Entity;
 import Parasite.sim.Simulation;
 import Parasite.ui.widget.UIWidget;
 import Parasite.ui.widget.GameWidget;

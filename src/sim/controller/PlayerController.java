@@ -1,6 +1,6 @@
 package Parasite.sim.controller;
 
-import Parasite.sim.Entity;
+import Parasite.sim.entity.Entity;
 import Parasite.ui.UIEvent;
 
 public class PlayerController extends Controller {

@@ -1,7 +1,7 @@
 package Parasite.ui.widget;
 
 import Parasite.ui.UI;
-import Parasite.sim.Entity;
+import Parasite.sim.entity.Entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

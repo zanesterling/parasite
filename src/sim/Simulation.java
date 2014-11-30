@@ -1,6 +1,8 @@
 package Parasite.sim;
 
-import Parasite.sim.controller.*;
+import Parasite.sim.entity.Entity;
+import Parasite.sim.controller.Controller;
+import Parasite.sim.controller.PlayerController;
 import Parasite.ui.UIEvent;
 
 import java.util.ArrayList;
