@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 public class ParasiteEntity extends Entity {
 
+	public ParasiteEntity() { super(); }
 	public ParasiteEntity(int x, int y) { super(x, y); }
 
 	public void render(Graphics2D g) {

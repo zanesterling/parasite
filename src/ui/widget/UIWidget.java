@@ -31,4 +31,5 @@ public abstract class UIWidget {
 
 	public abstract void render(Graphics2D g);
 	public abstract void mouseClicked(MouseEvent e);
+	public abstract void mouseMoved(MouseEvent e);
 }

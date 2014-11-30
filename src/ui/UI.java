@@ -133,10 +133,16 @@ public class UI extends MouseAdapter implements KeyListener {
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		Entity player = sim.getFocusedEntity();
-		double dx = e.getX() - player.x;
-		double dy = e.getY() - (-player.y);
-		player.heading = Math.atan2(dy, dx);
+		// get id of clicked widget
+		byte id = widgetIDs[e.getY()][e.getX()];
+		if (id == 0) return; // if no widget, return
+
+		// translate event into clickedWidget's context
+		UIWidget clickedWidget = widgets.get(id - 1);
+		e.translatePoint(-clickedWidget.getX(), -clickedWidget.getY());
+
+		// pass event to clickedWidget
+		clickedWidget.mouseMoved(e);
 	}
 
 	public void mouseDragged(MouseEvent e) {
