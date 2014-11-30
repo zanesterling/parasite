@@ -13,6 +13,7 @@ public abstract class Controller {
 	}
 
 	public Controller(Entity entity) {
+		this();
 		addEntity(entity);
 	}
 
