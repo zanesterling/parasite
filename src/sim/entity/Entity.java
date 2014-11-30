@@ -10,15 +10,19 @@ public class Entity {
 	public double heading;
 
 	public Entity() {
-		x = 0;
-		y = 0;
+		this(0, 0);
+	}
+
+	public Entity(int x, int y) {
+		this.x = x;
+		this.y = y;
 		speed = 1;
 	}
 
 	public void render(Graphics2D g) {
 		g.rotate(heading);
-		g.setColor(Color.RED);
-		g.fillRect(-5, -5, 10, 10);
+		g.setColor(new Color(0, 100, 255));
+		g.fillRect(-12, -12, 24, 24);
 		g.rotate(-heading);
 	}
 }

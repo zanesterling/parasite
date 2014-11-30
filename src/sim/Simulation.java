@@ -1,6 +1,7 @@
 package Parasite.sim;
 
 import Parasite.sim.entity.Entity;
+import Parasite.sim.entity.ParasiteEntity;
 import Parasite.sim.controller.Controller;
 import Parasite.sim.controller.PlayerController;
 import Parasite.ui.UIEvent;
@@ -24,13 +25,16 @@ public class Simulation {
 	}
 
 	private void initWorld() {
-		Entity playerEntity = new Entity();
+		// init player entity, controller
+		Entity playerEntity = new ParasiteEntity();
 		playerController = new PlayerController(playerEntity);
-
 		entities.add(playerEntity);
 		controllers.add(playerController);
 
+		// focus on player entity
 		setFocusedEntity(playerEntity);
+
+		entities.add(new Entity(300, -200));
 	}
 
 	public void update() {
