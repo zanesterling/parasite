@@ -120,15 +120,15 @@ public class UI extends MouseAdapter implements KeyListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		UIWidget w = getWidget(e);
+		UIWidget clickedWidget = getWidget(e);
 		e.translatePoint(-clickedWidget.getX(), -clickedWidget.getY());
-		if (w != null) w.mouseClicked(e);
+		if (clickedWidget != null) clickedWidget.mouseClicked(e);
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		UIWidget w = getWidget(e);
+		UIWidget clickedWidget = getWidget(e);
 		e.translatePoint(-clickedWidget.getX(), -clickedWidget.getY());
-		if (w != null) w.mouseMoved(e);
+		if (clickedWidget != null) clickedWidget.mouseMoved(e);
 	}
 
 	public UIWidget getWidget(MouseEvent e) {
@@ -136,7 +136,7 @@ public class UI extends MouseAdapter implements KeyListener {
 		byte id = widgetIDs[e.getY()][e.getX()];
 		if (id == 0) return null; // if no widget, return
 
-		return clickedWidget = widgets.get(id - 1);
+		return widgets.get(id - 1);
 	}
 
 	public void mouseDragged(MouseEvent e) {
