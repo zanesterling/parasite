@@ -5,6 +5,7 @@ import Parasite.sim.entity.GoonEntity;
 import Parasite.sim.entity.ParasiteEntity;
 import Parasite.sim.controller.Controller;
 import Parasite.sim.controller.PlayerController;
+import Parasite.sim.controller.AIController;
 import Parasite.ui.UIEvent;
 
 import java.util.ArrayList;
@@ -35,7 +36,9 @@ public class Simulation {
 		// focus on player entity
 		setFocusedEntity(playerEntity);
 
-		entities.add(new GoonEntity(300, -200));
+		GoonEntity e = new GoonEntity(300, -200);
+		controllers.add(new AIController(e));
+		entities.add(e);
 	}
 
 	public void update() {

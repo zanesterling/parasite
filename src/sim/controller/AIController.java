@@ -23,5 +23,8 @@ public class AIController extends Controller {
 		states = new Stack<AIState>();
 	}
 
-	public void update() {}
+	public void update() {
+		Entity entity = controlledEntities.get(0);
+		entity.heading += 0.02;
+	}
 }
