@@ -5,15 +5,23 @@ import java.awt.Graphics2D;
 
 public class GoonEntity extends Entity {
 
-	public GoonEntity() { super(); }
+	public Color bodyColor;
+
+	private double visionAngle = Math.PI;
+	private double angleTo;
+
+	public GoonEntity() {
+		super();
+		bodyColor = new Color(0, 100, 255);
+	}
 	public GoonEntity(int x, int y) { super(x, y); }
 
 	public void render(Graphics2D g) {
-		g.rotate(heading);
+		g.rotate(-heading);
 		g.scale(0.75, 0.75);
 
 		// fill main rect
-		g.setColor(new Color(0, 100, 255));
+		g.setColor(bodyColor);
 		g.fillRect(-12, -12, 24, 24);
 
 		// fill eye rect
@@ -21,6 +29,23 @@ public class GoonEntity extends Entity {
 		g.fillRect(0, -4, 12, 8);
 
 		g.scale(1.33, 1.33);
-		g.rotate(-heading);
+		g.rotate(heading);
+
+		g.drawString("" + angleTo, 30, 0);
+	}
+
+	public boolean canSee(Entity entity) {
+		angleTo = Math.atan2(entity.y - y, entity.x - x);
+
+		double theta = Math.abs(angleTo - heading);
+		if (theta > Math.PI) theta = Math.PI * 2 - theta;
+
+		return theta < visionAngle / 2;
+	}
+
+	public void setHeading(double newHeading) {
+		newHeading %= Math.PI * 2;
+		if (newHeading > Math.PI) newHeading -= Math.PI * 2;
+		heading = newHeading;
 	}
 }

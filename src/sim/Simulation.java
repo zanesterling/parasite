@@ -23,6 +23,7 @@ public class Simulation {
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
 	private Entity focusedEntity;
+	public ParasiteEntity parasite;
 
 	private Simulation() {
 		entities = new ArrayList<Entity>();
@@ -32,15 +33,16 @@ public class Simulation {
 	}
 
 	private void initWorld() {
-		// init player entity, controller
-		Entity playerEntity = new ParasiteEntity();
-		playerController = new PlayerController(playerEntity);
-		entities.add(playerEntity);
+		// init parasite, player controller
+		parasite = new ParasiteEntity();
+		entities.add(parasite);
+		playerController = new PlayerController(parasite);
 		controllers.add(playerController);
 
-		// focus on player entity
-		setFocusedEntity(playerEntity);
+		// focus on parasite
+		setFocusedEntity(parasite);
 
+		// make goon to play with
 		GoonEntity e = new GoonEntity(300, -200);
 		controllers.add(new AIController(e));
 		entities.add(e);
