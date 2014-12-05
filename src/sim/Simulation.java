@@ -1,6 +1,7 @@
 package Parasite.sim;
 
 import Parasite.sim.entity.Entity;
+import Parasite.sim.entity.GoonEntity;
 import Parasite.sim.entity.ParasiteEntity;
 import Parasite.sim.controller.Controller;
 import Parasite.sim.controller.PlayerController;
@@ -34,7 +35,7 @@ public class Simulation {
 		// focus on player entity
 		setFocusedEntity(playerEntity);
 
-		entities.add(new Entity(300, -200));
+		entities.add(new GoonEntity(300, -200));
 	}
 
 	public void update() {
