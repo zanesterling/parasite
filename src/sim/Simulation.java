@@ -12,14 +12,19 @@ import java.util.ArrayList;
 
 public class Simulation {
 
+	// singleton stuff
+	private static Simulation instance;
+	public static Simulation getSimulation() {
+		if (instance == null) instance = new Simulation();
+		return instance;
+	}
+
 	public ArrayList<Entity> entities;
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
 	private Entity focusedEntity;
 
-	// TODO add world
-
-	public Simulation() {
+	private Simulation() {
 		entities = new ArrayList<Entity>();
 		controllers = new ArrayList<Controller>();
 

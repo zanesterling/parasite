@@ -14,7 +14,7 @@ public class Game {
 	boolean running;
 
 	public Game() {
-		sim = new Simulation();
+		sim = Simulation.getSimulation();
 
 		ui = new UI();
 		ui.setSimulation(sim);
