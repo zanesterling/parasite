@@ -1,7 +1,5 @@
 package Parasite.sim.entity;
 
-import Parasite.sim.entity.Entity;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 
