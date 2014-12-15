@@ -113,6 +113,7 @@ public class UI extends MouseAdapter implements KeyListener {
 		for (UIWidget widget : widgets) {
 			// translate graphics into widget space
 			g.translate(widget.getX(), widget.getY());
+			g.setClip(0, 0, widget.getWidth(), widget.getHeight());
 			widget.render(g);
 			g.translate(-widget.getX(), -widget.getY());
 		}
