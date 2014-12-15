@@ -71,12 +71,14 @@ public class UI extends MouseAdapter implements KeyListener {
 		}
 	}
 
+	// initialize the widgets
 	private void initWidgets() {
 		widgetIDs = new byte[CANVAS_HEIGHT][CANVAS_WIDTH];
 
 		addWidget(new GameWidget(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, this));
 	}
 
+	// add a widget to the UI at a particular location
 	private void addWidget(UIWidget widget) {
 		widgets.add(widget);
 		byte id = (byte)widgets.size(); // leave 0 for unassigned
@@ -101,6 +103,7 @@ public class UI extends MouseAdapter implements KeyListener {
 		events.add(uie);
 	}
 
+	// render the UI and all widgets on it
 	public void render() {
 		// get draw graphics
 		BufferStrategy bs = screen.getBufferStrategy();
