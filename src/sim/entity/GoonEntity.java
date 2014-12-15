@@ -31,7 +31,8 @@ public class GoonEntity extends Entity {
 		g.scale(1.33, 1.33);
 		g.rotate(heading);
 
-		g.drawString("" + angleTo, 30, 0);
+		if (Parasite.Game.DEBUG)
+			g.drawString("" + angleTo, 30, 0);
 	}
 
 	public boolean canSee(Entity entity) {

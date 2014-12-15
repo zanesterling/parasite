@@ -6,12 +6,14 @@ import Parasite.sim.Simulation;
 
 public class Game {
 
-	static final long TICK_LEN = 1000 / 60; // 60 FPS
+	public static boolean DEBUG = false;
 
-	Simulation sim;
-	UI ui;
+	private static final long TICK_LEN = 1000 / 60; // 60 FPS
 
-	boolean running;
+	private Simulation sim;
+	private UI ui;
+
+	private boolean running;
 
 	public Game() {
 		sim = Simulation.getSimulation();
