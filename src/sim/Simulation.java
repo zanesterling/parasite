@@ -8,6 +8,9 @@ import Parasite.sim.controller.PlayerController;
 import Parasite.sim.controller.AIController;
 import Parasite.ui.UIEvent;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Simulation {
@@ -20,10 +23,12 @@ public class Simulation {
 	}
 
 	public ArrayList<Entity> entities;
+	public ParasiteEntity parasite;
+
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
 	private Entity focusedEntity;
-	public ParasiteEntity parasite;
+	private int[][] walls;
 
 	private Simulation() {
 		entities = new ArrayList<Entity>();
@@ -47,6 +52,33 @@ public class Simulation {
 		GoonEntity e = new GoonEntity(300, -200);
 		controllers.add(new AIController(e));
 		entities.add(e);
+
+		// make walls
+		loadLevel("res/level1.lvl");
+	}
+
+	private void loadLevel(String fn) {
+		Scanner sc;
+		try {
+			sc = new Scanner(new File(fn));
+		} catch (FileNotFoundException e) {
+			System.out.println("could not load file: " + fn);
+			e.printStackTrace();
+			return;
+		}
+
+		// opened level, let's read
+		int width = sc.nextInt();
+		int height = sc.nextInt();
+		walls = new int[height][width];
+
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				walls[i][j] = sc.nextInt();
+				//System.out.print(walls[i][j] + " ");
+			}
+			//System.out.println();
+		}
 	}
 
 	// run a game-tick in the world
