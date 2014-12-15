@@ -32,6 +32,7 @@ public class Simulation {
 		initWorld();
 	}
 
+	// initialize entities, controllers, walls, etc.
 	private void initWorld() {
 		// init parasite, player controller
 		parasite = new ParasiteEntity();
@@ -48,12 +49,14 @@ public class Simulation {
 		entities.add(e);
 	}
 
+	// run a game-tick in the world
 	public void update() {
 		for (Controller controller : controllers) {
 			controller.update();
 		}
 	}
 
+	// process a UIEvent, deal with ramifications
 	public void processEvent(UIEvent e) {
 		playerController.processEvent(e);
 	}

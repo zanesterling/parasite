@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public abstract class Controller {
 
+	// list of all entities to be manipulated by this controller
 	protected ArrayList<Entity> controlledEntities;
 
 	public Controller() {
