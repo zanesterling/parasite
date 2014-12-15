@@ -32,7 +32,7 @@ public class AIController extends Controller {
 		entity.setHeading(entity.heading + 0.02);
 
 		if (entity.canSee(Simulation.getSimulation().parasite)) {
-			entity.bodyColor = Color.YELLOW;
+			entity.bodyColor = new Color(80, 200, 255);
 		} else {
 			entity.bodyColor = new Color(0, 100, 255);
 		}

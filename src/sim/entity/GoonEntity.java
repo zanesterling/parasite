@@ -7,7 +7,7 @@ public class GoonEntity extends Entity {
 
 	public Color bodyColor;
 
-	private double visionAngle = Math.PI;
+	private double visionAngle = Math.PI * 2 / 3;
 	private double angleTo;
 
 	public GoonEntity() {
