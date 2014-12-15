@@ -29,7 +29,10 @@ public abstract class UIWidget {
 	public int getHeight() { return height; }
 	public void setSimulation(Simulation sim) { this.sim = sim; }
 
+	// render w.r.t. the widget; (0,0) is the top left corner.
 	public abstract void render(Graphics2D g);
+
+	// handle mouse events
 	public abstract void mouseClicked(MouseEvent e);
 	public abstract void mouseMoved(MouseEvent e);
 }
