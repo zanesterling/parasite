@@ -39,10 +39,11 @@ public class AIController extends Controller {
 	}
 
 	public void addEntity(Entity entity) {
-		if (entity instanceof GoonEntity) {
-			controlledEntities.add(entity);
-		} else {
+		if (!(entity instanceof GoonEntity))
 			System.out.println("tried to add non-goon to AIController");
-		}
+		if (controlledEntities.size() > 0)
+			controlledEntities.clear();
+
+		controlledEntities.add(entity);
 	}
 }
