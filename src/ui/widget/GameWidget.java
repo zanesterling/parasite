@@ -22,23 +22,13 @@ public class GameWidget extends UIWidget {
 	}
 
 	public void render(Graphics2D g) {
-		if (sim != null);
-
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width, height);
 
-		// center on the focused entity
-		Entity focusedEntity = sim.getFocusedEntity();
+		if (sim == null) return;
+
 		g.translate(width / 2, height / 2);
-		g.translate(-focusedEntity.x, focusedEntity.y);
-
-		for (Entity e : sim.entities) {
-			g.translate(e.x, -e.y);
-			e.render(g);
-			g.translate(-e.x, e.y);
-		}
-
-		g.translate(focusedEntity.x, -focusedEntity.y);
+		sim.render(g);
 		g.translate(-width / 2, - height / 2);
 	}
 }

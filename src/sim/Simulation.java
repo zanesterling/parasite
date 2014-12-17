@@ -10,10 +10,17 @@ import Parasite.ui.UIEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Simulation {
+
+	private static final int WALL_WIDTH  = 40;
+	private static final int WALL_HEIGHT = 40;
+	private static final Color WALL_COLOR = new Color(0, 50, 255);
+	private static final Color BGRD_COLOR = Color.WHITE;
 
 	// singleton stuff
 	private static Simulation instance;
@@ -86,6 +93,27 @@ public class Simulation {
 		for (Controller controller : controllers) {
 			controller.update();
 		}
+	}
+
+	public void render(Graphics2D g) {
+		// center on the focused entity
+		g.translate(-focusedEntity.x, focusedEntity.y);
+
+		for (int i = 0; i < walls.length; i++) {
+			for (int j = 0; j < walls[i].length; j++) {
+				g.setColor(walls[i][j] == 1 ? WALL_COLOR : BGRD_COLOR);
+				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
+				           WALL_WIDTH, WALL_HEIGHT);
+			}
+		}
+
+		for (Entity entity : entities) {
+			g.translate(entity.x, -entity.y);
+			entity.render(g);
+			g.translate(-entity.x, entity.y);
+		}
+
+		g.translate(focusedEntity.x, -focusedEntity.y);
 	}
 
 	// process a UIEvent, deal with ramifications
