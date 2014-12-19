@@ -1,8 +1,9 @@
 package Parasite.sim.controller;
 
-import Parasite.sim.entity.Entity;
 import Parasite.ui.UIEvent;
 import Parasite.ui.EventCode;
+import Parasite.sim.entity.Entity;
+import Parasite.sim.entity.ParasiteEntity;
 
 public class PlayerController extends Controller {
 
@@ -11,16 +12,46 @@ public class PlayerController extends Controller {
 	private boolean moveLeft = false;
 	private boolean moveRight = false;
 
+	private Entity mainHost;
+
 	public PlayerController(Entity entity) {
 		super(entity);
+		mainHost = entity;
 	}
 
 	public void update() {
-		for (Entity entity : controlled) {
-			if (moveUp)    entity.y += entity.maxSpeed;
-			if (moveLeft)  entity.x -= entity.maxSpeed;
-			if (moveDown)  entity.y -= entity.maxSpeed;
-			if (moveRight) entity.x += entity.maxSpeed;
+		Entity mainHost = controlled.get(controlled.size() - 1);
+
+		// check to see if mainHost is a leaper, to consolidate next if
+		ParasiteEntity leaper = null;
+		if (mainHost instanceof ParasiteEntity)
+			leaper = (ParasiteEntity) mainHost;
+
+		if (leaper != null && leaper.leaping) {
+			double lookAngle = leaper.getLookAngle();
+
+			// move entities in leap direction
+			for (Entity entity : controlled) {
+				entity.x += Math.cos(lookAngle) *
+					        leaper.maxSpeed * 10;
+				entity.y -= Math.sin(lookAngle) *
+					        leaper.maxSpeed * 10;
+			}
+
+			// TODO detect collison, if so possess
+
+			// if leap timed out, end leap
+			if (System.currentTimeMillis() - leaper.leapStartTime >=
+				leaper.leapMaxDuration) {
+				leaper.leaping = false;
+			}
+		} else {
+			for (Entity entity : controlled) {
+				if (moveUp)    entity.y += mainHost.maxSpeed;
+				if (moveLeft)  entity.x -= mainHost.maxSpeed;
+				if (moveDown)  entity.y -= mainHost.maxSpeed;
+				if (moveRight) entity.x += mainHost.maxSpeed;
+			}
 		}
 	}
 

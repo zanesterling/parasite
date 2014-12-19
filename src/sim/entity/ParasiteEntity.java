@@ -5,8 +5,21 @@ import java.awt.Graphics2D;
 
 public class ParasiteEntity extends Entity {
 
-	public ParasiteEntity() { super(); }
-	public ParasiteEntity(int x, int y) { super(x, y); }
+	public boolean leaping;
+	public long leapStartTime;
+	public long leapMaxDuration;
+
+	public ParasiteEntity() {
+		super();
+		leaping = false;
+		leapMaxDuration = 200;
+	}
+
+	public ParasiteEntity(int x, int y) {
+		super(x, y);
+		leaping = false;
+		leapMaxDuration = 200;
+	}
 
 	public void render(Graphics2D g) {
 		g.rotate(lookAngle);
@@ -24,6 +37,11 @@ public class ParasiteEntity extends Entity {
 
 	// action is: possession!
 	public void action() {
-		// TODO implement
+		leaping = true;
+		leapStartTime = System.currentTimeMillis();
+	}
+
+	public void setLookAngle(double lookAngle) {
+		if (!leaping) super.setLookAngle(lookAngle);
 	}
 }
