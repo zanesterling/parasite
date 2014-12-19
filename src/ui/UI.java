@@ -111,7 +111,7 @@ public class UI extends MouseAdapter implements KeyListener {
 
 		// draw each widget
 		for (UIWidget widget : widgets) {
-			// translate graphics into widget space
+			// translate and clip graphics into widget space
 			g.translate(widget.getX(), widget.getY());
 			g.setClip(0, 0, widget.getWidth(), widget.getHeight());
 			widget.render(g);
@@ -150,16 +150,19 @@ public class UI extends MouseAdapter implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
-				addEvent(new UIEvent(UIEvent.MOVE_UP));
+				addEvent(new UIEvent(EventCode.MOVE_UP));
 				break;
 			case KeyEvent.VK_A:
-				addEvent(new UIEvent(UIEvent.MOVE_LEFT));
+				addEvent(new UIEvent(EventCode.MOVE_LEFT));
 				break;
 			case KeyEvent.VK_S:
-				addEvent(new UIEvent(UIEvent.MOVE_DOWN));
+				addEvent(new UIEvent(EventCode.MOVE_DOWN));
 				break;
 			case KeyEvent.VK_D:
-				addEvent(new UIEvent(UIEvent.MOVE_RIGHT));
+				addEvent(new UIEvent(EventCode.MOVE_RIGHT));
+				break;
+			case KeyEvent.VK_E:
+				addEvent(new UIEvent(EventCode.POSSESS));
 				break;
 		}
 	}
@@ -168,16 +171,16 @@ public class UI extends MouseAdapter implements KeyListener {
 		UIEvent uie;
 		switch (e.getKeyChar()) {
 			case 'w':
-				addEvent(new UIEvent(UIEvent.STOP_UP));
+				addEvent(new UIEvent(EventCode.STOP_UP));
 				break;
 			case 'a':
-				addEvent(new UIEvent(UIEvent.STOP_LEFT));
+				addEvent(new UIEvent(EventCode.STOP_LEFT));
 				break;
 			case 's':
-				addEvent(new UIEvent(UIEvent.STOP_DOWN));
+				addEvent(new UIEvent(EventCode.STOP_DOWN));
 				break;
 			case 'd':
-				addEvent(new UIEvent(UIEvent.STOP_RIGHT));
+				addEvent(new UIEvent(EventCode.STOP_RIGHT));
 				break;
 		}
 	}

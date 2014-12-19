@@ -2,6 +2,7 @@ package Parasite.sim.controller;
 
 import Parasite.sim.entity.Entity;
 import Parasite.ui.UIEvent;
+import Parasite.ui.EventCode;
 
 public class PlayerController extends Controller {
 
@@ -25,29 +26,32 @@ public class PlayerController extends Controller {
 
 	public void processEvent(UIEvent e) {
 		switch (e.eventCode) {
-			case UIEvent.MOVE_UP:
+			case MOVE_UP:
 				moveUp = true;
 				break;
-			case UIEvent.MOVE_LEFT:
+			case MOVE_LEFT:
 				moveLeft = true;
 				break;
-			case UIEvent.MOVE_DOWN:
+			case MOVE_DOWN:
 				moveDown = true;
 				break;
-			case UIEvent.MOVE_RIGHT:
+			case MOVE_RIGHT:
 				moveRight = true;
 				break;
-			case UIEvent.STOP_UP:
+			case STOP_UP:
 				moveUp = false;
 				break;
-			case UIEvent.STOP_LEFT:
+			case STOP_LEFT:
 				moveLeft = false;
 				break;
-			case UIEvent.STOP_DOWN:
+			case STOP_DOWN:
 				moveDown = false;
 				break;
-			case UIEvent.STOP_RIGHT:
+			case STOP_RIGHT:
 				moveRight = false;
+				break;
+			case POSSESS:
+				System.out.println("Possessing");
 				break;
 		}
 	}
