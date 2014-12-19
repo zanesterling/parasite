@@ -28,7 +28,7 @@ public class AIController extends Controller {
 	}
 
 	public void update() {
-		GoonEntity entity = (GoonEntity) controlledEntities.get(0);
+		GoonEntity entity = (GoonEntity) controlled.get(0);
 		entity.setHeading(entity.lookAngle + 0.02);
 
 		if (entity.canSee(Simulation.getSimulation().parasite)) {
@@ -41,9 +41,9 @@ public class AIController extends Controller {
 	public void addEntity(Entity entity) {
 		if (!(entity instanceof GoonEntity))
 			System.out.println("tried to add non-goon to AIController");
-		if (controlledEntities.size() > 0)
-			controlledEntities.clear();
+		if (controlled.size() > 0)
+			controlled.clear();
 
-		controlledEntities.add(entity);
+		controlled.add(entity);
 	}
 }

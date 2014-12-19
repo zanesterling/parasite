@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public abstract class Controller {
 
 	// list of all entities to be manipulated by this controller
-	protected ArrayList<Entity> controlledEntities;
+	protected ArrayList<Entity> controlled;
 
 	public Controller() {
-		controlledEntities = new ArrayList<Entity>();
+		controlled = new ArrayList<Entity>();
 	}
 
 	public Controller(Entity entity) {
@@ -21,6 +21,6 @@ public abstract class Controller {
 	public abstract void update();
 
 	public void addEntity(Entity entity) {
-		controlledEntities.add(entity);
+		controlled.add(entity);
 	}
 }
