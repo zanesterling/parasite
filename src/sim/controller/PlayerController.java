@@ -82,7 +82,7 @@ public class PlayerController extends Controller {
 				moveRight = false;
 				break;
 			case ACTION:
-				controlled.get(controlled.size() - 1).action();
+				mainHost.action();
 				break;
 		}
 	}
