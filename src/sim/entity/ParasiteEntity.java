@@ -53,8 +53,10 @@ public class ParasiteEntity extends Entity {
 
 	// action is: possession!
 	public void action() {
-		leaping = true;
-		leapStartTime = System.currentTimeMillis();
+		if (!leaping) {
+			leaping = true;
+			leapStartTime = System.currentTimeMillis();
+		}
 	}
 
 	public void setLookAngle(double lookAngle) {
