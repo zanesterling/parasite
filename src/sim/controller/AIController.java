@@ -29,7 +29,7 @@ public class AIController extends Controller {
 
 	public void update() {
 		GoonEntity entity = (GoonEntity) controlled.get(0);
-		entity.setHeading(entity.lookAngle + 0.02);
+		entity.setLookAngle(entity.getLookAngle() + 0.02);
 
 		if (entity.canSee(Simulation.getSimulation().parasite)) {
 			entity.bodyColor = new Color(80, 200, 255);

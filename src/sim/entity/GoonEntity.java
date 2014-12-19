@@ -44,11 +44,5 @@ public class GoonEntity extends Entity {
 		return theta < visionAngle / 2;
 	}
 
-	public void setHeading(double newHeading) {
-		newHeading %= Math.PI * 2;
-		if (newHeading > Math.PI) newHeading -= Math.PI * 2;
-		lookAngle = newHeading;
-	}
-
 	public void action() {}
 }

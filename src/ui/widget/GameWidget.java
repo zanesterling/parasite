@@ -18,7 +18,7 @@ public class GameWidget extends UIWidget {
 		Entity focusedEntity = sim.getFocusedEntity();
 		double dx = e.getX() - width  / 2;
 		double dy = e.getY() - height / 2;
-		focusedEntity.lookAngle = Math.atan2(dy, dx);
+		focusedEntity.setLookAngle(Math.atan2(dy, dx));
 	}
 
 	public void render(Graphics2D g) {

@@ -9,7 +9,7 @@ public abstract class Entity {
 	public double vx, vy;
 
 	public double maxSpeed;
-	public double lookAngle;
+	protected double lookAngle;
 
 	public Entity() {
 		this(0, 0);
@@ -23,4 +23,10 @@ public abstract class Entity {
 
 	public abstract void render(Graphics2D g);
 	public abstract void action();
+
+	public double getLookAngle() { return lookAngle; }
+	public void setLookAngle(double lookAngle) {
+		lookAngle %= Math.PI * 2;
+		this.lookAngle = lookAngle;
+	}
 }
