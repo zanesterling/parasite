@@ -21,4 +21,9 @@ public class ParasiteEntity extends Entity {
 
 		g.rotate(-lookAngle);
 	}
+
+	// action is: possession!
+	public void action() {
+		// TODO implement
+	}
 }

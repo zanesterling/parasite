@@ -49,4 +49,6 @@ public class GoonEntity extends Entity {
 		if (newHeading > Math.PI) newHeading -= Math.PI * 2;
 		lookAngle = newHeading;
 	}
+
+	public void action() {}
 }

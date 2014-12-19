@@ -50,8 +50,8 @@ public class PlayerController extends Controller {
 			case STOP_RIGHT:
 				moveRight = false;
 				break;
-			case POSSESS:
-				System.out.println("Possessing");
+			case ACTION:
+				controlled.get(controlled.size() - 1).action();
 				break;
 		}
 	}

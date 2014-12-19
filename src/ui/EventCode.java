@@ -9,5 +9,5 @@ public enum EventCode {
 	STOP_LEFT,
 	STOP_DOWN,
 	STOP_RIGHT,
-	POSSESS
+	ACTION,
 }

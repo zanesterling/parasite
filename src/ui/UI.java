@@ -162,7 +162,7 @@ public class UI extends MouseAdapter implements KeyListener {
 				addEvent(new UIEvent(EventCode.MOVE_RIGHT));
 				break;
 			case KeyEvent.VK_E:
-				addEvent(new UIEvent(EventCode.POSSESS));
+				addEvent(new UIEvent(EventCode.ACTION));
 				break;
 		}
 	}
