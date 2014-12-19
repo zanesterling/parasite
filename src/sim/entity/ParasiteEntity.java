@@ -9,7 +9,7 @@ public class ParasiteEntity extends Entity {
 	public ParasiteEntity(int x, int y) { super(x, y); }
 
 	public void render(Graphics2D g) {
-		g.rotate(heading);
+		g.rotate(lookAngle);
 
 		// fill main rect
 		g.setColor(Color.RED);
@@ -19,6 +19,6 @@ public class ParasiteEntity extends Entity {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, -2, 6, 4);
 
-		g.rotate(-heading);
+		g.rotate(-lookAngle);
 	}
 }

@@ -17,7 +17,7 @@ public class GoonEntity extends Entity {
 	public GoonEntity(int x, int y) { super(x, y); }
 
 	public void render(Graphics2D g) {
-		g.rotate(-heading);
+		g.rotate(-lookAngle);
 		g.scale(0.75, 0.75);
 
 		// fill main rect
@@ -29,7 +29,7 @@ public class GoonEntity extends Entity {
 		g.fillRect(0, -4, 12, 8);
 
 		g.scale(1.33, 1.33);
-		g.rotate(heading);
+		g.rotate(lookAngle);
 
 		if (Parasite.Game.DEBUG)
 			g.drawString("" + angleTo, 30, 0);
@@ -38,7 +38,7 @@ public class GoonEntity extends Entity {
 	public boolean canSee(Entity entity) {
 		angleTo = Math.atan2(entity.y - y, entity.x - x);
 
-		double theta = Math.abs(angleTo - heading);
+		double theta = Math.abs(angleTo - lookAngle);
 		if (theta > Math.PI) theta = Math.PI * 2 - theta;
 
 		return theta < visionAngle / 2;
@@ -47,6 +47,6 @@ public class GoonEntity extends Entity {
 	public void setHeading(double newHeading) {
 		newHeading %= Math.PI * 2;
 		if (newHeading > Math.PI) newHeading -= Math.PI * 2;
-		heading = newHeading;
+		lookAngle = newHeading;
 	}
 }

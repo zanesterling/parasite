@@ -17,10 +17,10 @@ public class PlayerController extends Controller {
 
 	public void update() {
 		for (Entity entity : controlledEntities) {
-			if (moveUp)    entity.y += entity.speed;
-			if (moveLeft)  entity.x -= entity.speed;
-			if (moveDown)  entity.y -= entity.speed;
-			if (moveRight) entity.x += entity.speed;
+			if (moveUp)    entity.y += entity.maxSpeed;
+			if (moveLeft)  entity.x -= entity.maxSpeed;
+			if (moveDown)  entity.y -= entity.maxSpeed;
+			if (moveRight) entity.x += entity.maxSpeed;
 		}
 	}
 
