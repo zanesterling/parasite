@@ -32,6 +32,22 @@ public class ParasiteEntity extends Entity {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, -2, 6, 4);
 
+		// draw legs
+		g.setColor(Color.RED);
+		if (leaping) {
+			// reaching out
+			g.fillRect(6,  -4, 5, 3);
+			g.fillRect(6,  1,  5, 3);
+			g.fillRect(-9, -4, 3, 3);
+			g.fillRect(-9, 1,  3, 3);
+		} else {
+			// retracted
+			g.fillRect(6,  -4, 3, 3);
+			g.fillRect(6,  1,  3, 3);
+			g.fillRect(-7, -4, 1, 3);
+			g.fillRect(-7, 1,  1, 3);
+		}
+
 		g.rotate(-lookAngle);
 	}
 
