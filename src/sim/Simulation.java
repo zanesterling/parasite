@@ -5,7 +5,7 @@ import Parasite.sim.entity.GoonEntity;
 import Parasite.sim.entity.ParasiteEntity;
 import Parasite.sim.controller.Controller;
 import Parasite.sim.controller.PlayerController;
-import Parasite.sim.controller.AIController;
+import Parasite.sim.controller.GoonController;
 import Parasite.ui.UIEvent;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class Simulation {
 
 		// make goon to play with
 		GoonEntity e = new GoonEntity(300, -200);
-		controllers.add(new AIController(e));
+		controllers.add(new GoonController(e));
 		entities.add(e);
 
 		// make walls

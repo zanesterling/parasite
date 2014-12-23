@@ -13,12 +13,14 @@ public class ParasiteEntity extends Entity {
 		super();
 		leaping = false;
 		leapMaxDuration = 200;
+		maxSpeed = 4;
 	}
 
 	public ParasiteEntity(int x, int y) {
 		super(x, y);
 		leaping = false;
 		leapMaxDuration = 200;
+		maxSpeed = 4;
 	}
 
 	public void render(Graphics2D g) {

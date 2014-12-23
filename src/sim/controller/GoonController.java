@@ -22,7 +22,7 @@ public class GoonController extends Controller {
 
 	Stack<AIState> states;
 
-	public AIController(Entity entity) {
+	public GoonController(Entity entity) {
 		super(entity);
 		states = new Stack<AIState>();
 	}
@@ -40,7 +40,7 @@ public class GoonController extends Controller {
 
 	public void addEntity(Entity entity) {
 		if (!(entity instanceof GoonEntity))
-			System.out.println("tried to add non-goon to AIController");
+			System.out.println("tried to add non-goon to GoonController");
 		if (controlled.size() > 0)
 			controlled.clear();
 
