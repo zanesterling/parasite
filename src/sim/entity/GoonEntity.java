@@ -38,7 +38,7 @@ public class GoonEntity extends Entity {
 	public boolean canSee(Entity entity) {
 		angleToPlayer = Math.atan2(entity.y - y, entity.x - x) % Math.PI;
 
-		double theta = Math.abs(angleTo - lookAngle);
+		double theta = Math.abs(angleToPlayer - lookAngle);
 		if (theta > Math.PI) theta = Math.PI * 2 - theta;
 
 		return theta < visionAngle / 2;
