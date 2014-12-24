@@ -20,6 +20,7 @@ public class GoonController extends Controller {
 		PROTECT
 	};
 
+	GoonEntity goon;
 	Stack<AIState> states;
 
 	public GoonController(Entity entity) {
@@ -28,13 +29,12 @@ public class GoonController extends Controller {
 	}
 
 	public void update() {
-		GoonEntity entity = (GoonEntity) controlled.get(0);
-		entity.setLookAngle(entity.getLookAngle() + 0.02);
+		goon.setLookAngle(goon.getLookAngle() + 0.02);
 
-		if (entity.canSee(Simulation.getSimulation().parasite)) {
-			entity.bodyColor = new Color(80, 200, 255);
+		if (goon.canSee(Simulation.getSimulation().parasite)) {
+			goon.bodyColor = new Color(80, 200, 255);
 		} else {
-			entity.bodyColor = new Color(0, 100, 255);
+			goon.bodyColor = new Color(0, 100, 255);
 		}
 	}
 
@@ -44,6 +44,7 @@ public class GoonController extends Controller {
 		if (controlled.size() > 0)
 			controlled.clear();
 
-		controlled.add(entity);
+		goon = (GoonEntity) entity;
+		controlled.add(goon);
 	}
 }
