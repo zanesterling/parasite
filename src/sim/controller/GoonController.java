@@ -29,6 +29,9 @@ public class GoonController extends Controller {
 	}
 
 	public void update() {
+		// don't control the goon if the player is
+		if (goon.isPossessed) return;
+
 		goon.setLookAngle(goon.getLookAngle() + 0.02);
 
 		if (goon.canSee(Simulation.getSimulation().parasite)) {
