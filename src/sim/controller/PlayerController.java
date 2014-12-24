@@ -2,8 +2,12 @@ package Parasite.sim.controller;
 
 import Parasite.ui.UIEvent;
 import Parasite.ui.EventCode;
+import Parasite.sim.Simulation;
 import Parasite.sim.entity.Entity;
 import Parasite.sim.entity.ParasiteEntity;
+
+import java.awt.Color;
+import java.util.ArrayList;
 
 public class PlayerController extends Controller {
 
@@ -13,6 +17,9 @@ public class PlayerController extends Controller {
 	private boolean moveRight = false;
 
 	private Entity mainHost;
+
+	// Debug vars
+	private boolean colliding;
 
 	public PlayerController(Entity entity) {
 		super(entity);
@@ -38,8 +45,6 @@ public class PlayerController extends Controller {
 					        leaper.maxSpeed * 8;
 			}
 
-			// TODO detect collison, if so possess
-
 			// if leap timed out, end leap
 			if (System.currentTimeMillis() - leaper.leapStartTime >=
 				leaper.leapMaxDuration) {
@@ -59,6 +64,48 @@ public class PlayerController extends Controller {
 				entity.y += entity.vy;
 			}
 		}
+
+		// detect collisons
+		Simulation sim = Simulation.getSimulation();
+		ArrayList<Entity> allEntities = sim.entities;
+		for (Entity entity : allEntities) {
+			// TODO account for the collidee being a possessed entity
+			if (collidingWith(entity)) {
+				collide(entity);
+			}
+		}
+
+		if (mainHost instanceof ParasiteEntity) {
+			if (colliding) {
+				mainHost.bodyColor = new Color(255, 100, 100);
+			} else {
+				mainHost.bodyColor = Color.RED;
+			}
+		}
+
+	}
+
+	public boolean collidingWith(Entity entity) {
+		double dx = entity.x - mainHost.x;
+		double dy = entity.y - mainHost.y;
+		double distSq = dx * dx + dy * dy;
+
+		colliding = distSq < Math.pow(mainHost.rad + entity.rad, 2);
+		return colliding;
+	}
+
+	public void collide(Entity entity) {
+		colliding = true;
+		if (mainHost instanceof ParasiteEntity) {
+			// possess
+			entity.isPossessed = true;
+			addEntity(entity);
+		}
+	}
+
+	public void addEntity(Entity entity) {
+		controlled.add(entity);
+		mainHost = entity;
 	}
 
 	public void processEvent(UIEvent e) {
