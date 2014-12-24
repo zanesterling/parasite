@@ -39,8 +39,11 @@ public class GoonController extends Controller {
 	}
 
 	public void addEntity(Entity entity) {
-		if (!(entity instanceof GoonEntity))
+		if (!(entity instanceof GoonEntity)) {
 			System.out.println("tried to add non-goon to GoonController");
+			return;
+		}
+
 		if (controlled.size() > 0)
 			controlled.clear();
 
