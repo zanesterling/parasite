@@ -5,16 +5,17 @@ import java.awt.Graphics2D;
 
 public class GoonEntity extends Entity {
 
-	public Color bodyColor;
+	public static final Color DEFAULT_COLOR = new Color(0, 100, 255);
 
 	private double visionAngle = Math.PI * 2 / 3;
 	private double angleToPlayer;
 
-	public GoonEntity() {
-		super();
-		bodyColor = new Color(0, 100, 255);
+	public GoonEntity() { this(0, 0); }
+	public GoonEntity(int x, int y) {
+		super(x, y);
+		bodyColor = DEFAULT_COLOR;
+		rad = 12;
 	}
-	public GoonEntity(int x, int y) { super(x, y); }
 
 	public void render(Graphics2D g) {
 		g.rotate(-lookAngle);

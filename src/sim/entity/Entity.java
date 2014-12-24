@@ -7,9 +7,13 @@ public abstract class Entity {
 
 	public double x, y;
 	public double vx, vy;
+	public double rad;
 
 	public double maxSpeed;
 	protected double lookAngle;
+
+	public Color bodyColor;
+	public boolean isPossessed;
 
 	public Entity() {
 		this(0, 0);

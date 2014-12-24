@@ -5,29 +5,29 @@ import java.awt.Graphics2D;
 
 public class ParasiteEntity extends Entity {
 
+	public static final Color DEFAULT_COLOR = Color.RED;
+
 	public boolean leaping;
 	public long leapStartTime;
 	public long leapMaxDuration;
 
-	public ParasiteEntity() {
-		super();
-		leaping = false;
-		leapMaxDuration = 100;
-		maxSpeed = 4;
-	}
+	public ParasiteEntity() { this(0, 0); }
 
 	public ParasiteEntity(int x, int y) {
 		super(x, y);
+
+		rad = 6;
+		maxSpeed = 4;
 		leaping = false;
 		leapMaxDuration = 100;
-		maxSpeed = 4;
+		bodyColor = DEFAULT_COLOR;
 	}
 
 	public void render(Graphics2D g) {
 		g.rotate(lookAngle);
 
 		// fill main rect
-		g.setColor(Color.RED);
+		g.setColor(bodyColor);
 		g.fillRect(-6, -6, 12, 12);
 
 		// fill eye rect
@@ -35,7 +35,7 @@ public class ParasiteEntity extends Entity {
 		g.fillRect(0, -2, 6, 4);
 
 		// draw legs
-		g.setColor(Color.RED);
+		g.setColor(bodyColor);
 		if (leaping) {
 			// reaching out
 			g.fillRect(6,  -4, 5, 3);
