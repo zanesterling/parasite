@@ -12,14 +12,14 @@ public class ParasiteEntity extends Entity {
 	public ParasiteEntity() {
 		super();
 		leaping = false;
-		leapMaxDuration = 200;
+		leapMaxDuration = 100;
 		maxSpeed = 4;
 	}
 
 	public ParasiteEntity(int x, int y) {
 		super(x, y);
 		leaping = false;
-		leapMaxDuration = 200;
+		leapMaxDuration = 100;
 		maxSpeed = 4;
 	}
 

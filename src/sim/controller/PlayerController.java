@@ -33,9 +33,9 @@ public class PlayerController extends Controller {
 			// move entities in leap direction
 			for (Entity entity : controlled) {
 				entity.x += Math.cos(lookAngle) *
-					        leaper.maxSpeed * 10;
+					        leaper.maxSpeed * 8;
 				entity.y -= Math.sin(lookAngle) *
-					        leaper.maxSpeed * 10;
+					        leaper.maxSpeed * 8;
 			}
 
 			// TODO detect collison, if so possess
@@ -47,10 +47,16 @@ public class PlayerController extends Controller {
 			}
 		} else {
 			for (Entity entity : controlled) {
-				if (moveUp)    entity.y += mainHost.maxSpeed;
-				if (moveLeft)  entity.x -= mainHost.maxSpeed;
-				if (moveDown)  entity.y -= mainHost.maxSpeed;
-				if (moveRight) entity.x += mainHost.maxSpeed;
+				entity.vx = 0;
+				entity.vy = 0;
+
+				if (moveUp)    entity.vy += mainHost.maxSpeed;
+				if (moveLeft)  entity.vx -= mainHost.maxSpeed;
+				if (moveDown)  entity.vy -= mainHost.maxSpeed;
+				if (moveRight) entity.vx += mainHost.maxSpeed;
+
+				entity.x += entity.vx;
+				entity.y += entity.vy;
 			}
 		}
 	}
