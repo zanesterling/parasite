@@ -122,6 +122,15 @@ public class PlayerController extends Controller {
 		mainHost = entity;
 	}
 
+	// exit the current host, assuming there is one
+	public void popControl() {
+		if (controlled.size() > 1) {
+			mainHost.isPossessed = false;
+			controlled.remove(controlled.size() - 1);
+			mainHost = controlled.get(controlled.size() - 1);
+		}
+	}
+
 	public void processEvent(UIEvent e) {
 		switch (e.eventCode) {
 			case MOVE_UP:
@@ -155,6 +164,9 @@ public class PlayerController extends Controller {
 				for (Entity entity : controlled) {
 					entity.setLookAngle(e.dargs[0]); // look at that angle
 				}
+				break;
+			case POP:
+				popControl();
 				break;
 		}
 	}

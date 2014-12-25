@@ -11,4 +11,5 @@ public enum EventCode {
 	STOP_RIGHT,
 	ACTION,
 	LOOK,
+	POP,
 }
