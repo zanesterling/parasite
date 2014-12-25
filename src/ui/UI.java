@@ -168,18 +168,17 @@ public class UI extends MouseAdapter implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
-		UIEvent uie;
-		switch (e.getKeyChar()) {
-			case 'w':
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_W:
 				addEvent(new UIEvent(EventCode.STOP_UP));
 				break;
-			case 'a':
+			case KeyEvent.VK_A:
 				addEvent(new UIEvent(EventCode.STOP_LEFT));
 				break;
-			case 's':
+			case KeyEvent.VK_S:
 				addEvent(new UIEvent(EventCode.STOP_DOWN));
 				break;
-			case 'd':
+			case KeyEvent.VK_D:
 				addEvent(new UIEvent(EventCode.STOP_RIGHT));
 				break;
 		}
