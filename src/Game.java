@@ -11,20 +11,19 @@ public class Game {
 	private static final long TICK_LEN = 1000 / 60; // 60 FPS
 
 	private Simulation sim;
-	private UI ui;
 
 	private boolean running;
 
 	public Game() {
 		sim = Simulation.getSimulation();
 
-		ui = new UI();
-		ui.setSimulation(sim);
+		UI.getInstance().setSimulation(sim);
 	}
 
 	public void run() {
 		running = true;
 
+		UI ui = UI.getInstance();
 		while (running) {
 			long startTime = System.currentTimeMillis();
 

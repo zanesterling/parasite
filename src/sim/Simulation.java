@@ -99,6 +99,7 @@ public class Simulation {
 		// center on the focused entity
 		g.translate(-focusedEntity.x, focusedEntity.y);
 
+		// render walls
 		for (int i = 0; i < walls.length; i++) {
 			for (int j = 0; j < walls[i].length; j++) {
 				g.setColor(walls[i][j] == 1 ? WALL_COLOR : BGRD_COLOR);

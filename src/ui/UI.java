@@ -23,8 +23,14 @@ import javax.swing.JFrame;
 
 public class UI extends MouseAdapter implements KeyListener {
 
-	private int canvasWidth;
-	private int canvasHeight;
+	private static UI instance;
+	public static UI getInstance() {
+		if (instance == null) instance = new UI();
+		return instance;
+	}
+
+	public int canvasWidth;
+	public int canvasHeight;
 
 	public Simulation sim;
 
@@ -35,7 +41,7 @@ public class UI extends MouseAdapter implements KeyListener {
 	private Canvas screen;
 	private byte[][] widgetIDs;
 
-	public UI() {
+	private UI() {
 		this.sim = sim;
 		events  = new LinkedList<UIEvent>();
 		widgets = new ArrayList<UIWidget>();
