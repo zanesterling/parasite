@@ -29,15 +29,15 @@ public class PlayerController extends Controller {
 	public void update() {
 		Entity mainHost = controlled.get(controlled.size() - 1);
 
+		// leaping logic (lizards!)
 		// check to see if mainHost is a leaper, to consolidate next if
 		ParasiteEntity leaper = null;
 		if (mainHost instanceof ParasiteEntity)
 			leaper = (ParasiteEntity) mainHost;
-
 		if (leaper != null && leaper.leaping) {
 			double lookAngle = leaper.getLookAngle();
 
-			// move entities in leap direction
+			// set leaping velocities
 			mainHost.vx =  Math.cos(lookAngle) * leaper.maxSpeed * 8;
 			mainHost.vy = -Math.sin(lookAngle) * leaper.maxSpeed * 8;
 
@@ -47,6 +47,7 @@ public class PlayerController extends Controller {
 				leaper.leaping = false;
 			}
 		} else {
+			// update mainHost velocities like normal
 			mainHost.vx = 0;
 			mainHost.vy = 0;
 
@@ -56,6 +57,7 @@ public class PlayerController extends Controller {
 			if (moveRight) mainHost.vx += mainHost.maxSpeed;
 		}
 
+		// move entities by mainHost velocities
 		for (Entity entity : controlled) {
 			entity.vx = mainHost.vx;
 			entity.vy = mainHost.vy;
@@ -73,6 +75,7 @@ public class PlayerController extends Controller {
 			}
 		}
 
+		// change bodyColor if colliding
 		if (mainHost instanceof ParasiteEntity) {
 			if (colliding) {
 				mainHost.bodyColor = new Color(255, 100, 100);
@@ -80,7 +83,6 @@ public class PlayerController extends Controller {
 				mainHost.bodyColor = Color.RED;
 			}
 		}
-
 	}
 
 	public boolean collidingWith(Entity entity) {
