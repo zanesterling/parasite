@@ -30,7 +30,7 @@ public abstract class Entity {
 
 	public double getLookAngle() { return lookAngle; }
 	public void setLookAngle(double lookAngle) {
-		lookAngle %= Math.PI * 2;
+		if (lookAngle > Math.PI) lookAngle -= Math.PI * 2;
 		this.lookAngle = lookAngle;
 	}
 }

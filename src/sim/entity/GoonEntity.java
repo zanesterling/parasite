@@ -9,6 +9,7 @@ public class GoonEntity extends Entity {
 
 	private double visionAngle = Math.PI * 2 / 3;
 	private double angleToPlayer;
+	private double angleDiff;
 
 	public GoonEntity() { this(0, 0); }
 	public GoonEntity(int x, int y) {
@@ -33,16 +34,16 @@ public class GoonEntity extends Entity {
 		g.rotate(-lookAngle);
 
 		if (Parasite.Game.DEBUG)
-			g.drawString("" + angleToPlayer, 30, 0);
+			g.drawString("" + angleDiff, 30, 0);
 	}
 
 	public boolean canSee(Entity entity) {
-		angleToPlayer = Math.atan2(entity.y - y, entity.x - x) % Math.PI;
+		angleToPlayer = Math.atan2(y - entity.y, entity.x - x);
 
-		double theta = Math.abs(angleToPlayer - lookAngle);
-		if (theta > Math.PI) theta = Math.PI * 2 - theta;
+		angleDiff = Math.abs(angleToPlayer - lookAngle);
+		if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
 
-		return theta < visionAngle / 2;
+		return angleDiff <= visionAngle / 2;
 	}
 
 	public void action() {}
