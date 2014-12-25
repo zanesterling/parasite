@@ -70,7 +70,7 @@ public class PlayerController extends Controller {
 		Simulation sim = Simulation.getSimulation();
 		ArrayList<Entity> allEntities = sim.entities;
 		for (Entity entity : allEntities) {
-			if (collidingWith(entity)) {
+			if (isCollidingWith(entity)) {
 				collide(entity);
 			}
 		}
@@ -85,7 +85,7 @@ public class PlayerController extends Controller {
 		}
 	}
 
-	public boolean collidingWith(Entity entity) {
+	public boolean isCollidingWith(Entity entity) {
 		double dx = entity.x - mainHost.x;
 		double dy = entity.y - mainHost.y;
 		double distSq = dx * dx + dy * dy;
