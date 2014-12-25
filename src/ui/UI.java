@@ -5,9 +5,6 @@ import Parasite.sim.Simulation;
 import Parasite.ui.widget.UIWidget;
 import Parasite.ui.widget.GameWidget;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import java.io.File;
 import java.awt.Canvas;
 import java.awt.Graphics2D;
@@ -18,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
