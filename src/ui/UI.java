@@ -8,6 +8,7 @@ import Parasite.ui.widget.GameWidget;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import java.io.File;
 import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
@@ -16,13 +17,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
 public class UI extends MouseAdapter implements KeyListener {
 
-	private static final int CANVAS_WIDTH = 640;
-	private static final int CANVAS_HEIGHT = 480;
+	private int canvasWidth;
+	private int canvasHeight;
 
 	public Simulation sim;
 
@@ -38,9 +40,36 @@ public class UI extends MouseAdapter implements KeyListener {
 		events  = new LinkedList<UIEvent>();
 		widgets = new ArrayList<UIWidget>();
 
+		if (!loadCanvasDimensions()) return;
+
 		// initialize the screen canvas
+		initScreen();
+
+		// initialize the widgets
+		initWidgets();
+	}
+
+	public boolean loadCanvasDimensions() {
+		Scanner sc;
+		try {
+			sc = new Scanner(new File("res/display.cfg"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		canvasWidth  = sc.nextInt();
+		canvasHeight = sc.nextInt();
+		sc.nextLine();
+
+		return true;
+	}
+
+	// initialize screen canvas, frame
+	public void initScreen() {
+		// initialize screen
 		screen = new Canvas();
-		Dimension size = new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT);
+		Dimension size = new Dimension(canvasWidth, canvasHeight);
 		screen.setMinimumSize(size);
 		screen.setMaximumSize(size);
 		screen.setPreferredSize(size);
@@ -59,9 +88,6 @@ public class UI extends MouseAdapter implements KeyListener {
 
 		// create buffer strategy (after showing frame)
 		screen.createBufferStrategy(2);
-
-		// initialize the widgets
-		initWidgets();
 	}
 
 	public void setSimulation(Simulation sim) {
@@ -73,9 +99,9 @@ public class UI extends MouseAdapter implements KeyListener {
 
 	// initialize the widgets
 	private void initWidgets() {
-		widgetIDs = new byte[CANVAS_HEIGHT][CANVAS_WIDTH];
+		widgetIDs = new byte[canvasHeight][canvasWidth];
 
-		addWidget(new GameWidget(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, this));
+		addWidget(new GameWidget(0, 0, canvasWidth, canvasHeight, this));
 	}
 
 	// add a widget to the UI at a particular location
@@ -86,8 +112,8 @@ public class UI extends MouseAdapter implements KeyListener {
 		// fill widget rect with widget id
 		int wx = widget.getX();
 		int wy = widget.getY();
-		int hMax = Math.min(widget.getHeight(), CANVAS_HEIGHT - wy);
-		int wMax = Math.min(widget.getWidth(),  CANVAS_WIDTH  - wy);
+		int hMax = Math.min(widget.getHeight(), canvasHeight - wy);
+		int wMax = Math.min(widget.getWidth(),  canvasWidth  - wy);
 		for (int i = 0; i < hMax; i++) {
 			for (int j = 0; j < wMax; j++) {
 				widgetIDs[i + wy][j + wx] = id;
