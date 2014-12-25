@@ -11,8 +11,8 @@ import java.awt.event.MouseEvent;
 
 public class GameWidget extends UIWidget {
 
-	public GameWidget(int x, int y, int width, int height, UI parent) {
-		super(x, y, width, height, parent);
+	public GameWidget(int x, int y, int width, int height) {
+		super(x, y, width, height);
 	}
 
 	public void mouseClicked(MouseEvent e) {}
@@ -21,7 +21,7 @@ public class GameWidget extends UIWidget {
 		double dy = e.getY() - height / 2;
 		double theta = Math.atan2(dy, dx);
 		UIEvent uie = new UIEvent(EventCode.LOOK, new double[]{ theta });
-		parent.addEvent(uie);
+		UI.getInstance().addEvent(uie);
 	}
 
 	public void render(Graphics2D g) {

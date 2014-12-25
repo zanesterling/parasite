@@ -41,7 +41,6 @@ public class UI extends MouseAdapter implements KeyListener {
 	private byte[][] widgetIDs;
 
 	private UI() {
-		this.sim = sim;
 		events  = new LinkedList<UIEvent>();
 		widgets = new ArrayList<UIWidget>();
 
@@ -106,7 +105,7 @@ public class UI extends MouseAdapter implements KeyListener {
 	private void initWidgets() {
 		widgetIDs = new byte[canvasHeight][canvasWidth];
 
-		addWidget(new GameWidget(0, 0, canvasWidth, canvasHeight, this));
+		addWidget(new GameWidget(0, 0, canvasWidth, canvasHeight));
 	}
 
 	// add a widget to the UI at a particular location
