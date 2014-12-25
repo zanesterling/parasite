@@ -19,7 +19,7 @@ public class Simulation {
 
 	private static final int WALL_WIDTH  = 40;
 	private static final int WALL_HEIGHT = 40;
-	private static final Color WALL_COLOR = new Color(0, 50, 255);
+	private static final Color WALL_COLOR = Color.BLACK;
 	private static final Color BGRD_COLOR = Color.WHITE;
 
 	// singleton stuff
