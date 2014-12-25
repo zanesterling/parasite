@@ -151,6 +151,11 @@ public class PlayerController extends Controller {
 			case ACTION:
 				mainHost.action();
 				break;
+			case LOOK:
+				for (Entity entity : controlled) {
+					entity.setLookAngle(e.dargs[0]); // look at that angle
+				}
+				break;
 		}
 	}
 }

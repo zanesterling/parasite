@@ -18,7 +18,7 @@ public class GoonEntity extends Entity {
 	}
 
 	public void render(Graphics2D g) {
-		g.rotate(-lookAngle);
+		g.rotate(lookAngle);
 		g.scale(0.75, 0.75);
 
 		// fill main rect
@@ -30,7 +30,7 @@ public class GoonEntity extends Entity {
 		g.fillRect(0, -4, 12, 8);
 
 		g.scale(1.33, 1.33);
-		g.rotate(lookAngle);
+		g.rotate(-lookAngle);
 
 		if (Parasite.Game.DEBUG)
 			g.drawString("" + angleToPlayer, 30, 0);

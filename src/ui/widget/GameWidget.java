@@ -1,6 +1,8 @@
 package Parasite.ui.widget;
 
 import Parasite.ui.UI;
+import Parasite.ui.UIEvent;
+import Parasite.ui.EventCode;
 import Parasite.sim.entity.Entity;
 
 import java.awt.Color;
@@ -15,10 +17,11 @@ public class GameWidget extends UIWidget {
 
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseMoved(MouseEvent e) {
-		Entity focusedEntity = sim.getFocusedEntity();
 		double dx = e.getX() - width  / 2;
 		double dy = e.getY() - height / 2;
-		focusedEntity.setLookAngle(Math.atan2(dy, dx));
+		double theta = Math.atan2(dy, dx);
+		UIEvent uie = new UIEvent(EventCode.LOOK, new double[]{ theta });
+		parent.addEvent(uie);
 	}
 
 	public void render(Graphics2D g) {
