@@ -38,12 +38,8 @@ public class PlayerController extends Controller {
 			double lookAngle = leaper.getLookAngle();
 
 			// move entities in leap direction
-			for (Entity entity : controlled) {
-				entity.x += Math.cos(lookAngle) *
-					        leaper.maxSpeed * 8;
-				entity.y -= Math.sin(lookAngle) *
-					        leaper.maxSpeed * 8;
-			}
+			mainHost.vx =  Math.cos(lookAngle) * leaper.maxSpeed * 8;
+			mainHost.vy = -Math.sin(lookAngle) * leaper.maxSpeed * 8;
 
 			// if leap timed out, end leap
 			if (System.currentTimeMillis() - leaper.leapStartTime >=
@@ -51,25 +47,27 @@ public class PlayerController extends Controller {
 				leaper.leaping = false;
 			}
 		} else {
-			for (Entity entity : controlled) {
-				entity.vx = 0;
-				entity.vy = 0;
+			mainHost.vx = 0;
+			mainHost.vy = 0;
 
-				if (moveUp)    entity.vy += mainHost.maxSpeed;
-				if (moveLeft)  entity.vx -= mainHost.maxSpeed;
-				if (moveDown)  entity.vy -= mainHost.maxSpeed;
-				if (moveRight) entity.vx += mainHost.maxSpeed;
+			if (moveUp)    mainHost.vy += mainHost.maxSpeed;
+			if (moveLeft)  mainHost.vx -= mainHost.maxSpeed;
+			if (moveDown)  mainHost.vy -= mainHost.maxSpeed;
+			if (moveRight) mainHost.vx += mainHost.maxSpeed;
+		}
 
-				entity.x += entity.vx;
-				entity.y += entity.vy;
-			}
+		for (Entity entity : controlled) {
+			entity.vx = mainHost.vx;
+			entity.vy = mainHost.vy;
+
+			entity.x += entity.vx;
+			entity.y += entity.vy;
 		}
 
 		// detect collisons
 		Simulation sim = Simulation.getSimulation();
 		ArrayList<Entity> allEntities = sim.entities;
 		for (Entity entity : allEntities) {
-			// TODO account for the collidee being a possessed entity
 			if (collidingWith(entity)) {
 				collide(entity);
 			}
@@ -95,15 +93,31 @@ public class PlayerController extends Controller {
 	}
 
 	public void collide(Entity entity) {
+		// check if entity is already controlled
+		for (Entity e : controlled)
+			if (e == entity)
+				return;
+
 		colliding = true;
-		if (mainHost instanceof ParasiteEntity) {
-			// possess
-			entity.isPossessed = true;
-			addEntity(entity);
+		// possession logic
+		if (!entity.isPossessed && mainHost instanceof ParasiteEntity) {
+			ParasiteEntity host = (ParasiteEntity) mainHost;
+			if (host.leaping) {
+				// possess
+				host.leaping = false;
+				entity.isPossessed = true;
+				addEntity(entity);
+			}
 		}
 	}
 
 	public void addEntity(Entity entity) {
+		// move entity to mainHost's center
+		if (mainHost != null) {
+			entity.x = mainHost.x;
+			entity.y = mainHost.y;
+		}
+
 		controlled.add(entity);
 		mainHost = entity;
 	}
