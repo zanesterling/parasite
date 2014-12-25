@@ -95,19 +95,13 @@ public class PlayerController extends Controller {
 	}
 
 	public void collide(Entity entity) {
-		// check if entity is already controlled
-		for (Entity e : controlled)
-			if (e == entity)
-				return;
-
 		colliding = true;
 		// possession logic
-		if (!entity.isPossessed && mainHost instanceof ParasiteEntity) {
+		if (entity.isPossessable && mainHost instanceof ParasiteEntity) {
 			ParasiteEntity host = (ParasiteEntity) mainHost;
 			if (host.leaping) {
 				// possess
 				host.leaping = false;
-				entity.isPossessed = true;
 				addEntity(entity);
 			}
 		}
@@ -120,6 +114,7 @@ public class PlayerController extends Controller {
 			entity.y = mainHost.y;
 		}
 
+		entity.isPossessable = false;
 		controlled.add(entity);
 		mainHost = entity;
 	}
@@ -127,7 +122,7 @@ public class PlayerController extends Controller {
 	// exit the current host, assuming there is one
 	public void popControl() {
 		if (controlled.size() > 1) {
-			mainHost.isPossessed = false;
+			mainHost.isPossessable = true;
 			controlled.remove(controlled.size() - 1);
 			mainHost = controlled.get(controlled.size() - 1);
 		}

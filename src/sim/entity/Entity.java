@@ -13,7 +13,7 @@ public abstract class Entity {
 	protected double lookAngle;
 
 	public Color bodyColor;
-	public boolean isPossessed;
+	public boolean isPossessable;
 
 	public Entity() {
 		this(0, 0);
@@ -23,6 +23,7 @@ public abstract class Entity {
 		this.x = x;
 		this.y = y;
 		maxSpeed = 1;
+		isPossessable = true;
 	}
 
 	public abstract void render(Graphics2D g);

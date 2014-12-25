@@ -46,5 +46,7 @@ public class GoonEntity extends Entity {
 		return angleDiff <= visionAngle / 2;
 	}
 
-	public void action() {}
+	// action: shoot!
+	public void action() {
+	}
 }

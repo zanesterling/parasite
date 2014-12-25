@@ -30,7 +30,7 @@ public class GoonController extends Controller {
 
 	public void update() {
 		// don't control the goon if the player is
-		if (goon.isPossessed) return;
+		if (!goon.isPossessable) return;
 
 		goon.setLookAngle(goon.getLookAngle() + 0.02);
 
