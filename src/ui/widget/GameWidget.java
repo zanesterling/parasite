@@ -30,8 +30,6 @@ public class GameWidget extends UIWidget {
 
 		if (sim == null) return;
 
-		g.translate(width / 2, height / 2);
 		sim.render(g);
-		g.translate(-width / 2, - height / 2);
 	}
 }

@@ -98,6 +98,9 @@ public class Simulation {
 	}
 
 	public void render(Graphics2D g) {
+		// shift origin to center-screen
+		g.translate(ui.canvasWidth / 2, ui.canvasHeight / 2);
+
 		UI ui = UI.getInstance();
 
 		// center on the focused entity
@@ -129,6 +132,13 @@ public class Simulation {
 		}
 
 		g.translate(focusedEntity.x, -focusedEntity.y);
+		g.translate(-ui.canvasWidth / 2, - ui.canvasHeight / 2);
+
+		if (Game.DEBUG_STATE) {
+			g.drawString("Wall range", 30, -40);
+			g.drawString(minWallX + " " + maxWallX, 30, -30);
+			g.drawString(minWallY + " " + maxWallY, 30, -20);
+		}
 	}
 
 	// process a UIEvent, deal with ramifications
