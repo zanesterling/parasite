@@ -135,9 +135,9 @@ public class Simulation {
 		g.translate(-ui.canvasWidth / 2, - ui.canvasHeight / 2);
 
 		if (Game.DEBUG_STATE) {
-			g.drawString("Wall range", 30, -40);
-			g.drawString(minWallX + " " + maxWallX, 30, -30);
-			g.drawString(minWallY + " " + maxWallY, 30, -20);
+			g.drawString("Wall range", 0, 10);
+			g.drawString(minWallX + " " + minWallY, 0, 20);
+			g.drawString(maxWallX + " " + maxWallY, 0, 30);
 		}
 	}
 
