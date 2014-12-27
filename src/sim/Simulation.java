@@ -135,7 +135,7 @@ public class Simulation {
 	}
 
 	// get screen bounds in world coords
-	public int[] getScreenBounds() {
+	private int[] getScreenBounds() {
 		UI ui = UI.getInstance();
 
 		int[] screenBounds = new int[4];
@@ -148,7 +148,7 @@ public class Simulation {
 	}
 
 	// get range bounds of walls on screen
-	public int[] getWallRange() {
+	private int[] getWallRange() {
 		int[] screen = getScreenBounds();
 
 		// get screen bounds in wall coords
