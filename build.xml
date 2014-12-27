@@ -35,4 +35,6 @@
 	<target name="run" description="run the jarfile">
 		<java jar="${jar}" fork="true"/>
 	</target>
+
+	<target name="car" description="compile and run" depends="build,run" />
 </project>
