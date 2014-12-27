@@ -1,12 +1,14 @@
 package Parasite.sim;
 
+import Parasite.Game;
+import Parasite.ui.UI;
+import Parasite.ui.UIEvent;
 import Parasite.sim.entity.Entity;
 import Parasite.sim.entity.GoonEntity;
 import Parasite.sim.entity.ParasiteEntity;
 import Parasite.sim.controller.Controller;
 import Parasite.sim.controller.PlayerController;
 import Parasite.sim.controller.GoonController;
-import Parasite.ui.UIEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -96,12 +98,24 @@ public class Simulation {
 	}
 
 	public void render(Graphics2D g) {
+		UI ui = UI.getInstance();
+
 		// center on the focused entity
 		g.translate(-focusedEntity.x, focusedEntity.y);
 
+		// get wall range to render
+		int minX = (int) focusedEntity.x - ui.canvasWidth / 2;
+		int minY = (int) -focusedEntity.y - ui.canvasHeight / 2;
+		int maxX = (int) focusedEntity.x + ui.canvasWidth / 2;
+		int maxY = (int) -focusedEntity.y + ui.canvasHeight / 2;
+		int minWallX = Math.max(minX / WALL_WIDTH, 0);
+		int minWallY = Math.max(minY / WALL_HEIGHT, 0);
+		int maxWallX = Math.min(maxX / WALL_WIDTH + 1, walls[0].length);
+		int maxWallY = Math.min(maxY / WALL_HEIGHT + 1, walls.length);
+
 		// render walls
-		for (int i = 0; i < walls.length; i++) {
-			for (int j = 0; j < walls[i].length; j++) {
+		for (int i = minWallY; i < maxWallY; i++) {
+			for (int j = minWallX; j < maxWallX; j++) {
 				g.setColor(walls[i][j] == 1 ? WALL_COLOR : BGRD_COLOR);
 				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
 				           WALL_WIDTH, WALL_HEIGHT);
