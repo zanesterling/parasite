@@ -98,10 +98,10 @@ public class Simulation {
 	}
 
 	public void render(Graphics2D g) {
+		UI ui = UI.getInstance();
+
 		// shift origin to center-screen
 		g.translate(ui.canvasWidth / 2, ui.canvasHeight / 2);
-
-		UI ui = UI.getInstance();
 
 		// center on the focused entity
 		g.translate(-focusedEntity.x, focusedEntity.y);
