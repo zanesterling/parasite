@@ -33,7 +33,7 @@ public class GoonEntity extends Entity {
 		g.scale(1.33, 1.33);
 		g.rotate(-lookAngle);
 
-		if (Parasite.Game.DEBUG)
+		if (Parasite.Game.DEBUG_STATE)
 			g.drawString("" + angleDiff, 30, 0);
 	}
 
