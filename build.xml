@@ -36,5 +36,5 @@
 		<java jar="${jar}" fork="true"/>
 	</target>
 
-	<target name="car" description="compile and run" depends="build,run" />
+	<target name="bar" description="build and run" depends="build,run" />
 </project>
