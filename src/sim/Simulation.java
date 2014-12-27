@@ -107,18 +107,11 @@ public class Simulation {
 		g.translate(-focusedEntity.x, focusedEntity.y);
 
 		// get wall range to render
-		int minX = (int) focusedEntity.x - ui.canvasWidth / 2;
-		int minY = (int) -focusedEntity.y - ui.canvasHeight / 2;
-		int maxX = (int) focusedEntity.x + ui.canvasWidth / 2;
-		int maxY = (int) -focusedEntity.y + ui.canvasHeight / 2;
-		int minWallX = Math.max(minX / WALL_WIDTH, 0);
-		int minWallY = Math.max(minY / WALL_HEIGHT, 0);
-		int maxWallX = Math.min(maxX / WALL_WIDTH + 1, walls[0].length);
-		int maxWallY = Math.min(maxY / WALL_HEIGHT + 1, walls.length);
+		int[] wallRange = getWallRange();
 
 		// render walls
-		for (int i = minWallY; i < maxWallY; i++) {
-			for (int j = minWallX; j < maxWallX; j++) {
+		for (int i = wallRange[1]; i < wallRange[3]; i++) {
+			for (int j = wallRange[0]; j < wallRange[2]; j++) {
 				g.setColor(walls[i][j] == 1 ? WALL_COLOR : BGRD_COLOR);
 				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
 				           WALL_WIDTH, WALL_HEIGHT);
@@ -136,9 +129,29 @@ public class Simulation {
 
 		if (Game.DEBUG_STATE) {
 			g.drawString("Wall range", 0, 10);
-			g.drawString(minWallX + " " + minWallY, 0, 20);
-			g.drawString(maxWallX + " " + maxWallY, 0, 30);
+			g.drawString(wallRange[0] + " " + wallRange[1], 0, 20);
+			g.drawString(wallRange[2] + " " + wallRange[3], 0, 30);
 		}
+	}
+
+	// get range bounds of walls on screen
+	public int[] getWallRange() {
+		UI ui = UI.getInstance();
+
+		// get screen bounds in world coords
+		int minX = (int) focusedEntity.x - ui.canvasWidth / 2;
+		int minY = (int) -focusedEntity.y - ui.canvasHeight / 2;
+		int maxX = (int) focusedEntity.x + ui.canvasWidth / 2;
+		int maxY = (int) -focusedEntity.y + ui.canvasHeight / 2;
+
+		// get screen bounds in wall coords
+		int[] wallRange = new int[4];
+		wallRange[0] = Math.max(minX / WALL_WIDTH, 0);
+		wallRange[1] = Math.max(minY / WALL_HEIGHT, 0);
+		wallRange[2] = Math.min(maxX / WALL_WIDTH + 1, walls[0].length);
+		wallRange[3] = Math.min(maxY / WALL_HEIGHT + 1, walls.length);
+
+		return wallRange;
 	}
 
 	// process a UIEvent, deal with ramifications
