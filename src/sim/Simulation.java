@@ -134,22 +134,29 @@ public class Simulation {
 		}
 	}
 
-	// get range bounds of walls on screen
-	public int[] getWallRange() {
+	// get screen bounds in world coords
+	public int[] getScreenBounds() {
 		UI ui = UI.getInstance();
 
-		// get screen bounds in world coords
-		int minX = (int) focusedEntity.x - ui.canvasWidth / 2;
-		int minY = (int) -focusedEntity.y - ui.canvasHeight / 2;
-		int maxX = (int) focusedEntity.x + ui.canvasWidth / 2;
-		int maxY = (int) -focusedEntity.y + ui.canvasHeight / 2;
+		int[] screenBounds = new int[4];
+		screenBounds[0] = (int) focusedEntity.x - ui.canvasWidth / 2;
+		screenBounds[1] = (int) -focusedEntity.y - ui.canvasHeight / 2;
+		screenBounds[2] = (int) focusedEntity.x + ui.canvasWidth / 2;
+		screenBounds[3] = (int) -focusedEntity.y + ui.canvasHeight / 2;
+
+		return screenBounds;
+	}
+
+	// get range bounds of walls on screen
+	public int[] getWallRange() {
+		int[] screen = getScreenBounds();
 
 		// get screen bounds in wall coords
 		int[] wallRange = new int[4];
-		wallRange[0] = Math.max(minX / WALL_WIDTH, 0);
-		wallRange[1] = Math.max(minY / WALL_HEIGHT, 0);
-		wallRange[2] = Math.min(maxX / WALL_WIDTH, walls[0].length);
-		wallRange[3] = Math.min(maxY / WALL_HEIGHT, walls.length);
+		wallRange[0] = Math.max(screen[0] / WALL_WIDTH, 0);
+		wallRange[1] = Math.max(screen[1] / WALL_HEIGHT, 0);
+		wallRange[2] = Math.min(screen[2] / WALL_WIDTH, walls[0].length);
+		wallRange[3] = Math.min(screen[3] / WALL_HEIGHT, walls.length);
 
 		return wallRange;
 	}
