@@ -9,6 +9,7 @@ import Parasite.sim.entity.ParasiteEntity;
 import Parasite.sim.controller.Controller;
 import Parasite.sim.controller.PlayerController;
 import Parasite.sim.controller.GoonController;
+import Parasite.sim.projectile.Projectile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,9 +46,13 @@ public class Simulation {
 	// wall stuff
 	private int[][] walls;
 
+	// projectile stuff
+	private ArrayList<Projectile> projectiles;
+
 	private Simulation() {
 		entities = new ArrayList<Entity>();
 		controllers = new ArrayList<Controller>();
+		projectiles = new ArrayList<Projectile>();
 
 		initWorld();
 	}
@@ -138,6 +143,13 @@ public class Simulation {
 			g.translate(entity.x, -entity.y);
 			entity.render(g);
 			g.translate(-entity.x, entity.y);
+		}
+
+		// render projectiles
+		for (Projectile projectile : projectiles) {
+			g.translate(projectile.x, -projectile.y);
+			projectile.render(g);
+			g.translate(-projectile.x, projectile.y);
 		}
 
 		// translate back out

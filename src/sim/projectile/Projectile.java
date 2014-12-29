@@ -3,21 +3,25 @@ package Parasite.sim.projectile;
 import Parasite.sim.Simulation;
 import Parasite.sim.entity.Entity;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public abstract class Projectile {
 
-	private double x;
-	private double y;
-	private double vx;
-	private double vy;
-	private double rad;
+	public double x;
+	public double y;
+	protected double vx;
+	protected double vy;
+	protected double rad;
+	protected double angle;
 
 	public Projectile(double x, double y, double vx, double vy) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
+
+		angle = Math.atan2(vy, vx);
 	}
 
 	public void update() {
@@ -39,5 +43,6 @@ public abstract class Projectile {
 		return dx*dx + dy*dy;
 	}
 
+	public abstract void render(Graphics2D g);
 	public abstract void impact(Entity entity);
 }
