@@ -1,5 +1,6 @@
 package Parasite.sim.controller;
 
+import Parasite.sim.Simulation;
 import Parasite.sim.entity.Entity;
 
 import java.util.ArrayList;
@@ -19,6 +20,17 @@ public abstract class Controller {
 	}
 
 	public abstract void update();
+
+	public void checkForDead() {
+		Simulation sim = Simulation.getInstance();
+
+		for (int i = 0; i < controlled.size(); i++) {
+			if (controlled.get(i).dead) {
+				controlled.remove(i);
+				sim.entities.remove(controlled.get(i));
+			}
+		}
+	}
 
 	public void addEntity(Entity entity) {
 		controlled.add(entity);
