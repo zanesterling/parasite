@@ -138,15 +138,6 @@ public class Simulation {
 		// clip to appropriate shape for vision occlusion
 		Shape focusedVision = getFocusedVisionShape(wallRange);
 
-		// render walls
-		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
-			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
-				g.setColor(walls[i][j] == 1 ? WALL_COLOR : BGRD_COLOR);
-				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
-				           WALL_WIDTH, WALL_HEIGHT);
-			}
-		}
-
 		// render entities
 		for (Entity entity : entities) {
 			g.translate(entity.x, -entity.y);
@@ -159,6 +150,16 @@ public class Simulation {
 			g.translate(projectile.x, -projectile.y);
 			projectile.render(g);
 			g.translate(-projectile.x, projectile.y);
+		}
+
+		// render walls
+		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
+			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
+				if (walls[i][j] == 0) continue;
+				g.setColor(walls[i][j] == 1 ? WALL_COLOR : BGRD_COLOR);
+				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
+				           WALL_WIDTH, WALL_HEIGHT);
+			}
 		}
 
 		// translate back out
