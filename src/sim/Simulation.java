@@ -33,12 +33,16 @@ public class Simulation {
 		return instance;
 	}
 
+	// entity stuff
 	public ArrayList<Entity> entities;
 	public ParasiteEntity parasite;
+	private Entity focusedEntity;
 
+	// controller stuff
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
-	private Entity focusedEntity;
+
+	// wall stuff
 	private int[][] walls;
 
 	private Simulation() {
