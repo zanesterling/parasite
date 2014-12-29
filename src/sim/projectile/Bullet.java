@@ -7,8 +7,10 @@ import java.awt.Graphics2D;
 
 public class Bullet extends Projectile {
 
-	public Bullet(double x, double y, double vx, double vy) {
-		super(x, y, vx, vy);
+	private static double SPEED = 5;
+
+	public Bullet(double x, double y, double angle) {
+		super(x, y, Math.cos(angle) * SPEED, Math.sin(angle) * SPEED);
 		rad = 2;
 	}
 

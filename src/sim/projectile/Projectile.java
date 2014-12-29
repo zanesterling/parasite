@@ -15,13 +15,13 @@ public abstract class Projectile {
 	protected double rad;
 	protected double angle;
 
-	public Projectile(double x, double y, double vx, double vy) {
+	public Projectile(double x, double y, double angle, double speed) {
 		this.x = x;
 		this.y = y;
-		this.vx = vx;
-		this.vy = vy;
+		this.angle = angle;
 
-		angle = Math.atan2(vy, vx);
+		vx = Math.cos(angle) * speed;
+		vy = Math.sin(angle) * speed;
 	}
 
 	public void update() {
