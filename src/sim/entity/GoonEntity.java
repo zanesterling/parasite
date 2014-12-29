@@ -15,7 +15,7 @@ public class GoonEntity extends Entity {
 	public GoonEntity(int x, int y) {
 		super(x, y);
 		bodyColor = DEFAULT_COLOR;
-		rad = 9;
+		rad = 0.75 * 12;
 	}
 
 	public void render(Graphics2D g) {
