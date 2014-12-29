@@ -108,14 +108,18 @@ public class Simulation {
 			controller.checkForDead();
 		}
 
-		// update entities etc.
+		// update entities
 		for (Controller controller : controllers) {
 			controller.update();
 		}
 
-		// update entities etc.
-		for (Projectile projectile : projectiles) {
-			projectile.update();
+		// update projectiles
+		for (int i = 0; i < projectiles.size(); i++) {
+			if (projectiles.get(i).dead) {
+				projectiles.remove(i--);
+				continue;
+			}
+			projectiles.get(i).update();
 		}
 	}
 
@@ -262,5 +266,15 @@ public class Simulation {
 
 	public void setFocusedEntity(Entity entity) {
 		focusedEntity = entity;
+	}
+
+	public int getWallAt(double x, double y) {
+		int xcor = (int)(x / WALL_WIDTH);
+		int ycor = (int)(-y / WALL_HEIGHT);
+
+		if (xcor < 0 || xcor > walls[0].length) return 0;
+		if (ycor < 0 || ycor > walls.length)    return 0;
+
+		return walls[ycor][xcor];
 	}
 }

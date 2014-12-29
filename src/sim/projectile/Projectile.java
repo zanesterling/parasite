@@ -15,6 +15,8 @@ public abstract class Projectile {
 	protected double rad;
 	protected double angle;
 
+	public boolean dead;
+
 	public Projectile(double x, double y, double angle, double speed) {
 		this.x = x;
 		this.y = y;
@@ -22,6 +24,8 @@ public abstract class Projectile {
 
 		vx = Math.cos(angle) * speed;
 		vy = Math.sin(angle) * speed;
+
+		dead = false;
 	}
 
 	public void update() {
@@ -34,6 +38,9 @@ public abstract class Projectile {
 				impact(entity);
 			}
 		}
+
+		int wallType = Simulation.getInstance().getWallAt(x, y);
+		if (wallType != 0) die();
 	}
 
 	// returns the square of the distance to the entity
@@ -45,4 +52,8 @@ public abstract class Projectile {
 
 	public abstract void render(Graphics2D g);
 	public abstract void impact(Entity entity);
+
+	public void die() {
+		dead = true;
+	}
 }
