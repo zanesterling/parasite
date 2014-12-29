@@ -72,6 +72,9 @@ public class Simulation {
 		GoonEntity e = new GoonEntity(300, -200);
 		controllers.add(new GoonController(e));
 		entities.add(e);
+		e = new GoonEntity(300, -300);
+		controllers.add(new GoonController(e));
+		entities.add(e);
 
 		// make walls
 		loadLevel("res/level1.lvl");
