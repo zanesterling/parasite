@@ -51,10 +51,10 @@ public class GoonEntity extends Entity {
 
 	// action: shoot!
 	public void action() {
-		double x = this.x + Math.cos(lookAngle) * (rad + Bullet.RAD);
-		double y = this.y + Math.sin(lookAngle) * (rad + Bullet.RAD);
+		double x = this.x + Math.cos(-lookAngle) * (rad + Bullet.RAD);
+		double y = this.y + Math.sin(-lookAngle) * (rad + Bullet.RAD);
 
-		Bullet bullet = new Bullet(x, y, lookAngle);
+		Bullet bullet = new Bullet(x, y, -lookAngle);
 		Simulation.getInstance().projectiles.add(bullet);
 	}
 }

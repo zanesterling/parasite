@@ -112,6 +112,11 @@ public class Simulation {
 		for (Controller controller : controllers) {
 			controller.update();
 		}
+
+		// update entities etc.
+		for (Projectile projectile : projectiles) {
+			projectile.update();
+		}
 	}
 
 	public void render(Graphics2D g) {

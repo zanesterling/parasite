@@ -11,7 +11,7 @@ public class Bullet extends Projectile {
 	private static double SPEED = 5;
 
 	public Bullet(double x, double y, double angle) {
-		super(x, y, Math.cos(angle) * SPEED, Math.sin(angle) * SPEED);
+		super(x, y, angle, SPEED);
 		rad = RAD;
 	}
 
