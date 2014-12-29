@@ -15,7 +15,7 @@ public class Game {
 	private boolean running;
 
 	public Game() {
-		sim = Simulation.getSimulation();
+		sim = Simulation.getInstance();
 
 		UI.getInstance().setSimulation(sim);
 	}

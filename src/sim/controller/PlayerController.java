@@ -67,7 +67,7 @@ public class PlayerController extends Controller {
 		}
 
 		// detect collisons
-		Simulation sim = Simulation.getSimulation();
+		Simulation sim = Simulation.getInstance();
 		ArrayList<Entity> allEntities = sim.entities;
 		for (Entity entity : allEntities) {
 			if (isCollidingWith(entity)) {

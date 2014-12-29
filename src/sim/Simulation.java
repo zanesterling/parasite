@@ -28,7 +28,7 @@ public class Simulation {
 
 	// singleton stuff
 	private static Simulation instance;
-	public static Simulation getSimulation() {
+	public static Simulation getInstance() {
 		if (instance == null) instance = new Simulation();
 		return instance;
 	}
