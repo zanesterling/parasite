@@ -13,6 +13,8 @@ import Parasite.sim.controller.GoonController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Rectangle;
 import java.awt.Graphics2D;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -109,6 +111,9 @@ public class Simulation {
 		// get wall range to render
 		int[] wallRange = getWallRange();
 
+		// clip to appropriate shape for vision occlusion
+		Shape focusedVision = getFocusedVisionShape(wallRange);
+
 		// render walls
 		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
 			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
@@ -159,6 +164,61 @@ public class Simulation {
 		wallRange[3] = Math.min(screen[3] / WALL_HEIGHT, walls.length);
 
 		return wallRange;
+	}
+
+	// find the shape of the player's vision intersected with screen
+	private Shape getFocusedVisionShape(int[] wallRange) {
+		ArrayList<int[]> borders = new ArrayList<int[]>();
+
+		// add vision edges as borders
+		int[] screenBounds = getScreenBounds();
+		borders.add(new int[]{screenBounds[0], screenBounds[1],
+		                      screenBounds[2], screenBounds[1]});
+		borders.add(new int[]{screenBounds[2], screenBounds[1],
+		                      screenBounds[2], screenBounds[3]});
+		borders.add(new int[]{screenBounds[2], screenBounds[3],
+		                      screenBounds[0], screenBounds[3]});
+		borders.add(new int[]{screenBounds[0], screenBounds[3],
+		                      screenBounds[0], screenBounds[1]});
+
+		// for each visible wall:
+		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
+			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
+				// add visible sides to list
+				addVisibleSides(borders, j, i);
+			}
+		}
+
+		// TODO generate vision shape from relevant walls
+		return new Rectangle(0, 0, 0, 0);
+	}
+
+	private void addVisibleSides(ArrayList<int[]> borders,
+	                             int wallCoordX, int wallCoordY) {
+		// check top and left walls
+		int wallX = wallCoordX * WALL_WIDTH;
+		int wallY = wallCoordY * WALL_HEIGHT;
+		if (focusedEntity.x < wallX) {
+			borders.add(new int[]{wallX, wallY,
+			                      wallX, wallY + WALL_HEIGHT});
+		}
+		if (focusedEntity.y < wallY) {
+			borders.add(new int[]{wallX, wallY,
+			                      wallX + WALL_WIDTH, wallY});
+		}
+
+		// check bottom and right walls
+		wallY += WALL_HEIGHT;
+		if (focusedEntity.x > wallX + WALL_WIDTH) {
+			borders.add(new int[]{wallX, wallY,
+			                      wallX + WALL_WIDTH, wallY});
+		}
+
+		wallX += WALL_WIDTH;
+		if (focusedEntity.x < wallX) {
+			borders.add(new int[]{wallX, wallY - WALL_HEIGHT,
+			                      wallX, wallY});
+		}
 	}
 
 	// process a UIEvent, deal with ramifications
