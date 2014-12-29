@@ -10,16 +10,6 @@ import java.util.ArrayList;
 
 public class GoonController extends Controller {
 
-	enum AIState {
-		IDLE,
-		LOOK,
-		GOTO,
-		CHASE,
-		ATTACK,
-		PATROL,
-		PROTECT
-	};
-
 	GoonEntity goon;
 	Stack<AIState> states;
 
