@@ -17,6 +17,7 @@ public class Bullet extends Projectile {
 
 	public void impact(Entity entity) {
 		entity.die();
+		die();
 	}
 
 	public void render(Graphics2D g) {

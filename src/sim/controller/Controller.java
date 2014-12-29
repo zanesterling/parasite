@@ -26,8 +26,8 @@ public abstract class Controller {
 
 		for (int i = 0; i < controlled.size(); i++) {
 			if (controlled.get(i).dead) {
-				controlled.remove(i);
 				sim.entities.remove(controlled.get(i));
+				controlled.remove(i--);
 			}
 		}
 	}
