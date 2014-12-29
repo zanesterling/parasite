@@ -129,15 +129,18 @@ public class Simulation {
 			}
 		}
 
+		// render entities
 		for (Entity entity : entities) {
 			g.translate(entity.x, -entity.y);
 			entity.render(g);
 			g.translate(-entity.x, entity.y);
 		}
 
+		// translate back out
 		g.translate(focusedEntity.x, -focusedEntity.y);
 		g.translate(-ui.canvasWidth / 2, - ui.canvasHeight / 2);
 
+		// print wallRange debug info
 		if (Game.DEBUG_STATE) {
 			g.drawString("Wall range", 0, 10);
 			g.drawString(wallRange[0] + " " + wallRange[1], 0, 20);
