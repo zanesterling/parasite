@@ -1,5 +1,8 @@
 package Parasite.sim.entity;
 
+import Parasite.sim.Simulation;
+import Parasite.sim.projectile.Bullet;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -48,5 +51,10 @@ public class GoonEntity extends Entity {
 
 	// action: shoot!
 	public void action() {
+		double x = this.x + Math.cos(lookAngle) * (rad + Bullet.RAD);
+		double y = this.y + Math.sin(lookAngle) * (rad + Bullet.RAD);
+
+		Bullet bullet = new Bullet(x, y, lookAngle);
+		Simulation.getInstance().projectiles.add(bullet);
 	}
 }

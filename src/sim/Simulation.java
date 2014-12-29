@@ -47,7 +47,7 @@ public class Simulation {
 	private int[][] walls;
 
 	// projectile stuff
-	private ArrayList<Projectile> projectiles;
+	public ArrayList<Projectile> projectiles;
 
 	private Simulation() {
 		entities = new ArrayList<Entity>();
