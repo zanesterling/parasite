@@ -22,10 +22,15 @@ import java.util.ArrayList;
 
 public class Simulation {
 
-	private static final int WALL_WIDTH  = 40;
-	private static final int WALL_HEIGHT = 40;
+	public static final int WALL_WIDTH  = 40;
+	public static final int WALL_HEIGHT = 40;
 	private static final Color WALL_COLOR = Color.BLACK;
 	private static final Color BGRD_COLOR = Color.WHITE;
+	private static final Color[] WALL_COLORS = new Color[]{
+		Color.WHITE,
+		Color.BLACK,
+		Color.RED
+	};
 
 	// singleton stuff
 	private static Simulation instance;
@@ -159,7 +164,7 @@ public class Simulation {
 		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
 			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
 				if (walls[i][j] == 0) continue;
-				g.setColor(walls[i][j] == 1 ? WALL_COLOR : BGRD_COLOR);
+				g.setColor(WALL_COLORS[walls[i][j]]);
 				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
 				           WALL_WIDTH, WALL_HEIGHT);
 			}
@@ -280,5 +285,19 @@ public class Simulation {
 		if (ycor < 0 || ycor > walls.length)    return 0;
 
 		return walls[ycor][xcor];
+	}
+
+	public int getWall(int x, int y) {
+		if (x < 0 || x > walls[0].length) return 0;
+		if (y < 0 || y > walls.length)    return 0;
+
+		return walls[y][x];
+	}
+
+	public void setWall(int x, int y, int val) {
+		if (x < 0 || x > walls[0].length) return;
+		if (y < 0 || y > walls.length)    return;
+
+		walls[y][x] = val;
 	}
 }
