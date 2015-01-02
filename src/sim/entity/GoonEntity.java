@@ -55,8 +55,10 @@ public class GoonEntity extends Entity {
 
 	// returns true if walls occlude entity
 	private boolean bresenhamOcclusion(Entity entity) {
-		int xDiff = (int)(entity.x - x) / Simulation.WALL_WIDTH;
-		int yDiff = (int)(entity.y - y) / Simulation.WALL_HEIGHT;
+		int xDiff = (int) Math.abs((int)entity.x / Simulation.WALL_WIDTH -
+		                           (int)x / Simulation.WALL_WIDTH);
+		int yDiff = (int) Math.abs((int)entity.y / Simulation.WALL_HEIGHT -
+		                           (int)y / Simulation.WALL_HEIGHT);
 		boolean yDiffBigger = Math.abs(yDiff) > Math.abs(xDiff);
 
 		int tx = (int)x / Simulation.WALL_WIDTH;
