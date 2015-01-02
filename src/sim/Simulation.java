@@ -294,6 +294,16 @@ public class Simulation {
 		return walls[y][x];
 	}
 
+	public void setWallAt(double x, double y, int val) {
+		int xcor = (int)(x / WALL_WIDTH);
+		int ycor = (int)(-y / WALL_HEIGHT);
+
+		if (xcor < 0 || xcor > walls[0].length) return;
+		if (ycor < 0 || ycor > walls.length)    return;
+
+		walls[ycor][xcor] = val;
+	}
+
 	public void setWall(int x, int y, int val) {
 		if (x < 0 || x > walls[0].length) return;
 		if (y < 0 || y > walls.length)    return;
