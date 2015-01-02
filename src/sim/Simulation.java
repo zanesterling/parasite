@@ -277,6 +277,7 @@ public class Simulation {
 		focusedEntity = entity;
 	}
 
+	// get wall at x,y world coords
 	public int getWallAt(double x, double y) {
 		int xcor = (int)(x / WALL_WIDTH);
 		int ycor = (int)(-y / WALL_HEIGHT);
@@ -287,13 +288,7 @@ public class Simulation {
 		return walls[ycor][xcor];
 	}
 
-	public int getWall(int x, int y) {
-		if (x < 0 || x > walls[0].length) return 0;
-		if (y < 0 || y > walls.length)    return 0;
-
-		return walls[y][x];
-	}
-
+	// set wall at x,y world coords
 	public void setWallAt(double x, double y, int val) {
 		int xcor = (int)(x / WALL_WIDTH);
 		int ycor = (int)(-y / WALL_HEIGHT);
@@ -304,6 +299,15 @@ public class Simulation {
 		walls[ycor][xcor] = val;
 	}
 
+	// get wall at x,y wall coords
+	public int getWall(int x, int y) {
+		if (x < 0 || x > walls[0].length) return 0;
+		if (y < 0 || y > walls.length)    return 0;
+
+		return walls[y][x];
+	}
+
+	// get wall at x,y wall coords
 	public void setWall(int x, int y, int val) {
 		if (x < 0 || x > walls[0].length) return;
 		if (y < 0 || y > walls.length)    return;
