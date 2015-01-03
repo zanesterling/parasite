@@ -82,7 +82,7 @@ public class Simulation {
 		entities.add(e);
 
 		// make walls
-		loadLevel("res/level2.lvl");
+		loadLevel("res/level1.lvl");
 	}
 
 	private void loadLevel(String fn) {
@@ -111,7 +111,7 @@ public class Simulation {
 
 	// run a game-tick in the world
 	public void update() {
-		if (Game.DEBUG_STATE) loadLevel("res/level2.lvl");
+		if (Game.DEBUG_STATE) loadLevel("res/level1.lvl");
 
 		// check for dead entities
 		for (Controller controller : controllers) {
