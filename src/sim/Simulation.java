@@ -39,19 +39,19 @@ public class Simulation {
 		return instance;
 	}
 
-	// entity stuff
+	// entity vars
 	public ArrayList<Entity> entities;
 	public ParasiteEntity parasite;
 	private Entity focusedEntity;
 
-	// controller stuff
+	// controller vars
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
 
-	// wall stuff
+	// wall vars
 	private int[][] walls;
 
-	// projectile stuff
+	// projectile vars
 	public ArrayList<Projectile> projectiles;
 
 	private Simulation() {
