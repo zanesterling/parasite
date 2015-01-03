@@ -26,10 +26,11 @@ public class Simulation {
 	public static final int WALL_HEIGHT = 10;
 	private static final Color WALL_COLOR = Color.BLACK;
 	private static final Color BGRD_COLOR = Color.WHITE;
+	private static final int WALL_COLORS_OFFSET = 1;
 	private static final Color[] WALL_COLORS = new Color[]{
+		Color.RED,
 		Color.WHITE,
-		Color.BLACK,
-		Color.RED
+		Color.BLACK
 	};
 
 	// singleton stuff
@@ -164,7 +165,7 @@ public class Simulation {
 		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
 			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
 				if (walls[i][j] == 0) continue;
-				g.setColor(WALL_COLORS[walls[i][j]]);
+				g.setColor(WALL_COLORS[walls[i][j] + WALL_COLORS_OFFSET]);
 				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
 				           WALL_WIDTH, WALL_HEIGHT);
 			}

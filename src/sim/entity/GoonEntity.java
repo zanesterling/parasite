@@ -93,10 +93,10 @@ public class GoonEntity extends Entity {
 			double slope = 1.0 * (maxX - minX) / (maxY - minY);
 			for (int i = minY; i <= maxY; i++) {
 				int xcor = minX + (int)((i - minY) * slope);
-				if (sim.getWall(xcor, i) != 0) {
+				if (sim.getWall(xcor, i) > 0) {
 					return true;
 				}
-				if (Game.DEBUG_STATE) sim.setWall(xcor, i, 2);
+				if (Game.DEBUG_STATE) sim.setWall(xcor, i, -1);
 			}
 		} else {
 			minX = (int)Math.min(tx, ex);
@@ -112,10 +112,10 @@ public class GoonEntity extends Entity {
 			double slope = 1.0 * (maxY - minY) / (maxX - minX);
 			for (int i = minX; i <= maxX; i++) {
 				int ycor = minY + (int)((i - minX) * slope);
-				if (sim.getWall(i, ycor) != 0) {
+				if (sim.getWall(i, ycor) > 0) {
 					return true;
 				}
-				if (Game.DEBUG_STATE) sim.setWall(i, ycor, 2);
+				if (Game.DEBUG_STATE) sim.setWall(i, ycor, -1);
 			}
 		}
 

@@ -40,7 +40,7 @@ public abstract class Projectile {
 		}
 
 		int wallType = Simulation.getInstance().getWallAt(x, y);
-		if (wallType != 0) die();
+		if (wallType > 0) die();
 	}
 
 	// returns the square of the distance to the entity
