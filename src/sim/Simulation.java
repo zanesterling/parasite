@@ -111,6 +111,8 @@ public class Simulation {
 
 	// run a game-tick in the world
 	public void update() {
+		if (Game.DEBUG_STATE) loadLevel("res/level2.lvl");
+
 		// check for dead entities
 		for (Controller controller : controllers) {
 			controller.checkForDead();

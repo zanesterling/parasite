@@ -1,5 +1,6 @@
 package Parasite.sim.entity;
 
+import Parasite.Game;
 import Parasite.sim.Simulation;
 import Parasite.sim.projectile.Bullet;
 
@@ -13,6 +14,8 @@ public class GoonEntity extends Entity {
 	private double visionAngle = Math.PI * 2 / 3;
 	private double angleToPlayer;
 	private double angleDiff;
+
+	private boolean vertScanning = false;
 
 	public GoonEntity() { this(0, 0); }
 	public GoonEntity(int x, int y) {
@@ -36,8 +39,13 @@ public class GoonEntity extends Entity {
 		g.scale(1.33, 1.33);
 		g.rotate(-lookAngle);
 
-		if (Parasite.Game.DEBUG_STATE)
+		if (Game.DEBUG_STATE) {
+			g.setColor(Color.GREEN);
 			g.drawString("" + angleDiff, 30, 0);
+			g.drawString("" + vertScanning, 30, -10);
+			Entity parasite = Simulation.getInstance().parasite;
+			g.drawLine(0, 0, (int)(parasite.x - x), (int)(y - parasite.y));
+		}
 	}
 
 	public boolean canSee(Entity entity) {
@@ -47,7 +55,7 @@ public class GoonEntity extends Entity {
 		if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
 
 		boolean inVisionArc = (angleDiff <= visionAngle / 2);
-		if (!inVisionArc) return false;
+		if (!Game.DEBUG_STATE && !inVisionArc) return false;
 
 		// check if walls occlude the entity
 		return !bresenhamOcclusion(entity);
@@ -67,6 +75,7 @@ public class GoonEntity extends Entity {
 		int ey = -(int)entity.y / Simulation.WALL_HEIGHT; 
 
 		if (tx == ex && ty == ey) return true;
+		if (Game.DEBUG_STATE) vertScanning = yDiffBigger;
 
 		Simulation sim = Simulation.getInstance();
 		int minX, maxX, minY, maxY;
@@ -87,6 +96,7 @@ public class GoonEntity extends Entity {
 				if (sim.getWall(xcor, i) != 0) {
 					return true;
 				}
+				if (Game.DEBUG_STATE) sim.setWall(i, xcor, 2);
 			}
 		} else {
 			minX = (int)Math.min(tx, ex);
@@ -105,6 +115,7 @@ public class GoonEntity extends Entity {
 				if (sim.getWall(i, ycor) != 0) {
 					return true;
 				}
+				if (Game.DEBUG_STATE) sim.setWall(i, ycor, 2);
 			}
 		}
 
