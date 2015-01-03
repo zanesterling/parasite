@@ -25,9 +25,9 @@ public class GoonController extends Controller {
 		goon.setLookAngle(goon.getLookAngle() + 0.02);
 
 		if (goon.canSee(Simulation.getInstance().parasite)) {
-			goon.bodyColor = new Color(80, 200, 255);
+			goon.bodyColor = GoonEntity.CAN_SEE_COLOR;
 		} else {
-			goon.bodyColor = new Color(0, 100, 255);
+			goon.bodyColor = GoonEntity.DEFAULT_COLOR;
 		}
 	}
 

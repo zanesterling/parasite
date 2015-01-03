@@ -9,7 +9,8 @@ import java.awt.Graphics2D;
 
 public class GoonEntity extends Entity {
 
-	public static final Color DEFAULT_COLOR = new Color(0, 100, 255);
+	public static final Color DEFAULT_COLOR = new Color(0,  100, 255);
+	public static final Color CAN_SEE_COLOR = new Color(80, 200, 255);
 
 	private double visionAngle = Math.PI * 2 / 3;
 	private double angleToPlayer;
