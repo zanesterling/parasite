@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 public class Simulation {
 
-	public static final int WALL_WIDTH  = 40;
-	public static final int WALL_HEIGHT = 40;
+	public static final int WALL_WIDTH  = 10;
+	public static final int WALL_HEIGHT = 10;
 	private static final Color WALL_COLOR = Color.BLACK;
 	private static final Color BGRD_COLOR = Color.WHITE;
 	private static final Color[] WALL_COLORS = new Color[]{
