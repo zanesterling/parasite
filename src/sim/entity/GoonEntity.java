@@ -96,7 +96,7 @@ public class GoonEntity extends Entity {
 				if (sim.getWall(xcor, i) != 0) {
 					return true;
 				}
-				if (Game.DEBUG_STATE) sim.setWall(i, xcor, 2);
+				if (Game.DEBUG_STATE) sim.setWall(xcor, i, 2);
 			}
 		} else {
 			minX = (int)Math.min(tx, ex);
