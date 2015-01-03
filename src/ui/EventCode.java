@@ -12,4 +12,5 @@ public enum EventCode {
 	ACTION,
 	LOOK,
 	POP,
+	TOGGLE_DEBUG,
 }

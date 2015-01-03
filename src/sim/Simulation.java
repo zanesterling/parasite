@@ -111,8 +111,6 @@ public class Simulation {
 
 	// run a game-tick in the world
 	public void update() {
-		if (Game.DEBUG_STATE) loadLevel("res/level1.lvl");
-
 		// check for dead entities
 		for (Controller controller : controllers) {
 			controller.checkForDead();
@@ -176,11 +174,14 @@ public class Simulation {
 		g.translate(focusedEntity.x, -focusedEntity.y);
 		g.translate(-ui.canvasWidth / 2, - ui.canvasHeight / 2);
 
-		// print wallRange debug info
 		if (Game.DEBUG_STATE) {
+			// print wallRange debug info
 			g.drawString("Wall range", 0, 10);
 			g.drawString(wallRange[0] + " " + wallRange[1], 0, 20);
 			g.drawString(wallRange[2] + " " + wallRange[3], 0, 30);
+
+			// reload level to fix vision debugging junk
+			loadLevel("res/level1.lvl");
 		}
 	}
 

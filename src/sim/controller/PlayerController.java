@@ -1,5 +1,6 @@
 package Parasite.sim.controller;
 
+import Parasite.Game;
 import Parasite.ui.UIEvent;
 import Parasite.ui.EventCode;
 import Parasite.sim.Simulation;
@@ -164,6 +165,9 @@ public class PlayerController extends Controller {
 				break;
 			case POP:
 				popControl();
+				break;
+			case TOGGLE_DEBUG:
+				Game.DEBUG_STATE = !Game.DEBUG_STATE;
 				break;
 		}
 	}
