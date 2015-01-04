@@ -16,19 +16,37 @@ public class GoonController extends Controller {
 	public GoonController(Entity entity) {
 		super(entity);
 		states = new Stack<AIState>();
+		states.push(AIState.IDLE);
 	}
 
 	public void update() {
 		// don't control the goon if the player is
 		if (!goon.isPossessable) return;
 
-		goon.setLookAngle(goon.getLookAngle() + 0.02);
-
-		if (goon.canSee(Simulation.getInstance().parasite)) {
-			goon.bodyColor = GoonEntity.CAN_SEE_COLOR;
-		} else {
-			goon.bodyColor = GoonEntity.DEFAULT_COLOR;
+		switch(states.peek()) {
+			case IDLE:
+				goon.setLookAngle(goon.getLookAngle() + 0.02);
+				break;
 		}
+
+		if (goon.canSee(Simulation.getInstance().parasite))
+			goon.bodyColor = GoonEntity.CAN_SEE_COLOR;
+		else
+			goon.bodyColor = GoonEntity.DEFAULT_COLOR;
+	}
+
+	public void pushState(AIState state) {
+		// if state was idle, replace it
+		if (states.peek() == AIState.IDLE) states.pop();
+		states.push(state); // otherwise just push
+	}
+
+	public void popState() {
+		// if there's a state, pop it
+		if (!states.empty()) states.pop();
+
+		// if there's no state left, push the idle state
+		if (states.empty()) states.push(AIState.IDLE);
 	}
 
 	public void addEntity(Entity entity) {
