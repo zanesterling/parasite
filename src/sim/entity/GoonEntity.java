@@ -16,8 +16,6 @@ public class GoonEntity extends Entity {
 	private double angleToPlayer;
 	private double angleDiff;
 
-	private boolean vertScanning = false;
-
 	public GoonEntity() { this(0, 0); }
 	public GoonEntity(int x, int y) {
 		super(x, y);
@@ -43,7 +41,6 @@ public class GoonEntity extends Entity {
 		if (Game.DEBUG_STATE) {
 			g.setColor(Color.GREEN);
 			g.drawString("" + angleDiff, 30, 0);
-			g.drawString("" + vertScanning, 30, -10);
 			Entity parasite = Simulation.getInstance().parasite;
 			g.drawLine(0, 0, (int)(parasite.x - x), (int)(y - parasite.y));
 		}
@@ -76,7 +73,6 @@ public class GoonEntity extends Entity {
 		int ey = -(int)entity.y / Simulation.WALL_HEIGHT; 
 
 		if (tx == ex && ty == ey) return true;
-		if (Game.DEBUG_STATE) vertScanning = yDiffBigger;
 
 		Simulation sim = Simulation.getInstance();
 		int minX, maxX, minY, maxY;
