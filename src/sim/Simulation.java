@@ -117,9 +117,15 @@ public class Simulation {
 			controller.checkForDead();
 		}
 
-		// update entities
+		// update entity behaviors
 		for (Controller controller : controllers) {
 			controller.update();
+		}
+
+		// move entities
+		for (Entity entity : entities) {
+			entity.x += entity.vx;
+			entity.y += entity.vy;
 		}
 
 		// update projectiles

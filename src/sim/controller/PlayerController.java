@@ -58,13 +58,10 @@ public class PlayerController extends Controller {
 			if (moveRight) mainHost.vx += mainHost.maxSpeed;
 		}
 
-		// move entities by mainHost velocities
+		// set entity velocities to mainHost velocities
 		for (Entity entity : controlled) {
 			entity.vx = mainHost.vx;
 			entity.vy = mainHost.vy;
-
-			entity.x += entity.vx;
-			entity.y += entity.vy;
 		}
 
 		// detect collisons
