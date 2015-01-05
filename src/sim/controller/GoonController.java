@@ -1,6 +1,7 @@
 package Parasite.sim.controller;
 
 import Parasite.sim.Simulation;
+import Parasite.sim.Personality;
 import Parasite.sim.entity.Entity;
 import Parasite.sim.entity.GoonEntity;
 import Parasite.sim.entity.ParasiteEntity;
@@ -13,11 +14,13 @@ public class GoonController extends Controller {
 
 	GoonEntity goon;
 	Stack<AIState> states;
+	Personality personality;
 
 	public GoonController(Entity entity) {
 		super(entity);
 		states = new Stack<AIState>();
 		states.push(new AIState(AIBehavior.IDLE));
+		personality = new Personality();
 	}
 
 	public void update() {
