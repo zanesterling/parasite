@@ -13,6 +13,9 @@ public class ParasiteEntity extends Entity {
 	public long leapStartTime;
 	public long leapMaxDuration;
 
+	// true if entity currently has a host
+	public boolean isPossessing;
+
 	public ParasiteEntity() { this(0, 0); }
 
 	public ParasiteEntity(int x, int y) {
@@ -20,9 +23,11 @@ public class ParasiteEntity extends Entity {
 
 		rad = 6;
 		maxSpeed = 4;
+		bodyColor = DEFAULT_COLOR;
+
 		isLeaping = false;
 		leapMaxDuration = 100;
-		bodyColor = DEFAULT_COLOR;
+		isPossessing = false;
 	}
 
 	public void render(Graphics2D g) {

@@ -99,10 +99,11 @@ public class PlayerController extends Controller {
 		colliding = true;
 		// possession logic
 		if (entity.isPossessable && mainHost instanceof ParasiteEntity) {
-			ParasiteEntity host = (ParasiteEntity) mainHost;
-			if (host.isLeaping) {
+			ParasiteEntity parasite = (ParasiteEntity) mainHost;
+			if (parasite.isLeaping) {
 				// possess
-				host.isLeaping = false;
+				parasite.isLeaping = false;
+				parasite.isPossessing = true;
 				addEntity(entity);
 			}
 		}
@@ -125,7 +126,12 @@ public class PlayerController extends Controller {
 		if (controlled.size() > 1) {
 			mainHost.isPossessable = true;
 			controlled.remove(controlled.size() - 1);
+
 			mainHost = controlled.get(controlled.size() - 1);
+
+			// if we just de-possessed, toggle mainHost.isPossessing
+			if (mainHost instanceof ParasiteEntity)
+				((ParasiteEntity) mainHost).isPossessing = false;
 		}
 	}
 
