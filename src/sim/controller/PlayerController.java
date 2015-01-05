@@ -102,6 +102,10 @@ public class PlayerController extends Controller {
 				parasite.isLeaping = false;
 				parasite.isPossessing = true;
 				addEntity(entity);
+
+				// we're done leaping: stop
+				parasite.vx = 0;
+				parasite.vy = 0;
 			}
 		}
 	}
