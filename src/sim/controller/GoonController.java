@@ -3,6 +3,7 @@ package Parasite.sim.controller;
 import Parasite.sim.Simulation;
 import Parasite.sim.entity.Entity;
 import Parasite.sim.entity.GoonEntity;
+import Parasite.sim.entity.ParasiteEntity;
 
 import java.awt.Color;
 import java.util.Stack;
@@ -22,14 +23,17 @@ public class GoonController extends Controller {
 	public void update() {
 		// don't control the goon if the player is
 		if (!goon.isPossessable) return;
+		ParasiteEntity parasite = Simulation.getInstance().parasite;
+		boolean canSeePlayer = goon.canSee(parasite);
 
 		switch(states.peek().behavior) {
 			case IDLE:
+				// debug rotation
 				goon.setLookAngle(goon.getLookAngle() + 0.02);
 				break;
 		}
 
-		if (goon.canSee(Simulation.getInstance().parasite))
+		if (canSeePlayer)
 			goon.bodyColor = GoonEntity.CAN_SEE_COLOR;
 		else
 			goon.bodyColor = GoonEntity.DEFAULT_COLOR;

@@ -30,22 +30,22 @@ public class PlayerController extends Controller {
 	public void update() {
 		Entity mainHost = controlled.get(controlled.size() - 1);
 
-		// leaping logic (lizards!)
+		// isLeaping logic (lizards!)
 		// check to see if mainHost is a leaper, to consolidate next if
 		ParasiteEntity leaper = null;
 		if (mainHost instanceof ParasiteEntity)
 			leaper = (ParasiteEntity) mainHost;
-		if (leaper != null && leaper.leaping) {
+		if (leaper != null && leaper.isLeaping) {
 			double lookAngle = leaper.getLookAngle();
 
-			// set leaping velocities
+			// set isLeaping velocities
 			mainHost.vx =  Math.cos(lookAngle) * leaper.maxSpeed * 8;
 			mainHost.vy = -Math.sin(lookAngle) * leaper.maxSpeed * 8;
 
 			// if leap timed out, end leap
 			if (System.currentTimeMillis() - leaper.leapStartTime >=
 				leaper.leapMaxDuration) {
-				leaper.leaping = false;
+				leaper.isLeaping = false;
 			}
 		} else {
 			// update mainHost velocities like normal
@@ -79,9 +79,9 @@ public class PlayerController extends Controller {
 		// change bodyColor if colliding
 		if (mainHost instanceof ParasiteEntity) {
 			if (colliding) {
-				mainHost.bodyColor = new Color(255, 100, 100);
+				mainHost.bodyColor = ParasiteEntity.COLLIDING_COLOR;
 			} else {
-				mainHost.bodyColor = Color.RED;
+				mainHost.bodyColor = ParasiteEntity.DEFAULT_COLOR;
 			}
 		}
 	}
@@ -100,9 +100,9 @@ public class PlayerController extends Controller {
 		// possession logic
 		if (entity.isPossessable && mainHost instanceof ParasiteEntity) {
 			ParasiteEntity host = (ParasiteEntity) mainHost;
-			if (host.leaping) {
+			if (host.isLeaping) {
 				// possess
-				host.leaping = false;
+				host.isLeaping = false;
 				addEntity(entity);
 			}
 		}

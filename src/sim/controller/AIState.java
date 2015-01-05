@@ -12,7 +12,7 @@ public class AIState {
 		this.behavior = behavior;
 	}
 
-	public AIState(AIBehavior behavior, int[] realVars) {
+	public AIState(AIBehavior behavior, double[] realVars) {
 		this.behavior = behavior;
 		this.realVars = realVars;
 	}

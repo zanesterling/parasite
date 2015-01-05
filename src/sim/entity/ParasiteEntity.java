@@ -6,8 +6,10 @@ import java.awt.Graphics2D;
 public class ParasiteEntity extends Entity {
 
 	public static final Color DEFAULT_COLOR = Color.RED;
+	public static final Color COLLIDING_COLOR = new Color(255, 150, 150);
 
-	public boolean leaping;
+	// leap vars
+	public boolean isLeaping;
 	public long leapStartTime;
 	public long leapMaxDuration;
 
@@ -18,7 +20,7 @@ public class ParasiteEntity extends Entity {
 
 		rad = 6;
 		maxSpeed = 4;
-		leaping = false;
+		isLeaping = false;
 		leapMaxDuration = 100;
 		bodyColor = DEFAULT_COLOR;
 	}
@@ -36,7 +38,7 @@ public class ParasiteEntity extends Entity {
 
 		// draw legs
 		g.setColor(bodyColor);
-		if (leaping) {
+		if (isLeaping) {
 			// reaching out
 			g.fillRect( 6, -4, 5, 3);
 			g.fillRect( 6,  1, 5, 3);
@@ -55,13 +57,13 @@ public class ParasiteEntity extends Entity {
 
 	// action is: possession!
 	public void action() {
-		if (!leaping) {
-			leaping = true;
+		if (!isLeaping) {
+			isLeaping = true;
 			leapStartTime = System.currentTimeMillis();
 		}
 	}
 
 	public void setLookAngle(double lookAngle) {
-		if (!leaping) super.setLookAngle(lookAngle);
+		if (!isLeaping) super.setLookAngle(lookAngle);
 	}
 }
