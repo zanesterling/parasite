@@ -1,11 +1,24 @@
 package Parasite.sim.controller;
 
-public enum AIState {
-	IDLE,
-	LOOK,
-	GOTO,
-	CHASE,
-	ATTACK,
-	PATROL,
-	PROTECT
-};
+import Parasite.sim.entity.Entity;
+
+public class AIState {
+
+	public AIBehavior behavior;
+	public double[] realVars;
+	public Entity target;
+
+	public AIState(AIBehavior behavior) {
+		this.behavior = behavior;
+	}
+
+	public AIState(AIBehavior behavior, int[] realVars) {
+		this.behavior = behavior;
+		this.realVars = realVars;
+	}
+
+	public AIState(AIBehavior behavior, Entity target) {
+		this.behavior = behavior;
+		this.target = target;
+	}
+}

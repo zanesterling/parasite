@@ -16,14 +16,14 @@ public class GoonController extends Controller {
 	public GoonController(Entity entity) {
 		super(entity);
 		states = new Stack<AIState>();
-		states.push(AIState.IDLE);
+		states.push(new AIState(AIBehavior.IDLE));
 	}
 
 	public void update() {
 		// don't control the goon if the player is
 		if (!goon.isPossessable) return;
 
-		switch(states.peek()) {
+		switch(states.peek().behavior) {
 			case IDLE:
 				goon.setLookAngle(goon.getLookAngle() + 0.02);
 				break;
@@ -37,7 +37,7 @@ public class GoonController extends Controller {
 
 	public void pushState(AIState state) {
 		// if state was idle, replace it
-		if (states.peek() == AIState.IDLE) states.pop();
+		if (states.peek().behavior == AIBehavior.IDLE) states.pop();
 		states.push(state); // otherwise just push
 	}
 
@@ -46,7 +46,7 @@ public class GoonController extends Controller {
 		if (!states.empty()) states.pop();
 
 		// if there's no state left, push the idle state
-		if (states.empty()) states.push(AIState.IDLE);
+		if (states.empty()) states.push(new AIState(AIBehavior.IDLE));
 	}
 
 	public void addEntity(Entity entity) {
