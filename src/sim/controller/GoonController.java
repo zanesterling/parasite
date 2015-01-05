@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 public class GoonController extends Controller {
 
-	GoonEntity goon;
-	Stack<AIState> states;
-	Personality personality;
+	private GoonEntity goon;
+	private Stack<AIState> states;
+	private Personality personality;
 
 	public GoonController(Entity entity) {
 		super(entity);
