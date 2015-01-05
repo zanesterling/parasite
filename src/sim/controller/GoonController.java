@@ -28,11 +28,29 @@ public class GoonController extends Controller {
 		if (!goon.isPossessable) return;
 		ParasiteEntity parasite = Simulation.getInstance().parasite;
 		boolean canSeePlayer = goon.canSee(parasite);
+		boolean seesParasite = canSeePlayer && !parasite.isPossessing;
 
-		switch(states.peek().behavior) {
+		AIState state = states.peek();
+		switch(state.behavior) {
 			case IDLE:
+				if (seesParasite &&
+					Math.random() <= personality.curiosity) {
+					pushState(new AIState(AIBehavior.CHASE, parasite));
+				}
+
 				// debug rotation
 				goon.setLookAngle(goon.getLookAngle() + 0.02);
+				break;
+			case CHASE:
+				if (seesParasite) {
+					// chase if you see the parasite
+					goon.moveTowards(parasite);
+				} else {
+					// stop chasing if you can't see the parasite
+					goon.vx = 0;
+					goon.vy = 0;
+					popState();
+				}
 				break;
 		}
 

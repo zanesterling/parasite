@@ -115,6 +115,10 @@ public class PlayerController extends Controller {
 		if (mainHost != null) {
 			entity.x = mainHost.x;
 			entity.y = mainHost.y;
+			entity.vx = 0;
+			entity.vy = 0;
+		} else {
+			System.out.println("mainHost was null");
 		}
 
 		entity.isPossessable = false;

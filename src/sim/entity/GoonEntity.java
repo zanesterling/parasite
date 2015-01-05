@@ -46,6 +46,16 @@ public class GoonEntity extends Entity {
 		}
 	}
 
+	public void face(Entity entity) {
+		lookAngle = Math.atan2(y - entity.y, entity.x - x);
+	}
+
+	public void moveTowards(Entity entity) {
+		lookAngle = Math.atan2(y - entity.y, entity.x - x);
+		vx = maxSpeed * Math.cos(lookAngle);
+		vy = maxSpeed * Math.sin(-lookAngle);
+	}
+
 	public boolean canSee(Entity entity) {
 		// check if entity is in vision arc
 		angleToPlayer = Math.atan2(y - entity.y, entity.x - x);
