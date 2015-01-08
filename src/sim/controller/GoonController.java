@@ -19,6 +19,9 @@ public class GoonController extends Controller {
 
 	private Location lastSeen;
 
+	// state var for non-curious folk
+	private boolean seesAndNotChasing;
+
 	public GoonController(Entity entity) {
 		super(entity);
 		states = new Stack<AIState>();
@@ -38,10 +41,19 @@ public class GoonController extends Controller {
 		AIState state = states.peek();
 		switch(state.behavior) {
 			case IDLE:
-				if (seesParasite &&
-					Math.random() <= personality.curiosity) {
-					pushState(new AIState(AIBehavior.CHASE, parasite));
-				}
+				if (seesParasite) {
+					// if we aren't chasing, don't bother
+					if (seesAndNotChasing) {
+						goon.face(parasite.getLocation());
+						break;
+					}
+
+					if (Math.random() < personality.curiosity) {
+						pushState(new AIState(AIBehavior.CHASE, parasite));
+					} else // not curious enough to chase
+						seesAndNotChasing = true;
+				} else // if we don't see, then we don't see
+					seesAndNotChasing = false;
 
 				// debug rotation
 				goon.setLookAngle(goon.getLookAngle() + 0.02);
