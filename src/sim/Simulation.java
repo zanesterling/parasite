@@ -83,7 +83,7 @@ public class Simulation {
 		entities.add(e);
 
 		// make walls
-		loadLevel("res/level1.lvl");
+		loadLevel("res/level3.lvl");
 	}
 
 	private void loadLevel(String fn) {

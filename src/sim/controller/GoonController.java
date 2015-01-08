@@ -56,7 +56,7 @@ public class GoonController extends Controller {
 					seesAndNotChasing = false;
 
 				// debug rotation
-				goon.setLookAngle(goon.getLookAngle() + 0.02);
+				goon.setLookAngle(goon.getLookAngle() + 0.05);
 				break;
 			case CHASE:
 				if (seesParasite) {
