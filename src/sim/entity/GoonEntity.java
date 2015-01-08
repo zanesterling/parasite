@@ -1,6 +1,7 @@
 package Parasite.sim.entity;
 
 import Parasite.Game;
+import Parasite.sim.Location;
 import Parasite.sim.Simulation;
 import Parasite.sim.projectile.Bullet;
 
@@ -42,45 +43,51 @@ public class GoonEntity extends Entity {
 			g.setColor(Color.GREEN);
 			g.drawString("" + angleDiff, 30, 0);
 			Entity parasite = Simulation.getInstance().parasite;
-			g.drawLine(0, 0, (int)(parasite.x - x), (int)(y - parasite.y));
+			Location parasLoc = parasite.getLocation();
+			g.drawLine(0, 0, (int)(parasLoc.x - x), (int)(y - parasLoc.y));
 		}
 	}
 
-	public void face(Entity entity) {
-		lookAngle = Math.atan2(y - entity.y, entity.x - x);
+	public void face(Location loc) {
+		lookAngle = Math.atan2(y - loc.y, loc.x - x);
 	}
 
-	public void moveTowards(Entity entity) {
-		lookAngle = Math.atan2(y - entity.y, entity.x - x);
+	public void moveTowards(Location loc) {
+		lookAngle = Math.atan2(y - loc.y, loc.x - x);
 		vx = maxSpeed * Math.cos(lookAngle);
 		vy = maxSpeed * Math.sin(-lookAngle);
 	}
 
-	public boolean canSee(Entity entity) {
+	public void stop() {
+		vx = 0;
+		vy = 0;
+	}
+
+	public boolean canSee(Location loc) {
 		// check if entity is in vision arc
-		angleToPlayer = Math.atan2(y - entity.y, entity.x - x);
+		angleToPlayer = Math.atan2(y - loc.y, loc.x - x);
 		angleDiff = Math.abs(angleToPlayer - lookAngle);
 		if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
 
 		boolean inVisionArc = (angleDiff <= visionAngle / 2);
 		if (!Game.DEBUG_STATE && !inVisionArc) return false;
 
-		// check if walls occlude the entity
-		return !bresenhamOcclusion(entity);
+		// check if walls occlude the loc
+		return !bresenhamOcclusion(loc);
 	}
 
 	// returns true if walls occlude entity
-	private boolean bresenhamOcclusion(Entity entity) {
-		int xDiff = (int) Math.abs((int)entity.x / Simulation.WALL_WIDTH -
+	private boolean bresenhamOcclusion(Location loc) {
+		int xDiff = (int) Math.abs((int)loc.x / Simulation.WALL_WIDTH -
 		                           (int)x / Simulation.WALL_WIDTH);
-		int yDiff = (int) Math.abs((int)entity.y / Simulation.WALL_HEIGHT -
+		int yDiff = (int) Math.abs((int)loc.y / Simulation.WALL_HEIGHT -
 		                           (int)y / Simulation.WALL_HEIGHT);
 		boolean yDiffBigger = Math.abs(yDiff) > Math.abs(xDiff);
 
 		int tx = (int)x / Simulation.WALL_WIDTH;
-		int ex = (int)entity.x / Simulation.WALL_WIDTH;
+		int ex = (int)loc.x / Simulation.WALL_WIDTH;
 		int ty = -(int)y / Simulation.WALL_HEIGHT;
-		int ey = -(int)entity.y / Simulation.WALL_HEIGHT; 
+		int ey = -(int)loc.y / Simulation.WALL_HEIGHT; 
 
 		if (tx == ex && ty == ey) return true;
 
@@ -127,6 +134,10 @@ public class GoonEntity extends Entity {
 		}
 
 		return false;
+	}
+
+	public double distTo(Location loc) {
+		return Math.sqrt(Math.pow(loc.x - x, 2) + Math.pow(loc.y - y, 2));
 	}
 
 	// action: shoot!

@@ -124,8 +124,10 @@ public class Simulation {
 
 		// move entities
 		for (Entity entity : entities) {
-			entity.x += entity.vx;
-			entity.y += entity.vy;
+			Location entLoc = entity.getLocation();
+			entLoc.x += entity.vx;
+			entLoc.y += entity.vy;
+			entity.setLocation(entLoc);
 		}
 
 		// update projectiles
@@ -145,7 +147,8 @@ public class Simulation {
 		g.translate(ui.canvasWidth / 2, ui.canvasHeight / 2);
 
 		// center on the focused entity
-		g.translate(-focusedEntity.x, focusedEntity.y);
+		Location focLoc = focusedEntity.getLocation();
+		g.translate(-focLoc.x, focLoc.y);
 
 		// get wall range to render
 		int[] wallRange = getWallRange();
@@ -155,9 +158,10 @@ public class Simulation {
 
 		// render entities
 		for (Entity entity : entities) {
-			g.translate(entity.x, -entity.y);
+			Location entLoc = entity.getLocation();
+			g.translate(entLoc.x, -entLoc.y);
 			entity.render(g);
-			g.translate(-entity.x, entity.y);
+			g.translate(-entLoc.x, entLoc.y);
 		}
 
 		// render projectiles
@@ -178,7 +182,7 @@ public class Simulation {
 		}
 
 		// translate back out
-		g.translate(focusedEntity.x, -focusedEntity.y);
+		g.translate(focLoc.x, -focLoc.y);
 		g.translate(-ui.canvasWidth / 2, - ui.canvasHeight / 2);
 
 		if (Game.DEBUG_STATE) {
@@ -195,12 +199,13 @@ public class Simulation {
 	// get screen bounds in world coords
 	private int[] getScreenBounds() {
 		UI ui = UI.getInstance();
+		Location focLoc = focusedEntity.getLocation();
 
 		int[] screenBounds = new int[4];
-		screenBounds[0] = (int) focusedEntity.x - ui.canvasWidth / 2;
-		screenBounds[1] = (int) -focusedEntity.y - ui.canvasHeight / 2;
-		screenBounds[2] = (int) focusedEntity.x + ui.canvasWidth / 2;
-		screenBounds[3] = (int) -focusedEntity.y + ui.canvasHeight / 2;
+		screenBounds[0] = (int) focLoc.x - ui.canvasWidth / 2;
+		screenBounds[1] = (int) -focLoc.y - ui.canvasHeight / 2;
+		screenBounds[2] = (int) focLoc.x + ui.canvasWidth / 2;
+		screenBounds[3] = (int) -focLoc.y + ui.canvasHeight / 2;
 
 		return screenBounds;
 	}
@@ -248,27 +253,29 @@ public class Simulation {
 
 	private void addVisibleSides(ArrayList<int[]> borders,
 	                             int wallCoordX, int wallCoordY) {
+		Location focLoc = focusedEntity.getLocation();
+
 		// check top and left walls
 		int wallX = wallCoordX * WALL_WIDTH;
 		int wallY = wallCoordY * WALL_HEIGHT;
-		if (focusedEntity.x < wallX) {
+		if (focLoc.x < wallX) {
 			borders.add(new int[]{wallX, wallY,
 			                      wallX, wallY + WALL_HEIGHT});
 		}
-		if (focusedEntity.y < wallY) {
+		if (focLoc.y < wallY) {
 			borders.add(new int[]{wallX, wallY,
 			                      wallX + WALL_WIDTH, wallY});
 		}
 
 		// check bottom and right walls
 		wallY += WALL_HEIGHT;
-		if (focusedEntity.x > wallX + WALL_WIDTH) {
+		if (focLoc.x > wallX + WALL_WIDTH) {
 			borders.add(new int[]{wallX, wallY,
 			                      wallX + WALL_WIDTH, wallY});
 		}
 
 		wallX += WALL_WIDTH;
-		if (focusedEntity.x < wallX) {
+		if (focLoc.x < wallX) {
 			borders.add(new int[]{wallX, wallY - WALL_HEIGHT,
 			                      wallX, wallY});
 		}

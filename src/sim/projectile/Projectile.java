@@ -1,5 +1,6 @@
 package Parasite.sim.projectile;
 
+import Parasite.sim.Location;
 import Parasite.sim.Simulation;
 import Parasite.sim.entity.Entity;
 
@@ -45,8 +46,9 @@ public abstract class Projectile {
 
 	// returns the square of the distance to the entity
 	private double quadrance(Entity entity) {
-		double dx = entity.x - x;
-		double dy = entity.y - y;
+		Location loc = entity.getLocation();
+		double dx = loc.x - x;
+		double dy = loc.y - y;
 		return dx*dx + dy*dy;
 	}
 

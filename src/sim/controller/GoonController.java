@@ -1,5 +1,6 @@
 package Parasite.sim.controller;
 
+import Parasite.sim.Location;
 import Parasite.sim.Simulation;
 import Parasite.sim.Personality;
 import Parasite.sim.entity.Entity;
@@ -16,18 +17,22 @@ public class GoonController extends Controller {
 	private Stack<AIState> states;
 	private Personality personality;
 
+	private Location lastSeen;
+
 	public GoonController(Entity entity) {
 		super(entity);
 		states = new Stack<AIState>();
 		states.push(new AIState(AIBehavior.IDLE));
 		personality = new Personality();
+
+		lastSeen = null;
 	}
 
 	public void update() {
 		// don't control the goon if the player is
 		if (!goon.isPossessable) return;
 		ParasiteEntity parasite = Simulation.getInstance().parasite;
-		boolean canSeePlayer = goon.canSee(parasite);
+		boolean canSeePlayer = goon.canSee(parasite.getLocation());
 		boolean seesParasite = canSeePlayer && !parasite.isPossessing;
 
 		AIState state = states.peek();
@@ -44,12 +49,16 @@ public class GoonController extends Controller {
 			case CHASE:
 				if (seesParasite) {
 					// chase if you see the parasite
-					goon.moveTowards(parasite);
+					goon.moveTowards(parasite.getLocation());
+					lastSeen = parasite.getLocation();
 				} else {
-					// stop chasing if you can't see the parasite
-					goon.vx = 0;
-					goon.vy = 0;
-					popState();
+					// chase to last seen location if you lost him
+					if (goon.distTo(lastSeen) > goon.maxSpeed)
+						goon.moveTowards(lastSeen);
+					else {
+						goon.stop();
+						popState();
+					}
 				}
 				break;
 		}

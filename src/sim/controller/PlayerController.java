@@ -1,6 +1,7 @@
 package Parasite.sim.controller;
 
 import Parasite.Game;
+import Parasite.sim.Location;
 import Parasite.ui.UIEvent;
 import Parasite.ui.EventCode;
 import Parasite.sim.Simulation;
@@ -84,8 +85,10 @@ public class PlayerController extends Controller {
 	}
 
 	public boolean isCollidingWith(Entity entity) {
-		double dx = entity.x - mainHost.x;
-		double dy = entity.y - mainHost.y;
+		Location hostLoc = mainHost.getLocation();
+		Location entLoc = entity.getLocation();
+		double dx = entLoc.x - hostLoc.x;
+		double dy = entLoc.y - hostLoc.y;
 		double distSq = dx * dx + dy * dy;
 
 		colliding = distSq < Math.pow(mainHost.rad + entity.rad, 2);
@@ -113,8 +116,12 @@ public class PlayerController extends Controller {
 	public void addEntity(Entity entity) {
 		// move entity to mainHost's center
 		if (mainHost != null) {
-			entity.x = mainHost.x;
-			entity.y = mainHost.y;
+			Location hostLoc = mainHost.getLocation();
+			Location entLoc = entity.getLocation();
+
+			entLoc.x = hostLoc.x;
+			entLoc.y = hostLoc.y;
+			entity.setLocation(entLoc);
 			entity.vx = 0;
 			entity.vy = 0;
 		} else {

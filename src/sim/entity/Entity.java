@@ -1,5 +1,6 @@
 package Parasite.sim.entity;
 
+import Parasite.sim.Location;
 import Parasite.sim.Simulation;
 
 import java.awt.Color;
@@ -7,7 +8,7 @@ import java.awt.Graphics2D;
 
 public abstract class Entity {
 
-	public double x, y;
+	protected double x, y;
 	public double vx, vy;
 	public double rad;
 
@@ -38,6 +39,16 @@ public abstract class Entity {
 	public void setLookAngle(double lookAngle) {
 		if (lookAngle > Math.PI) lookAngle -= Math.PI * 2;
 		this.lookAngle = lookAngle;
+	}
+
+	// returns unique instance of current location
+	public Location getLocation() {
+		return new Location(x, y);
+	}
+
+	public void setLocation(Location loc) {
+		x = loc.x;
+		y = loc.y;
 	}
 
 	public void die() {
