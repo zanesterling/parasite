@@ -10,37 +10,31 @@ public class Game {
 
 	private static final long TICK_LEN = 1000 / 60; // 60 FPS
 
-	private Simulation sim;
-
+	private Simulation simulation;
 	private boolean running;
 
 	public Game() {
-		sim = Simulation.getInstance();
-
-		UI.getInstance().setSimulation(sim);
+		simulation = Simulation.getInstance();
+		UI.getInstance().setSimulation(simulation);
 	}
 
 	public void run() {
 		running = true;
-
 		UI ui = UI.getInstance();
+
 		while (running) {
 			long startTime = System.currentTimeMillis();
 
 			// check UI for ui events
 			for (UIEvent e; (e = ui.getEvent()) != null;) {
-				sim.processEvent(e);
+				simulation.processEvent(e);
 			}
 
-			// update simulation
-			sim.update();
-
-			// tell ui to render simulation
+			simulation.update();
 			ui.render();
 
 			long endTime = System.currentTimeMillis();
-
-			if (endTime - startTime > TICK_LEN) continue;
+			if (endTime - startTime >= TICK_LEN) continue;
 
 			// if the tick took less time than TICK_LEN to run, sleep
 			try {

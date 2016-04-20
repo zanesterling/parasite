@@ -1,37 +1,32 @@
 package Parasite.sim.projectile;
 
-import Parasite.sim.Location;
 import Parasite.sim.Simulation;
 import Parasite.sim.entity.Entity;
+import Parasite.util.Vector2d;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public abstract class Projectile {
 
-	public double x;
-	public double y;
-	protected double vx;
-	protected double vy;
+	public Vector2d pos;
+	protected Vector2d vel;
 	protected double rad;
 	protected double angle;
 
 	public boolean dead;
 
-	public Projectile(double x, double y, double angle, double speed) {
-		this.x = x;
-		this.y = y;
+	public Projectile(Vector2d pos, double angle, double speed) {
+		this.pos = pos;
 		this.angle = angle;
 
-		vx = Math.cos(angle) * speed;
-		vy = Math.sin(angle) * speed;
+		vel = new Vector2d(Math.cos(angle), Math.sin(angle)).scale(speed);
 
 		dead = false;
 	}
 
 	public void update() {
-		x += vx;
-		y += vy;
+		pos.add(vel);
 
 		ArrayList<Entity> entities = Simulation.getInstance().entities;
 		for (Entity entity : entities) {
@@ -40,16 +35,15 @@ public abstract class Projectile {
 			}
 		}
 
-		int wallType = Simulation.getInstance().getWallAt(x, y);
+		int wallType = Simulation.getInstance().level.getWallAt(pos);
 		if (wallType > 0) die();
 	}
 
 	// returns the square of the distance to the entity
 	private double quadrance(Entity entity) {
-		Location loc = entity.getLocation();
-		double dx = loc.x - x;
-		double dy = loc.y - y;
-		return dx*dx + dy*dy;
+		return entity.getPosition()
+			.sub(pos)
+			.lengthSquared();
 	}
 
 	public abstract void render(Graphics2D g);

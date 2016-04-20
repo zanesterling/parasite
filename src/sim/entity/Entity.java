@@ -1,15 +1,18 @@
 package Parasite.sim.entity;
 
-import Parasite.sim.Location;
 import Parasite.sim.Simulation;
+import Parasite.util.Vector2d;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 public abstract class Entity {
 
-	protected double x, y;
-	public double vx, vy;
+	protected Vector2d pos;
+	public Vector2d getPosition() { return pos.clone(); }
+	public void setPosition(Vector2d vec) { pos.set(vec); }
+
+	public Vector2d vel = new Vector2d();
 	public double rad;
 
 	public double maxSpeed;
@@ -20,14 +23,12 @@ public abstract class Entity {
 
 	public boolean dead;
 
-	public Entity() {
-		this(0, 0);
-	}
+	public Entity() { this(0, 0); }
+	public Entity(double x, double y) { this(new Vector2d(x, y)); }
 
-	public Entity(int x, int y) {
-		this.x = x;
-		this.y = y;
-		maxSpeed = 1;
+	public Entity(Vector2d pos) {
+		this.pos = new Vector2d(pos);
+		maxSpeed = 0.1;
 		isPossessable = true;
 		dead = false;
 	}
@@ -41,14 +42,14 @@ public abstract class Entity {
 		this.lookAngle = lookAngle;
 	}
 
-	// returns unique instance of current location
-	public Location getLocation() {
-		return new Location(x, y);
+	public double distTo(Entity entity) {
+		return distTo(entity.getPosition());
 	}
-
-	public void setLocation(Location loc) {
-		x = loc.x;
-		y = loc.y;
+	public double distTo(Vector2d loc) {
+		return pos
+			.clone()
+			.sub(loc)
+			.length();
 	}
 
 	public void die() {

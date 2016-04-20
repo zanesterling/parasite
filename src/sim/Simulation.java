@@ -1,8 +1,7 @@
 package Parasite.sim;
 
 import Parasite.Game;
-import Parasite.ui.UI;
-import Parasite.ui.UIEvent;
+import Parasite.sim.Level;
 import Parasite.sim.entity.Entity;
 import Parasite.sim.entity.GoonEntity;
 import Parasite.sim.entity.ParasiteEntity;
@@ -10,20 +9,23 @@ import Parasite.sim.controller.Controller;
 import Parasite.sim.controller.PlayerController;
 import Parasite.sim.controller.GoonController;
 import Parasite.sim.projectile.Projectile;
+import Parasite.ui.UI;
+import Parasite.ui.UIEvent;
+import Parasite.util.Vector2d;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.Rectangle;
 import java.awt.Graphics2D;
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Simulation {
 
+	// simulation constants
 	public static final int WALL_WIDTH  = 10;
 	public static final int WALL_HEIGHT = 10;
+
+	// render constants
 	private static final Color WALL_COLOR = Color.BLACK;
 	private static final Color BGRD_COLOR = Color.WHITE;
 	private static final int WALL_COLORS_OFFSET = 1;
@@ -40,19 +42,15 @@ public class Simulation {
 		return instance;
 	}
 
-	// entity vars
 	public ArrayList<Entity> entities;
 	public ParasiteEntity parasite;
 	private Entity focusedEntity;
 
-	// controller vars
 	private ArrayList<Controller> controllers;
 	private PlayerController playerController;
 
-	// wall vars
-	private int[][] walls;
+	public Level level;
 
-	// projectile vars
 	public ArrayList<Projectile> projectiles;
 
 	private Simulation() {
@@ -75,39 +73,15 @@ public class Simulation {
 		setFocusedEntity(parasite);
 
 		// make goon to play with
-		GoonEntity e = new GoonEntity(300, -200);
-		controllers.add(new GoonController(e));
-		entities.add(e);
-		e = new GoonEntity(300, -300);
-		controllers.add(new GoonController(e));
-		entities.add(e);
+		GoonEntity entity = new GoonEntity(300, -200);
+		controllers.add(new GoonController(entity));
+		entities.add(entity);
+		entity = new GoonEntity(300, -300);
+		controllers.add(new GoonController(entity));
+		entities.add(entity);
 
 		// make walls
-		loadLevel("res/level3.lvl");
-	}
-
-	private void loadLevel(String fn) {
-		Scanner sc;
-		try {
-			sc = new Scanner(new File(fn));
-		} catch (FileNotFoundException e) {
-			System.out.println("could not load file: " + fn);
-			e.printStackTrace();
-			return;
-		}
-
-		// opened level, let's read
-		int width = sc.nextInt();
-		int height = sc.nextInt();
-		walls = new int[height][width];
-
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
-				walls[i][j] = sc.nextInt();
-				//System.out.print(walls[i][j] + " ");
-			}
-			//System.out.println();
-		}
+		level = new Level("res/level3.lvl");
 	}
 
 	// run a game-tick in the world
@@ -124,10 +98,10 @@ public class Simulation {
 
 		// move entities
 		for (Entity entity : entities) {
-			Location entLoc = entity.getLocation();
-			entLoc.x += entity.vx;
-			entLoc.y += entity.vy;
-			entity.setLocation(entLoc);
+			entity.setPosition(
+				entity.getPosition()
+					.add(entity.vel)
+			);
 		}
 
 		// update projectiles
@@ -147,7 +121,7 @@ public class Simulation {
 		g.translate(ui.canvasWidth / 2, ui.canvasHeight / 2);
 
 		// center on the focused entity
-		Location focLoc = focusedEntity.getLocation();
+		Vector2d focLoc = focusedEntity.getPosition();
 		g.translate(-focLoc.x, focLoc.y);
 
 		// get wall range to render
@@ -158,26 +132,33 @@ public class Simulation {
 
 		// render entities
 		for (Entity entity : entities) {
-			Location entLoc = entity.getLocation();
-			g.translate(entLoc.x, -entLoc.y);
+			Vector2d pos = entity.getPosition();
+			g.translate(pos.x, -pos.y);
 			entity.render(g);
-			g.translate(-entLoc.x, entLoc.y);
+			g.translate(-pos.x, pos.y);
 		}
 
 		// render projectiles
 		for (Projectile projectile : projectiles) {
-			g.translate(projectile.x, -projectile.y);
+			g.translate(projectile.pos.x, -projectile.pos.y);
 			projectile.render(g);
-			g.translate(-projectile.x, projectile.y);
+			g.translate(-projectile.pos.x, projectile.pos.y);
 		}
 
 		// render walls
 		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
 			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
-				if (walls[i][j] == 0) continue;
-				g.setColor(WALL_COLORS[walls[i][j] + WALL_COLORS_OFFSET]);
-				g.fillRect(j * WALL_WIDTH, i * WALL_HEIGHT,
-				           WALL_WIDTH, WALL_HEIGHT);
+				if (level.walls[i][j] == 0) continue;
+
+				g.setColor(
+					WALL_COLORS[level.walls[i][j] + WALL_COLORS_OFFSET]
+				);
+				g.fillRect(
+					j * WALL_WIDTH,
+					i * WALL_HEIGHT,
+					WALL_WIDTH,
+					WALL_HEIGHT
+				);
 			}
 		}
 
@@ -192,14 +173,14 @@ public class Simulation {
 			g.drawString(wallRange[2] + " " + wallRange[3], 0, 30);
 
 			// reload level to fix vision debugging junk
-			loadLevel("res/level1.lvl");
+			level.reload();
 		}
 	}
 
 	// get screen bounds in world coords
 	private int[] getScreenBounds() {
 		UI ui = UI.getInstance();
-		Location focLoc = focusedEntity.getLocation();
+		Vector2d focLoc = focusedEntity.getPosition();
 
 		int[] screenBounds = new int[4];
 		screenBounds[0] = (int) focLoc.x - ui.canvasWidth / 2;
@@ -218,8 +199,14 @@ public class Simulation {
 		int[] wallRange = new int[4];
 		wallRange[0] = Math.max(screen[0] / WALL_WIDTH, 0);
 		wallRange[1] = Math.max(screen[1] / WALL_HEIGHT, 0);
-		wallRange[2] = Math.min(screen[2] / WALL_WIDTH, walls[0].length);
-		wallRange[3] = Math.min(screen[3] / WALL_HEIGHT, walls.length);
+		wallRange[2] = Math.min(
+			screen[2] / WALL_WIDTH,
+			level.walls[0].length - 1
+		);
+		wallRange[3] = Math.min(
+			screen[3] / WALL_HEIGHT,
+			level.walls.length - 1
+		);
 
 		return wallRange;
 	}
@@ -230,14 +217,22 @@ public class Simulation {
 
 		// add vision edges as borders
 		int[] screenBounds = getScreenBounds();
-		borders.add(new int[]{screenBounds[0], screenBounds[1],
-		                      screenBounds[2], screenBounds[1]});
-		borders.add(new int[]{screenBounds[2], screenBounds[1],
-		                      screenBounds[2], screenBounds[3]});
-		borders.add(new int[]{screenBounds[2], screenBounds[3],
-		                      screenBounds[0], screenBounds[3]});
-		borders.add(new int[]{screenBounds[0], screenBounds[3],
-		                      screenBounds[0], screenBounds[1]});
+		borders.add(new int[]{
+			screenBounds[0], screenBounds[1],
+			screenBounds[2], screenBounds[1]
+		});
+		borders.add(new int[]{
+			screenBounds[2], screenBounds[1],
+			screenBounds[2], screenBounds[3]
+		});
+		borders.add(new int[]{
+			screenBounds[2], screenBounds[3],
+			screenBounds[0], screenBounds[3]
+		});
+		borders.add(new int[]{
+			screenBounds[0], screenBounds[3],
+			screenBounds[0], screenBounds[1]
+		});
 
 		// for each visible wall:
 		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
@@ -251,16 +246,21 @@ public class Simulation {
 		return new Rectangle(0, 0, 0, 0);
 	}
 
-	private void addVisibleSides(ArrayList<int[]> borders,
-	                             int wallCoordX, int wallCoordY) {
-		Location focLoc = focusedEntity.getLocation();
+	private void addVisibleSides(
+		ArrayList<int[]> borders,
+		int wallCoordX,
+		int wallCoordY
+	) {
+		Vector2d focLoc = focusedEntity.getPosition();
 
 		// check top and left walls
 		int wallX = wallCoordX * WALL_WIDTH;
 		int wallY = wallCoordY * WALL_HEIGHT;
 		if (focLoc.x < wallX) {
-			borders.add(new int[]{wallX, wallY,
-			                      wallX, wallY + WALL_HEIGHT});
+			borders.add(new int[]{
+				wallX, wallY,
+				wallX, wallY + WALL_HEIGHT
+			});
 		}
 		if (focLoc.y < wallY) {
 			borders.add(new int[]{wallX, wallY,
@@ -292,43 +292,5 @@ public class Simulation {
 
 	public void setFocusedEntity(Entity entity) {
 		focusedEntity = entity;
-	}
-
-	// get wall at x,y world coords
-	public int getWallAt(double x, double y) {
-		int xcor = (int)(x / WALL_WIDTH);
-		int ycor = (int)(-y / WALL_HEIGHT);
-
-		if (xcor < 0 || xcor > walls[0].length) return 0;
-		if (ycor < 0 || ycor > walls.length)    return 0;
-
-		return walls[ycor][xcor];
-	}
-
-	// set wall at x,y world coords
-	public void setWallAt(double x, double y, int val) {
-		int xcor = (int)(x / WALL_WIDTH);
-		int ycor = (int)(-y / WALL_HEIGHT);
-
-		if (xcor < 0 || xcor > walls[0].length) return;
-		if (ycor < 0 || ycor > walls.length)    return;
-
-		walls[ycor][xcor] = val;
-	}
-
-	// get wall at x,y wall coords
-	public int getWall(int x, int y) {
-		if (x < 0 || x > walls[0].length) return 0;
-		if (y < 0 || y > walls.length)    return 0;
-
-		return walls[y][x];
-	}
-
-	// get wall at x,y wall coords
-	public void setWall(int x, int y, int val) {
-		if (x < 0 || x > walls[0].length) return;
-		if (y < 0 || y > walls.length)    return;
-
-		walls[y][x] = val;
 	}
 }

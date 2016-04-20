@@ -1,11 +1,11 @@
 package Parasite.sim.controller;
 
-import Parasite.sim.Location;
 import Parasite.sim.Simulation;
 import Parasite.sim.Personality;
 import Parasite.sim.entity.Entity;
 import Parasite.sim.entity.GoonEntity;
 import Parasite.sim.entity.ParasiteEntity;
+import Parasite.util.Vector2d;
 
 import java.awt.Color;
 import java.util.Stack;
@@ -17,7 +17,7 @@ public class GoonController extends Controller {
 	private Stack<AIState> states;
 	private Personality personality;
 
-	private Location lastSeen;
+	private Vector2d lastSeen;
 
 	// state var for non-curious folk
 	private boolean seesAndNotChasing;
@@ -35,7 +35,7 @@ public class GoonController extends Controller {
 		// don't control the goon if the player is
 		if (!goon.isPossessable) return;
 		ParasiteEntity parasite = Simulation.getInstance().parasite;
-		boolean canSeePlayer = goon.canSee(parasite.getLocation());
+		boolean canSeePlayer = goon.canSee(parasite.getPosition());
 		boolean seesParasite = canSeePlayer && !parasite.isPossessing;
 
 		AIState state = states.peek();
@@ -44,7 +44,7 @@ public class GoonController extends Controller {
 				if (seesParasite) {
 					// if we aren't chasing, don't bother
 					if (seesAndNotChasing) {
-						goon.face(parasite.getLocation());
+						goon.face(parasite.getPosition());
 						break;
 					}
 
@@ -61,8 +61,8 @@ public class GoonController extends Controller {
 			case CHASE:
 				if (seesParasite) {
 					// chase if you see the parasite
-					goon.moveTowards(parasite.getLocation());
-					lastSeen = parasite.getLocation();
+					goon.moveTowards(parasite.getPosition());
+					lastSeen = parasite.getPosition();
 				} else {
 					// chase to last seen location if you lost him
 					if (goon.distTo(lastSeen) > goon.maxSpeed)

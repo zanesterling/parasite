@@ -1,9 +1,9 @@
 package Parasite.sim.entity;
 
 import Parasite.Game;
-import Parasite.sim.Location;
 import Parasite.sim.Simulation;
 import Parasite.sim.projectile.Bullet;
+import Parasite.util.Vector2d;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -14,11 +14,10 @@ public class GoonEntity extends Entity {
 	public static final Color CAN_SEE_COLOR = new Color(80, 200, 255);
 
 	private double visionAngle = Math.PI * 2 / 3;
-	private double angleToPlayer;
 	private double angleDiff;
 
 	public GoonEntity() { this(0, 0); }
-	public GoonEntity(int x, int y) {
+	public GoonEntity(double x, double y) {
 		super(x, y);
 		bodyColor = DEFAULT_COLOR;
 		rad = 0.75 * 12;
@@ -42,30 +41,40 @@ public class GoonEntity extends Entity {
 		if (Game.DEBUG_STATE) {
 			g.setColor(Color.GREEN);
 			g.drawString("" + angleDiff, 30, 0);
+
 			Entity parasite = Simulation.getInstance().parasite;
-			Location parasLoc = parasite.getLocation();
-			g.drawLine(0, 0, (int)(parasLoc.x - x), (int)(y - parasLoc.y));
+			Vector2d posDiff = parasite.pos.clone().sub(pos);
+			g.drawLine(
+				0, 0,
+				(int)(posDiff.x),
+				(int)(posDiff.y)
+			);
 		}
 	}
 
-	public void face(Location loc) {
-		lookAngle = Math.atan2(y - loc.y, loc.x - x);
+	public void face(Vector2d loc) {
+		lookAngle = loc
+			.clone()
+			.sub(pos)
+			.angle();
 	}
 
-	public void moveTowards(Location loc) {
-		lookAngle = Math.atan2(y - loc.y, loc.x - x);
-		vx = maxSpeed * Math.cos(lookAngle);
-		vy = maxSpeed * Math.sin(-lookAngle);
+	public void moveTowards(Vector2d loc) {
+		face(loc);
+		vel.set(Math.cos(lookAngle), Math.sin(lookAngle));
+		vel.scale(maxSpeed);
 	}
 
 	public void stop() {
-		vx = 0;
-		vy = 0;
+		vel.set(0, 0);
 	}
 
-	public boolean canSee(Location loc) {
+	public boolean canSee(Vector2d loc) {
 		// check if entity is in vision arc
-		angleToPlayer = Math.atan2(y - loc.y, loc.x - x);
+		double angleToPlayer = loc
+			.clone()
+			.sub(pos)
+			.angle();
 		angleDiff = Math.abs(angleToPlayer - lookAngle);
 		if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
 
@@ -77,16 +86,16 @@ public class GoonEntity extends Entity {
 	}
 
 	// returns true if walls occlude entity
-	private boolean bresenhamOcclusion(Location loc) {
+	private boolean bresenhamOcclusion(Vector2d loc) {
 		int xDiff = (int) Math.abs((int)loc.x / Simulation.WALL_WIDTH -
-		                           (int)x / Simulation.WALL_WIDTH);
+		                           (int)pos.x / Simulation.WALL_WIDTH);
 		int yDiff = (int) Math.abs((int)loc.y / Simulation.WALL_HEIGHT -
-		                           (int)y / Simulation.WALL_HEIGHT);
+		                           (int)pos.y / Simulation.WALL_HEIGHT);
 		boolean yDiffBigger = Math.abs(yDiff) > Math.abs(xDiff);
 
-		int tx = (int)x / Simulation.WALL_WIDTH;
+		int tx = (int)pos.x / Simulation.WALL_WIDTH;
 		int ex = (int)loc.x / Simulation.WALL_WIDTH;
-		int ty = -(int)y / Simulation.WALL_HEIGHT;
+		int ty = -(int)pos.y / Simulation.WALL_HEIGHT;
 		int ey = -(int)loc.y / Simulation.WALL_HEIGHT; 
 
 		if (tx == ex && ty == ey) return true;
@@ -107,10 +116,10 @@ public class GoonEntity extends Entity {
 			double slope = 1.0 * (maxX - minX) / (maxY - minY);
 			for (int i = minY; i <= maxY; i++) {
 				int xcor = minX + (int)((i - minY) * slope);
-				if (sim.getWall(xcor, i) > 0) {
+				if (sim.level.getWall(xcor, i) > 0) {
 					return true;
 				}
-				if (Game.DEBUG_STATE) sim.setWall(xcor, i, -1);
+				if (Game.DEBUG_STATE) sim.level.setWall(xcor, i, -1);
 			}
 		} else {
 			minX = (int)Math.min(tx, ex);
@@ -126,26 +135,26 @@ public class GoonEntity extends Entity {
 			double slope = 1.0 * (maxY - minY) / (maxX - minX);
 			for (int i = minX; i <= maxX; i++) {
 				int ycor = minY + (int)((i - minX) * slope);
-				if (sim.getWall(i, ycor) > 0) {
+				if (sim.level.getWall(i, ycor) > 0) {
 					return true;
 				}
-				if (Game.DEBUG_STATE) sim.setWall(i, ycor, -1);
+				if (Game.DEBUG_STATE) sim.level.setWall(i, ycor, -1);
 			}
 		}
 
 		return false;
 	}
 
-	public double distTo(Location loc) {
-		return Math.sqrt(Math.pow(loc.x - x, 2) + Math.pow(loc.y - y, 2));
-	}
-
 	// action: shoot!
 	public void action() {
-		double x = this.x + Math.cos(-lookAngle) * (rad + Bullet.RAD);
-		double y = this.y + Math.sin(-lookAngle) * (rad + Bullet.RAD);
+		Vector2d bulletLoc = new Vector2d(
+			Math.cos(lookAngle),
+			Math.sin(lookAngle)
+		);
+		bulletLoc.scale(rad + Bullet.RAD);
+		bulletLoc.add(this.pos);
 
-		Bullet bullet = new Bullet(x, y, -lookAngle);
+		Bullet bullet = new Bullet(bulletLoc, -lookAngle);
 		Simulation.getInstance().projectiles.add(bullet);
 	}
 }

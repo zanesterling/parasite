@@ -1,6 +1,7 @@
 package Parasite.sim.projectile;
 
 import Parasite.sim.entity.Entity;
+import Parasite.util.Vector2d;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,8 +11,8 @@ public class Bullet extends Projectile {
 	public static double RAD = 2;
 	private static double SPEED = 5;
 
-	public Bullet(double x, double y, double angle) {
-		super(x, y, angle, SPEED);
+	public Bullet(Vector2d pos, double angle) {
+		super(pos, angle, SPEED);
 		rad = RAD;
 	}
 

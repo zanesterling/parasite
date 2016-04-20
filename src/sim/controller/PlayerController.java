@@ -1,7 +1,6 @@
 package Parasite.sim.controller;
 
 import Parasite.Game;
-import Parasite.sim.Location;
 import Parasite.ui.UIEvent;
 import Parasite.ui.EventCode;
 import Parasite.sim.Simulation;
@@ -40,8 +39,9 @@ public class PlayerController extends Controller {
 			double lookAngle = leaper.getLookAngle();
 
 			// set isLeaping velocities
-			mainHost.vx =  Math.cos(lookAngle) * leaper.maxSpeed * 8;
-			mainHost.vy = -Math.sin(lookAngle) * leaper.maxSpeed * 8;
+			mainHost.vel
+				.set(Math.cos(lookAngle), Math.sin(lookAngle))
+				.scale(leaper.maxSpeed * 8);
 
 			// if leap timed out, end leap
 			if (System.currentTimeMillis() - leaper.leapStartTime >=
@@ -50,19 +50,17 @@ public class PlayerController extends Controller {
 			}
 		} else {
 			// update mainHost velocities like normal
-			mainHost.vx = 0;
-			mainHost.vy = 0;
+			mainHost.vel.set(0, 0);
 
-			if (moveUp)    mainHost.vy += mainHost.maxSpeed;
-			if (moveLeft)  mainHost.vx -= mainHost.maxSpeed;
-			if (moveDown)  mainHost.vy -= mainHost.maxSpeed;
-			if (moveRight) mainHost.vx += mainHost.maxSpeed;
+			if (moveUp)    mainHost.vel.y += mainHost.maxSpeed;
+			if (moveLeft)  mainHost.vel.x -= mainHost.maxSpeed;
+			if (moveDown)  mainHost.vel.y -= mainHost.maxSpeed;
+			if (moveRight) mainHost.vel.x += mainHost.maxSpeed;
 		}
 
 		// set entity velocities to mainHost velocities
 		for (Entity entity : controlled) {
-			entity.vx = mainHost.vx;
-			entity.vy = mainHost.vy;
+			entity.vel.set(mainHost.vel);
 		}
 
 		// detect collisons
@@ -85,13 +83,10 @@ public class PlayerController extends Controller {
 	}
 
 	public boolean isCollidingWith(Entity entity) {
-		Location hostLoc = mainHost.getLocation();
-		Location entLoc = entity.getLocation();
-		double dx = entLoc.x - hostLoc.x;
-		double dy = entLoc.y - hostLoc.y;
-		double distSq = dx * dx + dy * dy;
-
-		colliding = distSq < Math.pow(mainHost.rad + entity.rad, 2);
+		double distToEntity = entity.getPosition()
+			.sub(mainHost.getPosition())
+			.lengthSquared();
+		colliding = distToEntity < Math.pow(mainHost.rad + entity.rad, 2);
 		return colliding;
 	}
 
@@ -107,8 +102,7 @@ public class PlayerController extends Controller {
 				addEntity(entity);
 
 				// we're done leaping: stop
-				parasite.vx = 0;
-				parasite.vy = 0;
+				parasite.vel.set(0, 0);
 			}
 		}
 	}
@@ -116,14 +110,8 @@ public class PlayerController extends Controller {
 	public void addEntity(Entity entity) {
 		// move entity to mainHost's center
 		if (mainHost != null) {
-			Location hostLoc = mainHost.getLocation();
-			Location entLoc = entity.getLocation();
-
-			entLoc.x = hostLoc.x;
-			entLoc.y = hostLoc.y;
-			entity.setLocation(entLoc);
-			entity.vx = 0;
-			entity.vy = 0;
+			entity.setPosition(mainHost.getPosition());
+			entity.vel.set(0, 0);
 		} else {
 			System.out.println("mainHost was null");
 		}
