@@ -6,7 +6,7 @@ import Parasite.sim.Simulation;
 
 public class Game {
 
-	public static boolean DEBUG_STATE = false;
+	public static boolean DEBUG_STATE = true;
 
 	private static final long TICK_LEN = 1000 / 60; // 60 FPS
 

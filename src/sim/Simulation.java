@@ -20,12 +20,12 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Simulation {
-
 	// simulation constants
-	public static final int WALL_WIDTH  = 10;
-	public static final int WALL_HEIGHT = 10;
+	public static final int WALL_WIDTH  = 1;
+	public static final int WALL_HEIGHT = 1;
 
 	// render constants
+	public static final double RENDER_SCALE = 10;
 	private static final Color WALL_COLOR = Color.BLACK;
 	private static final Color BGRD_COLOR = Color.WHITE;
 	private static final int WALL_COLORS_OFFSET = 1;
@@ -73,10 +73,10 @@ public class Simulation {
 		setFocusedEntity(parasite);
 
 		// make goon to play with
-		GoonEntity entity = new GoonEntity(300, -200);
+		GoonEntity entity = new GoonEntity(30, 20);
 		controllers.add(new GoonController(entity));
 		entities.add(entity);
-		entity = new GoonEntity(300, -300);
+		entity = new GoonEntity(30, 30);
 		controllers.add(new GoonController(entity));
 		entities.add(entity);
 
@@ -121,8 +121,8 @@ public class Simulation {
 		g.translate(ui.canvasWidth / 2, ui.canvasHeight / 2);
 
 		// center on the focused entity
-		Vector2d focLoc = focusedEntity.getPosition();
-		g.translate(-focLoc.x, focLoc.y);
+		Vector2d focLoc = focusedEntity.getRenderPosition();
+		g.translate(-focLoc.x, -focLoc.y);
 
 		// get wall range to render
 		int[] wallRange = getWallRange();
@@ -132,20 +132,22 @@ public class Simulation {
 
 		// render entities
 		for (Entity entity : entities) {
-			Vector2d pos = entity.getPosition();
-			g.translate(pos.x, -pos.y);
+			Vector2d pos = entity.getRenderPosition();
+			g.translate(pos.x, pos.y);
 			entity.render(g);
-			g.translate(-pos.x, pos.y);
+			g.translate(-pos.x, -pos.y);
 		}
 
 		// render projectiles
 		for (Projectile projectile : projectiles) {
-			g.translate(projectile.pos.x, -projectile.pos.y);
-			projectile.render(g);
-			g.translate(-projectile.pos.x, projectile.pos.y);
+			Vector2d pos = projectile.pos.clone().scale(RENDER_SCALE);
+			g.translate(pos.x, pos.y);
+			render(g);
+			g.translate(-pos.x, -pos.y);
 		}
 
 		// render walls
+		g.scale(RENDER_SCALE, RENDER_SCALE);
 		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
 			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
 				if (level.walls[i][j] == 0) continue;
@@ -153,17 +155,13 @@ public class Simulation {
 				g.setColor(
 					WALL_COLORS[level.walls[i][j] + WALL_COLORS_OFFSET]
 				);
-				g.fillRect(
-					j * WALL_WIDTH,
-					i * WALL_HEIGHT,
-					WALL_WIDTH,
-					WALL_HEIGHT
-				);
+				g.fillRect(j, i, 1, 1);
 			}
 		}
+		g.scale(1 / RENDER_SCALE, 1 / RENDER_SCALE);
 
 		// translate back out
-		g.translate(focLoc.x, -focLoc.y);
+		g.translate(focLoc.x, focLoc.y);
 		g.translate(-ui.canvasWidth / 2, - ui.canvasHeight / 2);
 
 		if (Game.DEBUG_STATE) {
@@ -263,21 +261,27 @@ public class Simulation {
 			});
 		}
 		if (focLoc.y < wallY) {
-			borders.add(new int[]{wallX, wallY,
-			                      wallX + WALL_WIDTH, wallY});
+			borders.add(new int[]{
+				wallX, wallY,
+				wallX + WALL_WIDTH, wallY
+			});
 		}
 
 		// check bottom and right walls
 		wallY += WALL_HEIGHT;
 		if (focLoc.x > wallX + WALL_WIDTH) {
-			borders.add(new int[]{wallX, wallY,
-			                      wallX + WALL_WIDTH, wallY});
+			borders.add(new int[]{
+				wallX, wallY,
+				wallX + WALL_WIDTH, wallY
+			});
 		}
 
 		wallX += WALL_WIDTH;
 		if (focLoc.x < wallX) {
-			borders.add(new int[]{wallX, wallY - WALL_HEIGHT,
-			                      wallX, wallY});
+			borders.add(new int[]{
+				wallX, wallY - WALL_HEIGHT,
+				wallX, wallY
+			});
 		}
 	}
 

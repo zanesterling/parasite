@@ -20,7 +20,7 @@ public class GoonEntity extends Entity {
 	public GoonEntity(double x, double y) {
 		super(x, y);
 		bodyColor = DEFAULT_COLOR;
-		rad = 0.75 * 12;
+		rad = 0.075 * 12;
 	}
 
 	public void render(Graphics2D g) {
@@ -42,8 +42,11 @@ public class GoonEntity extends Entity {
 			g.setColor(Color.GREEN);
 			g.drawString("" + angleDiff, 30, 0);
 
-			Entity parasite = Simulation.getInstance().parasite;
-			Vector2d posDiff = parasite.pos.clone().sub(pos);
+			Vector2d posDiff = Simulation
+				.getInstance()
+				.parasite
+				.getRenderPosition()
+				.sub(getRenderPosition());
 			g.drawLine(
 				0, 0,
 				(int)(posDiff.x),
@@ -87,16 +90,13 @@ public class GoonEntity extends Entity {
 
 	// returns true if walls occlude entity
 	private boolean bresenhamOcclusion(Vector2d loc) {
-		int xDiff = (int) Math.abs((int)loc.x / Simulation.WALL_WIDTH -
-		                           (int)pos.x / Simulation.WALL_WIDTH);
-		int yDiff = (int) Math.abs((int)loc.y / Simulation.WALL_HEIGHT -
-		                           (int)pos.y / Simulation.WALL_HEIGHT);
-		boolean yDiffBigger = Math.abs(yDiff) > Math.abs(xDiff);
+		Vector2d posDiff = loc.clone().sub(pos);
+		boolean yDiffBigger = Math.abs(posDiff.y) > Math.abs(posDiff.x);
 
-		int tx = (int)pos.x / Simulation.WALL_WIDTH;
-		int ex = (int)loc.x / Simulation.WALL_WIDTH;
-		int ty = -(int)pos.y / Simulation.WALL_HEIGHT;
-		int ey = -(int)loc.y / Simulation.WALL_HEIGHT; 
+		int tx = (int)pos.x;
+		int ty = -(int)pos.y;
+		int ex = (int)loc.x;
+		int ey = -(int)loc.y;
 
 		if (tx == ex && ty == ey) return true;
 

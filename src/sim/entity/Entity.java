@@ -10,6 +10,9 @@ public abstract class Entity {
 
 	protected Vector2d pos;
 	public Vector2d getPosition() { return pos.clone(); }
+	public Vector2d getRenderPosition() {
+		return pos.clone().scale(Simulation.RENDER_SCALE);
+	}
 	public void setPosition(Vector2d vec) { pos.set(vec); }
 
 	public Vector2d vel = new Vector2d();

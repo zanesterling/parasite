@@ -21,8 +21,8 @@ public class ParasiteEntity extends Entity {
 	public ParasiteEntity(int x, int y) {
 		super(x, y);
 
-		rad = 6;
-		maxSpeed = 4;
+		rad = 0.6;
+		maxSpeed = 0.4;
 		bodyColor = DEFAULT_COLOR;
 
 		isLeaping = false;

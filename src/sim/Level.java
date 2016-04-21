@@ -51,16 +51,16 @@ public class Level {
 
 	// get wall at x,y wall coords
 	public int getWall(int x, int y) {
-		if (x < 0 || x > walls[0].length) return 0;
-		if (y < 0 || y > walls.length)    return 0;
+		if (x < 0 || x >= walls[0].length) return 0;
+		if (y < 0 || y >= walls.length)    return 0;
 
 		return walls[y][x];
 	}
 
 	// get wall at x,y wall coords
 	public void setWall(int x, int y, int val) {
-		if (x < 0 || x > walls[0].length) return;
-		if (y < 0 || y > walls.length)    return;
+		if (x < 0 || x >= walls[0].length) return;
+		if (y < 0 || y >= walls.length)    return;
 
 		walls[y][x] = val;
 	}

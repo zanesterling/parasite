@@ -52,9 +52,9 @@ public class PlayerController extends Controller {
 			// update mainHost velocities like normal
 			mainHost.vel.set(0, 0);
 
-			if (moveUp)    mainHost.vel.y += mainHost.maxSpeed;
+			if (moveUp)    mainHost.vel.y -= mainHost.maxSpeed;
 			if (moveLeft)  mainHost.vel.x -= mainHost.maxSpeed;
-			if (moveDown)  mainHost.vel.y -= mainHost.maxSpeed;
+			if (moveDown)  mainHost.vel.y += mainHost.maxSpeed;
 			if (moveRight) mainHost.vel.x += mainHost.maxSpeed;
 		}
 
