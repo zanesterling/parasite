@@ -74,11 +74,11 @@ public class GoonEntity extends Entity {
 
 	public boolean canSee(Vector2d loc) {
 		// check if entity is in vision arc
-		double angleToPlayer = loc
+		double angleToLoc = loc
 			.clone()
 			.sub(pos)
 			.angle();
-		angleDiff = Math.abs(angleToPlayer - lookAngle);
+		angleDiff = Math.abs(angleToLoc - lookAngle);
 		if (angleDiff > Math.PI) angleDiff = Math.PI * 2 - angleDiff;
 
 		boolean inVisionArc = (angleDiff <= visionAngle / 2);
@@ -94,14 +94,14 @@ public class GoonEntity extends Entity {
 		boolean yDiffBigger = Math.abs(posDiff.y) > Math.abs(posDiff.x);
 
 		int tx = (int)pos.x;
-		int ty = -(int)pos.y;
+		int ty = (int)pos.y;
 		int ex = (int)loc.x;
-		int ey = -(int)loc.y;
+		int ey = (int)loc.y;
 
 		if (tx == ex && ty == ey) return true;
 
-		Simulation sim = Simulation.getInstance();
 		int minX, maxX, minY, maxY;
+		Simulation sim = Simulation.getInstance();
 		if (yDiffBigger) {
 			minY = (int)Math.min(ty, ey);
 			maxY = (int)Math.max(ty, ey);
