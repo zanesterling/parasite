@@ -1,9 +1,11 @@
 package Parasite.sim;
 
 import Parasite.util.Vector2d;
+import Parasite.util.Line;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Level {
@@ -63,5 +65,43 @@ public class Level {
 		if (y < 0 || y >= walls.length)    return;
 
 		walls[y][x] = val;
+	}
+
+	public ArrayList<Vector2d> getWallVerts() {
+		ArrayList<Vector2d> verts = new ArrayList<Vector2d>();
+		for (int i = 0; i < walls.length; i++) {
+			for (int j = 0; j < walls[0].length; j++) {
+				if (walls[i][j] != 1) continue;
+				verts.add(new Vector2d(j - 0.5, i - 0.5));
+				verts.add(new Vector2d(j + 0.5, i - 0.5));
+				verts.add(new Vector2d(j + 0.5, i + 0.5));
+				verts.add(new Vector2d(j - 0.5, i + 0.5));
+			}
+		}
+
+		return verts;
+	}
+
+	public ArrayList<Line> getWallEdges() {
+		ArrayList<Line> edges = new ArrayList<Line>();
+		for (int i = 0; i < walls.length; i++) {
+			for (int j = 0; j < walls[0].length; j++) {
+				if (getWall(i, j) != 1) continue;
+				if (getWall(i - 1, j) != 1) {
+					edges.add(new Line(j - 0.5, i - 0.5, 1, 0));
+				}
+				if (getWall(i, j - 1) != 1) {
+					edges.add(new Line(j - 0.5, i - 0.5, 0, 1));
+				}
+				if (getWall(i + 1, j) != 1) {
+					edges.add(new Line(j - 0.5, i + 0.5, 1, 0));
+				}
+				if (getWall(i, j + 1) != 1) {
+					edges.add(new Line(j + 0.5, i - 0.5, 0, 1));
+				}
+			}
+		}
+
+		return edges;
 	}
 }

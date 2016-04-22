@@ -20,6 +20,10 @@ public class Vector2d {
 		y = array[1];
 	}
 
+	public static Vector2d fromAngle(double theta) {
+		return new Vector2d(Math.cos(theta), Math.sin(theta));
+	}
+
 	public Vector2d(Vector2d vec) {
 		this(vec.x, vec.y);
 	}
@@ -45,6 +49,12 @@ public class Vector2d {
 		x /= length;
 		y /= length;
 		return this;
+	}
+
+	public Vector2d normalize(double length) {
+		return this
+			.normalize()
+			.scale(length);
 	}
 
 	public Vector2d add(Vector2d that) {

@@ -81,7 +81,7 @@ public class Simulation {
 		entities.add(entity);
 
 		// make walls
-		level = new Level("res/level3.lvl");
+		level = new Level("res/level2.lvl");
 	}
 
 	// run a game-tick in the world
@@ -128,7 +128,7 @@ public class Simulation {
 		int[] wallRange = getWallRange();
 
 		// clip to appropriate shape for vision occlusion
-		Shape focusedVision = getFocusedVisionShape(wallRange);
+		g.clip(VisionShape.getShape(level, focusedEntity.getPosition()));
 
 		// render entities
 		for (Entity entity : entities) {

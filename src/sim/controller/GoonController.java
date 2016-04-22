@@ -50,10 +50,14 @@ public class GoonController extends Controller {
 
 					if (Math.random() < personality.curiosity) {
 						pushState(new AIState(AIBehavior.CHASE, parasite));
-					} else // not curious enough to chase
+					} else {
+						// not curious enough to chase
 						seesAndNotChasing = true;
-				} else // if we don't see, then we don't see
+					}
+				} else {
+					// if we don't see, then we don't see
 					seesAndNotChasing = false;
+				}
 
 				// debug rotation
 				goon.setLookAngle(goon.getLookAngle() + 0.05);
