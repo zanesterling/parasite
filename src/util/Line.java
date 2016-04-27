@@ -16,10 +16,13 @@ public class Line {
 	// TODO: exclude endpoints
 	public double intersectDist(Line that) {
 		Vector2d qMinusP = that.p1.clone().sub(p1);
-		double top = qMinusP.x * that.dim.y - that.dim.x * qMinusP.y;
+		double tTop = qMinusP.x * that.dim.y - that.dim.x * qMinusP.y;
 		double bottom = dim.x * that.dim.y - dim.y * that.dim.x;
-		double t = top / bottom;
-		if (t < 0 || 1 < t) {
+		double t = tTop / bottom;
+
+		double uTop = qMinusP.x * dim.y - dim.x * qMinusP.y;
+		double u = uTop / bottom;
+		if (t < 0 || 1 < t || u < 0 || 1 < u) {
 			return Double.POSITIVE_INFINITY;
 		}
 

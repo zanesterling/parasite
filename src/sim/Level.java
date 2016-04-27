@@ -88,16 +88,16 @@ public class Level {
 			for (int j = 0; j < walls[0].length; j++) {
 				if (getWall(i, j) != 1) continue;
 				if (getWall(i - 1, j) != 1) {
-					edges.add(new Line(j - 0.5, i - 0.5, 1, 0));
+					edges.add(new Line(j, i, 1, 0));
 				}
 				if (getWall(i, j - 1) != 1) {
-					edges.add(new Line(j - 0.5, i - 0.5, 0, 1));
+					edges.add(new Line(j, i, 0, 1));
 				}
 				if (getWall(i + 1, j) != 1) {
-					edges.add(new Line(j - 0.5, i + 0.5, 1, 0));
+					edges.add(new Line(j, i + 1, 1, 0));
 				}
 				if (getWall(i, j + 1) != 1) {
-					edges.add(new Line(j + 0.5, i - 0.5, 0, 1));
+					edges.add(new Line(j + 1, i, 0, 1));
 				}
 			}
 		}

@@ -12,6 +12,7 @@ import Parasite.sim.projectile.Projectile;
 import Parasite.ui.UI;
 import Parasite.ui.UIEvent;
 import Parasite.util.Vector2d;
+import Parasite.util.Line;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -64,7 +65,7 @@ public class Simulation {
 	// initialize entities, controllers, walls, etc.
 	private void initWorld() {
 		// init parasite, player controller
-		parasite = new ParasiteEntity();
+		parasite = new ParasiteEntity(10, 10);
 		entities.add(parasite);
 		playerController = new PlayerController(parasite);
 		controllers.add(playerController);
@@ -81,7 +82,7 @@ public class Simulation {
 		entities.add(entity);
 
 		// make walls
-		level = new Level("res/level2.lvl");
+		level = new Level("res/level3.lvl");
 	}
 
 	// run a game-tick in the world
@@ -117,18 +118,33 @@ public class Simulation {
 	public void render(Graphics2D g) {
 		UI ui = UI.getInstance();
 
-		// shift origin to center-screen
-		g.translate(ui.canvasWidth / 2, ui.canvasHeight / 2);
+		// clip to appropriate shape for vision occlusion
+		Shape visionShape = VisionShape.getShape(
+			level,
+			focusedEntity.getPosition()
+		);
+		if (visionShape != null) {
+			g.clip(visionShape);
+		}
+		g.setColor(Color.WHITE);
+		g.fillRect(
+			-ui.canvasWidth / 2, -ui.canvasHeight / 2,
+			ui.canvasWidth, ui.canvasHeight
+		);
+
+		if (Game.DEBUG_STATE) {
+			g.setColor(Color.RED);
+			for (Line ray : VisionShape.rays) {
+				g.drawLine(
+					(int)ray.p1.x, (int)ray.p1.y,
+					(int)ray.dim.x, (int)ray.dim.y
+				);
+			}
+		}
 
 		// center on the focused entity
 		Vector2d focLoc = focusedEntity.getRenderPosition();
 		g.translate(-focLoc.x, -focLoc.y);
-
-		// get wall range to render
-		int[] wallRange = getWallRange();
-
-		// clip to appropriate shape for vision occlusion
-		g.clip(VisionShape.getShape(level, focusedEntity.getPosition()));
 
 		// render entities
 		for (Entity entity : entities) {
@@ -148,6 +164,7 @@ public class Simulation {
 
 		// render walls
 		g.scale(RENDER_SCALE, RENDER_SCALE);
+		int[] wallRange = getWallRange();
 		for (int i = wallRange[1]; i <= wallRange[3]; i++) {
 			for (int j = wallRange[0]; j <= wallRange[2]; j++) {
 				if (level.walls[i][j] == 0) continue;

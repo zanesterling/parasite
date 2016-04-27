@@ -12,32 +12,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class VisionShape {
+
+	public static Line[] rays;
 	public static Shape getShape(Level level, Vector2d pos) {
 		// sort wall verts by angle
 		ArrayList<Vector2d> points = level.getWallVerts();
 		double[] angles = new double[points.size()];
 		for (int i = 0; i < angles.length; i++) {
-			angles[i] = points.get(i).clone().sub(pos).angle();
+			angles[i] = points
+				.get(i)
+				.clone()
+				.sub(pos)
+				.angle();
 		}
 		Arrays.sort(angles);
 
 		// get directions from angles
 		UI ui = UI.getInstance();
+		int maxDimension = Math.max(ui.canvasWidth, ui.canvasHeight);
 		Vector2d[] directions = new Vector2d[angles.length];
 		for (int i = 0; i < angles.length; i++) {
-			int maxDimension = Math.max(
-				ui.canvasWidth,
-				ui.canvasHeight
-			);
 			directions[i] = Vector2d
 				.fromAngle(angles[i])
-				.scale(maxDimension / Simulation.RENDER_SCALE);
+				.scale(maxDimension);
 		}
 
 		// convert directions to rays
-		ArrayList<Line> rays = new ArrayList<Line>();
-		for (Vector2d direction : directions) {
-			rays.add(new Line(pos.clone(), direction.clone()));
+		rays = new Line[directions.length];
+		for (int i = 0; i < directions.length; i++) {
+			rays[i] = new Line(pos.clone(), directions[i].clone());
 		}
 
 		// clip rays to closest wall
@@ -54,17 +57,20 @@ public class VisionShape {
 			ray.dim.scale(Simulation.RENDER_SCALE);
 		}
 
-		// construct shape from clipped rays
-		Path2D.Double polygon = new Path2D.Double();
-		Line ray = rays.get(0);
-		polygon.moveTo(ray.p1.x + ray.dim.x, ray.p1.y + ray.dim.y);
-		for (int i = 1; i < rays.size() - 1; i++) {
-			ray = rays.get(i);
-			polygon.lineTo(ray.p1.x + ray.dim.x, ray.p1.y + ray.dim.y);
-		}
-		ray = rays.get(rays.size() - 1);
-		polygon.lineTo(ray.p1.x + ray.dim.x, ray.p1.y + ray.dim.y);
+		if (rays.length > 0) {
+			// construct shape from clipped rays
+			Path2D.Double polygon = new Path2D.Double();
+			Line ray = rays[0];
+			polygon.moveTo(ray.dim.x, ray.dim.y);
+			for (int i = 1; i < rays.length - 1; i++) {
+				ray = rays[i];
+				polygon.lineTo(ray.dim.x, ray.dim.y);
+			}
+			polygon.closePath();
 
-		return polygon;
+			return polygon;
+		} else {
+			return null;
+		}
 	}
 }

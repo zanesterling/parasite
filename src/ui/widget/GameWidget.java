@@ -25,11 +25,16 @@ public class GameWidget extends UIWidget {
 	}
 
 	public void render(Graphics2D g) {
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 
 		if (sim == null) return;
 
+		// shift origin to center-screen
+		g.translate(width / 2, height / 2);
+
 		sim.render(g);
+
+		g.translate(-width / 2, -height / 2);
 	}
 }
