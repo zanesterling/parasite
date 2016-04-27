@@ -65,7 +65,7 @@ public class Simulation {
 	// initialize entities, controllers, walls, etc.
 	private void initWorld() {
 		// init parasite, player controller
-		parasite = new ParasiteEntity(10, 10);
+		parasite = new ParasiteEntity(5, 5);
 		entities.add(parasite);
 		playerController = new PlayerController(parasite);
 		controllers.add(playerController);
