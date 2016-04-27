@@ -99,10 +99,10 @@ public class Simulation {
 
 		// move entities
 		for (Entity entity : entities) {
-			entity.setPosition(
-				entity.getPosition()
-					.add(entity.vel)
-			);
+			entity.setPosition(entity.getPosition().add(entity.vel));
+			if (level.getWallAt(entity.getPosition()) != 0) {
+				entity.setPosition(entity.getPosition().sub(entity.vel));
+			}
 		}
 
 		// update projectiles
