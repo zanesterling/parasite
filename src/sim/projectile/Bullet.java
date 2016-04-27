@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 public class Bullet extends Projectile {
 
 	public static double RAD = 0.2;
-	private static double SPEED = 5;
+	private static double SPEED = 0.5;
 
 	public Bullet(Vector2d pos, double angle) {
 		super(pos, angle, SPEED);
