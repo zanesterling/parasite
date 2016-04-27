@@ -41,7 +41,6 @@ public class Game {
 				Thread.sleep(TICK_LEN - (endTime - startTime));
 			} catch (Exception e) {
 				e.printStackTrace();
-				break;
 			}
 		}
 	}

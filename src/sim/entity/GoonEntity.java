@@ -147,14 +147,11 @@ public class GoonEntity extends Entity {
 
 	// action: shoot!
 	public void action() {
-		Vector2d bulletLoc = new Vector2d(
-			Math.cos(lookAngle),
-			Math.sin(lookAngle)
-		);
-		bulletLoc.scale(rad + Bullet.RAD);
-		bulletLoc.add(this.pos);
+		Vector2d bulletLoc = Vector2d.fromAngle(lookAngle)
+			.scale(rad + Bullet.RAD)
+			.add(pos);
 
-		Bullet bullet = new Bullet(bulletLoc, -lookAngle);
+		Bullet bullet = new Bullet(bulletLoc, lookAngle);
 		Simulation.getInstance().projectiles.add(bullet);
 	}
 }

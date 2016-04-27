@@ -158,7 +158,7 @@ public class Simulation {
 		for (Projectile projectile : projectiles) {
 			Vector2d pos = projectile.pos.clone().scale(RENDER_SCALE);
 			g.translate(pos.x, pos.y);
-			render(g);
+			projectile.render(g);
 			g.translate(-pos.x, -pos.y);
 		}
 

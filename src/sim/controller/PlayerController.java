@@ -33,20 +33,24 @@ public class PlayerController extends Controller {
 		// isLeaping logic (lizards!)
 		// check to see if mainHost is a leaper, to consolidate next if
 		ParasiteEntity leaper = null;
-		if (mainHost instanceof ParasiteEntity)
+		if (mainHost instanceof ParasiteEntity) {
 			leaper = (ParasiteEntity) mainHost;
+		}
+
 		if (leaper != null && leaper.isLeaping) {
-			double lookAngle = leaper.getLookAngle();
+			if (leaper.isLeaping) {
+				double lookAngle = leaper.getLookAngle();
 
-			// set isLeaping velocities
-			mainHost.vel
-				.set(Math.cos(lookAngle), Math.sin(lookAngle))
-				.scale(leaper.maxSpeed * 8);
+				// set isLeaping velocities
+				mainHost.vel
+					.set(Math.cos(lookAngle), Math.sin(lookAngle))
+					.scale(leaper.maxSpeed * 8);
 
-			// if leap timed out, end leap
-			if (System.currentTimeMillis() - leaper.leapStartTime >=
-				leaper.leapMaxDuration) {
-				leaper.isLeaping = false;
+				// if leap timed out, end leap
+				if (System.currentTimeMillis() - leaper.leapStartTime >=
+					leaper.leapMaxDuration) {
+					leaper.isLeaping = false;
+				}
 			}
 		} else {
 			// update mainHost velocities like normal
@@ -109,11 +113,9 @@ public class PlayerController extends Controller {
 
 	public void addEntity(Entity entity) {
 		// move entity to mainHost's center
-		if (mainHost != null) {
-			entity.setPosition(mainHost.getPosition());
-			entity.vel.set(0, 0);
-		} else {
-			System.out.println("mainHost was null");
+		for (Entity controlledEntity : controlled) {
+			controlledEntity.setPosition(entity.getPosition());
+			controlledEntity.vel.set(entity.vel);
 		}
 
 		entity.isPossessable = false;
